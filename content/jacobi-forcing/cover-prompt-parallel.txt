@@ -1,0 +1,10 @@
+Mode: built-in image_gen edit
+Reference: assets/jacobi-forcing-cover-beginner.png (superseded local cover)
+Output: assets/jacobi-forcing-cover-parallel.png — 1733 × 907 PNG
+Edited: 12 October 2026
+
+Edit this existing Jacobi Forcing blog cover with one precise text replacement. Replace the subtitle 'Helping AI write faster' with exactly 'Training for parallel decoding'. Keep the giant JACOBI FORCING lettering, all token tiles, charcoal/blue colors, arrows, composition, off-white paper texture, lighting and perspective unchanged. Maintain the wide landscape aspect ratio and original layout, ideally 1733 by 907 pixels. The replacement subtitle should use the same typography and fit on one line beneath FORCING, without overlapping tiles. Do not add any labels, captions, badges, marks or other elements. This is a text correction, not a redesign.
+
+The superseded reference is retained in the authoring workspace but excluded
+from the current publication package. Use the checked-in output to reproduce
+the site build; regenerating this image is not a build dependency.
