@@ -13,6 +13,7 @@ from tempfile import TemporaryDirectory
 from unittest.mock import patch
 import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / 'dist'
@@ -213,6 +214,7 @@ class SiteAcceptance(unittest.TestCase):
                 soup=BeautifulSoup((Path(folder)/post['url'].lstrip('/')/'index.html').read_text(),'html.parser')
                 self.assertEqual(soup.select_one('link[rel="canonical"]')['href'],origin+post['url'])
                 self.assertTrue(soup.select_one('meta[property="og:image"]')['content'].startswith(origin+'/'))
+                self.assertEqual(soup.select_one('meta[name="twitter:image"]')['content'],soup.select_one('meta[property="og:image"]')['content'])
         configured=json.loads((ROOT/'src/site.json').read_text())['origin']
         self.assertEqual((DIST/'sitemap.xml').exists(),bool(configured))
         self.assertEqual((DIST/'feed.xml').exists(),bool(configured))
@@ -221,6 +223,45 @@ class SiteAcceptance(unittest.TestCase):
             self.assertEqual(home.select_one('link[rel="canonical"]')['href'],configured+'/')
             links=[node.text for node in ET.parse(DIST/'feed.xml').findall('./channel/item/link')]
             self.assertEqual(links,[configured+p['url'] for p in builder.all_posts()])
+
+    def test_social_cards_resolve_and_preserve_article_covers(self):
+        origin=json.loads((ROOT/'src/site.json').read_text())['origin'] or ''
+        card='/assets/social/nico-vergauwen-og.jpg'
+        posts=json.loads((ROOT/'src/medium/posts.json').read_text())
+        expected={'/':card,'/blog/':card,'/404.html':card,
+                  '/blog/jacobi-forcing/':'/blog/jacobi-forcing/assets/jacobi-forcing-cover-beginner.png',
+                  **{p['url']:p['image'] for p in posts}}
+        for route,image_path in expected.items():
+            page=DIST/route.lstrip('/')
+            if route.endswith('/'): page=page/'index.html'
+            soup=BeautifulSoup(page.read_text(),'html.parser')
+            get=lambda selector:soup.select_one(selector)['content']
+            image_url=get('meta[property="og:image"]')
+            self.assertEqual(len(soup.select('meta[property="og:image"]')),1)
+            self.assertEqual(image_url.split('?',1)[0],origin+image_path)
+            self.assertEqual(get('meta[name="twitter:card"]'),'summary_large_image')
+            self.assertEqual(get('meta[name="twitter:image"]'),image_url)
+            self.assertEqual(get('meta[name="twitter:title"]'),get('meta[property="og:title"]'))
+            self.assertEqual(get('meta[name="twitter:description"]'),get('meta[property="og:description"]'))
+            self.assertTrue(get('meta[property="og:image:alt"]').strip())
+            self.assertEqual(get('meta[name="twitter:image:alt"]'),get('meta[property="og:image:alt"]'))
+            asset=DIST/image_path.lstrip('/')
+            with Image.open(asset) as image:
+                self.assertEqual(get('meta[property="og:image:type"]'),Image.MIME[image.format])
+                if image_path==card:
+                    self.assertEqual(image.size,(1200,630))
+                    self.assertEqual(image.format,'JPEG')
+                    self.assertEqual(get('meta[property="og:image:width"]'),'1200')
+                    self.assertEqual(get('meta[property="og:image:height"]'),'630')
+                    self.assertLess(asset.stat().st_size,1_000_000)
+                    self.assertIn('Nico Vergauwen',get('meta[property="og:image:alt"]'))
+                    self.assertIn('Applied AI',get('meta[property="og:image:alt"]'))
+                    self.assertEqual(urlsplit(image_url).query,'v='+sha256(asset.read_bytes()).hexdigest()[:12])
+                if soup.select_one('meta[property="og:image:width"]'):
+                    self.assertEqual((int(get('meta[property="og:image:width"]')),int(get('meta[property="og:image:height"]'))),image.size)
+                image.verify()
+        self.assertEqual((DIST/card.lstrip('/')).read_bytes(),(ROOT/card.lstrip('/')).read_bytes())
+        self.assertFalse((DIST/'social-card-preview.html').exists())
 
     def test_no_decorative_labels_or_unrequested_private_files(self):
         for page in DIST.rglob('*.html'):

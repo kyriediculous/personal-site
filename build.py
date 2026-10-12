@@ -5,6 +5,7 @@ from hashlib import sha256
 from datetime import date, datetime
 from email.utils import format_datetime
 import json
+import mimetypes
 import re
 import shutil
 import xml.etree.ElementTree as ET
@@ -17,6 +18,8 @@ MEDIUM = ROOT / 'src' / 'medium'
 POSTS = json.loads((MEDIUM / 'posts.json').read_text())
 POST_URLS = {p['original_url']: p['url'] for p in POSTS}
 ASSET_VERSIONS = {name: sha256((ROOT/'src'/name).read_bytes()).hexdigest()[:12] for name in ('site.css','site.js')}
+SOCIAL_IMAGE = '/assets/social/nico-vergauwen-og.jpg'
+SOCIAL_IMAGE_ALT = 'Nico Vergauwen giving a presentation beside the headline Applied AI, Agents & Distributed Infrastructure, on a dark teal background with mint and yellow accents.'
 ORIGIN = json.loads((ROOT / 'src' / 'site.json').read_text()).get('origin')
 if ORIGIN is not None:
     if not re.fullmatch(r'https://[^/\s]+', ORIGIN):
@@ -52,17 +55,30 @@ def footer():
     return f'''<footer class="shell site-footer"><p>© 2026 Nico Vergauwen</p>
 <div class="site-footer-links">{brand_link('https://kollekt.now','kollekt.now')}{brand_link('https://grokked.ai','grokked.ai')}{brand_link(CONTENT['github'],'GitHub')}</div></footer>'''
 
-def document(title, description, content, structured=None, image='/assets/nico-vergauwen.png', path='/'):
+def document(title, description, content, structured=None, image=SOCIAL_IMAGE, path='/', image_alt=None, image_size=None):
     schema = '' if structured is None else '<script type="application/ld+json">'+json.dumps(structured,ensure_ascii=False).replace('</','<\\/')+'</script>'
     canonical = '' if not ORIGIN else f'<link rel="canonical" href="{ORIGIN}{path}"><meta property="og:url" content="{ORIGIN}{path}">'
-    image = ORIGIN + image if ORIGIN else image
+    image_type = mimetypes.guess_type(image)[0]
+    if image == SOCIAL_IMAGE:
+        image_alt = image_alt or SOCIAL_IMAGE_ALT
+        image_size = (1200, 630)
+        version = sha256((ROOT/image.lstrip('/')).read_bytes()).hexdigest()[:12]
+        image += '?v=' + version
+    image_alt = image_alt or ('Cover image for ' + title)
+    image_url = escape(ORIGIN + image if ORIGIN else image, quote=True)
+    image_meta = '' if not image_type else f'<meta property="og:image:type" content="{image_type}">'
+    if image_size:
+        image_meta += f'<meta property="og:image:width" content="{image_size[0]}"><meta property="og:image:height" content="{image_size[1]}">'
     feed = '' if not ORIGIN else '<link rel="alternate" type="application/rss+xml" title="Nico Vergauwen’s writing" href="/feed.xml">'
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{escape(title)}</title><meta name="description" content="{escape(description,quote=True)}">
 <meta name="theme-color" content="#0b1b20"><meta property="og:type" content="{'article' if structured and structured.get('@type') == 'BlogPosting' else 'website'}">
 <meta property="og:title" content="{escape(title,quote=True)}"><meta property="og:description" content="{escape(description,quote=True)}">
-<meta property="og:image" content="{image}"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:site_name" content="Nico Vergauwen">
+<meta property="og:image" content="{image_url}">{image_meta}<meta property="og:image:alt" content="{escape(image_alt,quote=True)}">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{escape(title,quote=True)}"><meta name="twitter:description" content="{escape(description,quote=True)}">
+<meta name="twitter:image" content="{image_url}"><meta name="twitter:image:alt" content="{escape(image_alt,quote=True)}">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/fonts/host-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSIONS['site.css']}">{canonical}{feed}
@@ -115,7 +131,7 @@ def articlepage():
 <div class="article-tools"><button class="button" type="button" data-copy-link>Copy link</button><a href="article.txt" download>Download article text</a><p class="copy-status" role="status" aria-live="polite"></p></div>
 <section class="article-end"><h2>More on AI and agents</h2><a href="/blog/the-verifiable-agent/">Read The Verifiable Agent</a></section></div></main>'''
     schema={'@context':'https://schema.org','@type':'BlogPosting','headline':'Jacobi Forcing: Helping AI write faster','datePublished':'2026-10-11','author':{'@type':'Person','name':CONTENT['name']},'description':'How Jacobi Forcing trains language models for parallel guesses, with measured speed and quality results.'}
-    return document('Jacobi Forcing: Helping AI write faster | Nico Vergauwen','A beginner-friendly explanation of Jacobi Forcing, with real benchmark numbers, speed–accuracy tradeoffs, and an animated example.',body,schema,'/blog/jacobi-forcing/assets/jacobi-forcing-cover-beginner.png','/blog/jacobi-forcing/')
+    return document('Jacobi Forcing: Helping AI write faster | Nico Vergauwen','A beginner-friendly explanation of Jacobi Forcing, with real benchmark numbers, speed–accuracy tradeoffs, and an animated example.',body,schema,'/blog/jacobi-forcing/assets/jacobi-forcing-cover-beginner.png','/blog/jacobi-forcing/',image_alt='Charcoal and blue text tiles become an ordered line beneath Jacobi Forcing: Helping AI write faster.',image_size=(1733,907))
 
 def all_posts():
     jacobi = {'title': 'Jacobi Forcing: Helping AI write faster', 'url': '/blog/jacobi-forcing/',

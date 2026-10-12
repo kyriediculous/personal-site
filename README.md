@@ -71,6 +71,23 @@ author’s archived 2018–2021 writing; `content/jacobi-forcing/voice-notes.txt
 records the references and editing guidance. Native browser controls handle
 the unchanged silent motion graphic.
 
+## Social link previews
+
+The homepage and writing index use `assets/social/nico-vergauwen-og.jpg`, a
+1200 × 630 JPEG based on the homepage hero. It uses the original portrait,
+Host Grotesk font and site colors. Individual articles retain their own covers.
+The build emits public Open Graph and Twitter image URLs, descriptive alt text,
+MIME types, and dimensions for the homepage and Jacobi covers. A content hash
+on the homepage image URL changes when its bytes change.
+
+`src/social-card.html` is the editable card source. To update the image, serve
+this file with `/assets/` resolving to the site's assets, render at exactly
+1200 × 630, wait for the local font and portrait to finish loading, and capture
+a JPEG to the asset path above. Inspect the image before rebuilding. The
+checked-in JPEG is copied by the normal build; Cloudflare needs no browser,
+image generator, external asset service or additional build dependencies.
+The source preview page is not included in the public site.
+
 ## Imported articles
 
 Homepage writing links and the blog index lead to full local posts. Each imported

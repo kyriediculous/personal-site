@@ -10,7 +10,7 @@ LinkedIn and social profiles, with no personal email or phone number.
 
 ## Automated checks
 
-Thirteen checks cover:
+Fourteen checks cover:
 
 - Jacobi page prose and text export match the current canonical article; its MP4
   remains identical to the original.
@@ -27,6 +27,8 @@ Thirteen checks cover:
   are Projects, Research, Writing, Experience, Contact.
 - Personal email is absent and social contact links work.
 - Stylesheet/script URL hashes match the served bytes, preventing stale assets.
+- Social metadata resolves to real local images with matching MIME types and
+  known dimensions, equivalent Twitter metadata and preserved article covers.
 - The served site excludes the résumé PDF, local hosting configuration, and
   repository metadata.
 
@@ -80,4 +82,27 @@ its benchmark table, citations, captions and media remain unchanged. Rebuilt the
 site and passed all thirteen checks, including canonical text/download parity.
 The source and preview packages include the revision. The editing references and
 reusable voice guidance are in `content/jacobi-forcing/voice-notes.txt`.
-This revision is local and has not been pushed or deployed by this editing task.
+This revision is included in the source for the social-preview delivery below.
+
+## Homepage social preview — 12 October 2026
+
+Created a 1200 × 630 JPEG from `src/social-card.html`, using the site's original
+portrait, local Host Grotesk font and hero palette. Verified loaded font/image
+state before capture, visually reviewed the final card, and checked its actual
+dimensions, format and size (67,857 bytes). The source render is excluded from
+public output. The normal build uses the checked-in image with no new runtime
+or deployment dependency.
+
+The homepage and writing index use this card. Article-specific image paths are
+preserved. Open Graph and Twitter tags include the image, description, alt text
+and matching MIME; dimensions are included only for the known homepage and
+Jacobi covers. The homepage image URL includes a content hash for future updates.
+
+The exact Cloudflare command, `sh build_cloudflare.sh`, builds successfully and
+passes all fourteen checks. A new regression checks every page's image URL,
+file format, known dimensions and Twitter parity, while the existing custom
+origin check covers deployment URL changes. The initial capture's file
+extension was corrected to match its native JPEG bytes. One independent review
+found no remaining issues. No application layout, dependencies or hosting
+configuration changed. Production completion is recorded by the corresponding
+main commit's Cloudflare Pages deployment and GitHub checks.

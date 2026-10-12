@@ -1,0 +1,52 @@
+NICO VERGAUWEN — EDITORIAL VOICE
+Applied to Jacobi Forcing on 12 October 2026.
+
+Brief
+Use the author's own pre-AI writing as the reference. Improve clarity, flow and
+cadence rather than reproducing awkward sentences. Vary sentence length when
+it serves the thought. Add no filler, invented anecdotes or claims of testing.
+
+Reference posts
+Primary technical reference:
+- Upgradeable Ethereum Contracts V2 (5 December 2018)
+  https://medium.com/hackernoon/upgradeable-ethereum-contracts-v2-786d9c18cd9d
+Supporting references:
+- Learning Go: MongoDB CRUD with gRPC (10 May 2019)
+  https://itnext.io/learning-go-mongodb-crud-with-grpc-98e425aeaae6
+- My ETHparis Hackaton Experience (14 March 2019)
+  https://medium.com/@Nico_Vergauwen/my-ethparis-hackaton-experience-ba48a7cb306
+- How I set up a Livepeer node and earned over 1000$ in a month (1 March 2021)
+  https://medium.com/coinmonks/a-new-livepeer-video-mining-rig-is-born-46919de23eae
+Also read Make programmable incentives work for YOU (5 December 2018), but
+weighted its corporate copy and speculative enthusiasm less heavily.
+All five posts are archived in the site's src/medium directory. Newer posts
+were not used as the voice baseline. This is a date-based selection, not a
+claim about how any later post was written.
+
+Keep
+A practitioner explaining a mechanism alongside the reader. Start from a
+concrete constraint and show what changes. Use plain verbs, contractions and
+occasional "we" in an example. Use "I" for an opinion or documented experience.
+Explain unfamiliar terms where they become useful. Connect technical choices
+to waiting time, cost, implementation or answer quality. Be candid about limits.
+A little dry humor can work, but it must arise from the subject.
+
+Improve
+Split sentences where their job changes from claim to mechanism to consequence.
+Keep fuller explanatory sentences beside shorter observations; avoid a stream
+of slogan-like fragments. Cut repeated definitions, repeated transitions,
+concluding recaps and generic enthusiasm. Do not imitate old typos or comma
+splices. Do not insert personality through invented experiences or forced jokes.
+
+Jacobi revision
+The article retains its novice audience, concrete token example, previous-round
+causal updates, confirmation from the left, training details, decoding
+refinements, cache explanation, benchmark table and speed/quality caveats.
+First-person comments are judgments or hypothetical evaluation, not claims that
+the author ran the benchmarks. Benchmark values, primary-source links, captions,
+images and video are preserved. One independent reviewer checked voice, cadence
+and fidelity against the original draft; the final pass softened an overbroad
+claim about clean training data, introduced GPUs and removed a vague ending.
+
+No external humanizer service was used. The local article and copy-ready export
+were revised directly. HTML, text, site output and packages share the same prose.

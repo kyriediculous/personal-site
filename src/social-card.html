@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1200, initial-scale=1">
+  <title>Nico Vergauwen — social preview source</title>
+  <style>
+    @font-face {
+      font-family: "Host Grotesk";
+      src: url("/assets/fonts/host-grotesk-latin.woff2") format("woff2");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+    body { background: #f5f4ef; font-family: "Host Grotesk", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    .card { position: relative; margin: 16px; width: 1168px; height: 598px; border-radius: 32px; background: #0b1b20; color: #fbfbf9; overflow: hidden; }
+    .name { position: absolute; left: 56px; top: 43px; margin: 0; font-size: 29px; font-weight: 500; letter-spacing: -1px; }
+    h1 { position: absolute; left: 56px; top: 129px; margin: 0; width: 690px; font-size: 66px; line-height: 1.09; font-weight: 300; letter-spacing: -2.8px; }
+    h1 span { display: block; }
+    .description { position: absolute; left: 58px; top: 381px; width: 615px; margin: 0; color: #dcd7cb; font-size: 25px; line-height: 1.5; font-weight: 400; }
+    .portrait { position: absolute; right: 43px; top: 131px; width: 375px; height: 391px; }
+    .portrait::before { content: ""; position: absolute; inset: 0 0 8px 0; background: #c6f1e9; border-radius: 60% 40% 45% 55% / 48% 50% 50% 52%; transform: rotate(-9deg); }
+    .portrait::after { content: ""; position: absolute; width: 115px; height: 115px; right: -8px; bottom: -6px; background: #ffc757; border-radius: 26px; transform: rotate(13deg); }
+    .portrait img { position: absolute; z-index: 1; left: -5px; top: 16px; width: 354px; height: 354px; transform: rotate(2deg); }
+    .accent { position: absolute; left: 58px; bottom: 48px; display: flex; gap: 10px; }
+    .accent span { width: 58px; height: 7px; border-radius: 4px; background: #ffc757; }
+    .accent span:last-child { width: 30px; background: #70c4e1; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <p class="name">Nico Vergauwen</p>
+    <h1><span>Applied AI, Agents &amp;</span><span>Distributed</span><span>Infrastructure</span></h1>
+    <p class="description">Technical founder building AI products<br>for businesses, agent systems, and<br>the infrastructure behind them.</p>
+    <div class="portrait"><img src="/assets/nico-vergauwen.png" width="354" height="354" alt="Nico Vergauwen giving a presentation"></div>
+    <div class="accent" aria-hidden="true"><span></span><span></span></div>
+  </main>
+</body>
+</html>
