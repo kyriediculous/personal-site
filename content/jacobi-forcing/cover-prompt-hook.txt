@@ -1,0 +1,16 @@
+JACOBI FORCING — HOOK COVER
+Generated: 12 October 2026 with the built-in image-generation tool.
+Reference: assets/jacobi-forcing-cover-parallel.png
+Output: assets/jacobi-forcing-cover-hook.png — 1733 × 908 PNG
+
+Exact generation prompt:
+Edit the attached existing article cover. Preserve its cream paper-textured background, charcoal and cobalt-blue chunky three-dimensional token tiles, soft shadows and perspective, and overall restrained technical editorial visual identity. Keep the token artwork in the lower half / right of the composition, adjusting it only enough to give the headline breathing room.
+
+Replace ALL existing title and subtitle lettering ("JACOBI FORCING" and "Training for parallel decoding") with this exact single dominant headline:
+"What if LLMs could generate multiple tokens at once?"
+
+Set it as large, bold, crisp black sans-serif typography, with balanced line breaks like:
+What if LLMs could
+generate multiple
+tokens at once?
+The headline must be comfortably readable at thumbnail size and occupy the old top-left headline area, not be relegated to a small caption. Optional cobalt-blue emphasis on "multiple tokens" only if legibility remains strong. No eyebrow, no subtitle, no additional copy, no logos, no decorative labels. Keep all lettering safely inside the frame with generous margins, no overlap with the token artwork. Maintain a landscape social-preview aspect ratio near 1.91:1. Make a polished, legible cover, preserving the original recognizable tile artwork and color palette.

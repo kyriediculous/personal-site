@@ -175,3 +175,20 @@ and parallel block. Root and site media match. The exact Cloudflare build passes
 all 15 site checks, including content-hash URLs and served-byte equality. Current
 publication verification is recorded in `.qa/jacobi-hook-verification.json`;
 ZIP integrity and member-byte checks are completed at delivery.
+
+
+## 12 October 2026 — same hook in article title and cover
+
+The article title and cover headline are now “What if LLMs could generate
+multiple tokens at once?” The new 1733 × 908 PNG retains the cream, charcoal
+and blue token artwork. A fresh cover URL avoids reusing the cached social
+image. Homepage feature, blog listing, RSS, JSON-LD, OG/Twitter metadata and
+copy-ready text share the title; the previous cover is excluded from dist.
+The article body, benchmark data, video and homepage OG image are preserved.
+
+The exact Cloudflare build passes all 15 existing acceptance tests. Desktop
+and 390-pixel article views were visually checked, along with the homepage
+feature and thumbnail legibility. One independent review found no issues.
+Root/site canonical files and built image bytes match. Build output and
+deployment evidence for this delivery are kept locally under
+`.qa/jacobi-title-cover-*`.

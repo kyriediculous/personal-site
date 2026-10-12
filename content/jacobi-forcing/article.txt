@@ -1,4 +1,4 @@
-Jacobi Forcing: Training for Parallel Decoding
+What if LLMs could generate multiple tokens at once?
 
 Jacobi decoding can update an entire block of tokens in one forward pass, yet still produce only one accepted token. Its predictions depend on an unfinished prefix, and corrections early in that prefix can invalidate the work done further ahead. Jacobi Forcing (https://github.com/hao-ai-lab/JacobiForcing) trains autoregressive models on their own decoding trajectories to make those parallel predictions more useful.
 

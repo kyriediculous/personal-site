@@ -1,5 +1,5 @@
 NICO VERGAUWEN — EDITORIAL VOICE
-Applied to Jacobi Forcing: Training for Parallel Decoding on 12 October 2026.
+Applied to What if LLMs could generate multiple tokens at once? on 12 October 2026.
 
 Brief
 Use the author's own pre-AI writing as the reference. Improve clarity, flow and
@@ -53,7 +53,7 @@ mechanism or constraint. These explicit corrections are also recorded in the
 site's DESIGN_MEMORY.md; they supersede the earlier novice-audience treatment.
 
 Current Jacobi revision
-Title: Jacobi Forcing: Training for Parallel Decoding.
+Title: What if LLMs could generate multiple tokens at once?
 The lead starts with the gap between updating an entire token block and actually
 accepting its predictions. It introduces training on the model's own decoding
 trajectories as the contribution. Token and GPU definitions and the canned
@@ -70,8 +70,10 @@ and later multi-token commit make that promise visible; benchmark evidence
 comes after the mechanism and training. The former result-first opening was
 rejected by the owner. This cut changes the video and poster without changing
 the article prose.
-The cover now uses assets/jacobi-forcing-cover-parallel.png, with its generation
-instructions in cover-prompt-parallel.txt.
+The cover now uses assets/jacobi-forcing-cover-hook.png, with its generation
+instructions in cover-prompt-hook.txt. At the owner’s request, the article title
+and dominant cover lettering now repeat the video’s multiple-token question.
+The video’s closing card retains its explanatory Jacobi Forcing topic label.
 
 No external humanizer service was used. The local article and copy-ready export
 are edited locally. HTML, text, site output and packages must share the same

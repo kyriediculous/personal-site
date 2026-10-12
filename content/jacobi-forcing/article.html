@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jacobi Forcing: Training for Parallel Decoding</title>
+  <title>What if LLMs could generate multiple tokens at once?</title>
   <meta name="description" content="How Jacobi Forcing trains autoregressive models for parallel decoding, with measured speedups and accuracy tradeoffs.">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Jacobi Forcing: Training for Parallel Decoding">
+  <meta property="og:title" content="What if LLMs could generate multiple tokens at once?">
   <meta property="og:description" content="Training on imperfect decoding trajectories to improve parallel token acceptance, with measured speed and accuracy tradeoffs.">
   <meta name="twitter:card" content="summary_large_image">
   <style>
@@ -61,10 +61,10 @@
   <main>
     <article>
       <header>
-        <h1>Jacobi Forcing: Training for Parallel Decoding</h1>
+        <h1>What if LLMs could generate multiple tokens at once?</h1>
       </header>
       <figure class="cover">
-        <img src="assets/jacobi-forcing-cover-parallel.png" width="1733" height="907" alt="Rows of charcoal and blue token tiles converge beneath Jacobi Forcing: Training for parallel decoding.">
+        <img src="assets/jacobi-forcing-cover-hook.png" width="1733" height="908" alt="What if LLMs could generate multiple tokens at once? Rows of charcoal and blue token tiles converge below the question.">
       </figure>
       <div class="body">
         <p class="lead">Jacobi decoding can update an entire block of tokens in one forward pass, yet still produce only one accepted token. Its predictions depend on an unfinished prefix, and corrections early in that prefix can invalidate the work done further ahead. <a href="https://github.com/hao-ai-lab/JacobiForcing">Jacobi Forcing</a> trains autoregressive models on their own decoding trajectories to make those parallel predictions more useful.</p>

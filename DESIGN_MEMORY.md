@@ -83,3 +83,13 @@ becomes a parallel block; the film then explains how training makes this useful.
 The scoped benchmark result and accuracy tradeoff come later as the payoff.
 Do not replace this premise with a statistic, a contradiction, or another
 assistant-invented framing.
+
+## 12 October 2026 — extend the hook to article packaging
+
+The owner asked for the article title and cover image to use the same hook.
+The current article headline and dominant cover lettering are now “What if LLMs
+could generate multiple tokens at once?” Keep this question consistent across
+the article, homepage feature, blog index, feed and social previews. Retain LLM
+and token terminology; the earlier instruction to name the method in the title
+is superseded by this explicit question-led packaging request. The technical
+article body and evidence remain unchanged.
