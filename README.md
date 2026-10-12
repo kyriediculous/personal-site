@@ -2,8 +2,7 @@
 
 Personal site and blog for applied AI, agents, and distributed infrastructure.
 Source: [kyriediculous/personal-site](https://github.com/kyriediculous/personal-site).
-Cloudflare Pages target: `https://nicovergauwen.pages.dev` (pending account setup
-and hostname confirmation).
+Public site: [nicovergauwen.pages.dev](https://nicovergauwen.pages.dev/).
 
 The site is static HTML, CSS, and JavaScript, built with Python. It contains the
 project portfolio, research, career history, ten locally archived Medium articles,
@@ -32,7 +31,7 @@ Connect the `kyriediculous/personal-site` GitHub repository through Cloudflare
 Pages' Git integration. Limit the GitHub app installation to this repository.
 Use these settings:
 
-- Project name: `nicovergauwen` (confirm the assigned hostname before publishing).
+- Project name: `nicovergauwen`.
 - Production branch: `main`.
 - Framework preset: None.
 - Build command: `sh build_cloudflare.sh`.
@@ -48,9 +47,9 @@ pushes and pull requests. Official actions are pinned to commit SHAs, and the
 workflow needs only read access. GitHub Pages is not enabled.
 
 `src/site.json` contains the public HTTPS origin used for canonical URLs, social
-previews, RSS, and the sitemap. If Cloudflare assigns a different hostname, update
-the origin before the first production deployment. A future custom domain also
-requires updating the origin and adding that domain in Cloudflare Pages.
+previews, RSS, and the sitemap. Cloudflare assigned `nicovergauwen.pages.dev`.
+A future custom domain requires updating the origin and adding that domain in
+Cloudflare Pages.
 
 Styles and scripts carry content hashes in their URLs to avoid stale browser
 assets after an update. Git integration needs no API token in this repository or
@@ -66,9 +65,11 @@ GitHub Actions. This static site needs no Pages Functions or paid services.
 - `src/medium/posts.json` and `src/medium/*/article.html`: imported articles.
 - `assets/`: fonts, portrait, brand logos, and archived article images.
 
-The repository is self-contained. Canonical Jacobi text and video remain
-unchanged when integrated into the shared site. Its text download matches the
-canonical original. Native browser controls handle the silent motion graphic.
+The repository is self-contained. The Jacobi page and its text download match
+the current canonical article. The 12 October 2026 voice revision uses the
+author’s archived 2018–2021 writing; `content/jacobi-forcing/voice-notes.txt`
+records the references and editing guidance. Native browser controls handle
+the unchanged silent motion graphic.
 
 ## Imported articles
 

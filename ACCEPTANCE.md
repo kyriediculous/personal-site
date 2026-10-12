@@ -12,7 +12,8 @@ LinkedIn and social profiles, with no personal email or phone number.
 
 Thirteen checks cover:
 
-- Canonical Jacobi prose, text export, and MP4 remain identical to their originals.
+- Jacobi page prose and text export match the current canonical article; its MP4
+  remains identical to the original.
 - Every internal page, asset, download, and fragment resolves; IDs are unique and
   each page has one main heading.
 - Business backlinks remain followable, and writing/research match the inventory.
@@ -47,12 +48,36 @@ official actions. GitHub no-reply identity is used for commits. Private review
 files and local hosting account metadata are ignored by Git. GitHub Pages is not
 enabled, and the repository contains no Cloudflare API token.
 
-The configured target origin is https://nicovergauwen.pages.dev. Cloudflare account
-sign-in, GitHub integration, hostname confirmation, and live verification are
-pending. Preparation checks do not establish that the site is live.
+The site is live at https://nicovergauwen.pages.dev. Cloudflare Pages is connected
+to the repository's `main` branch, with framework None, build command
+`sh build_cloudflare.sh`, output `dist`, and `SKIP_DEPENDENCY_INSTALL=1` for
+Production and Preview. The first production build succeeded on 12 October 2026.
 
 The source is published at https://github.com/kyriediculous/personal-site. The
 initial Linux CI build passed all thirteen checks:
 https://github.com/kyriediculous/personal-site/actions/runs/38294731015.
 A source-only Git export produces the same 71 output files byte for byte as the
 reviewed local build. All thirteen local checks pass with the Pages target origin.
+
+## Live verification
+
+All 70 published page/asset/feed URLs match the reviewed local bytes. Six unknown
+or source-only routes return HTTP 404 with the site's branded page. The MP4 is
+served as `video/mp4` with identical bytes. Cloudflare rejects the default Python
+client signature; verification succeeded with browser-style request headers.
+Private review evidence stays outside the public repository.
+
+The unused Worker created through the other setup flow has no enabled URLs. Its
+build was cancelled, and its Git connection is removed, so repository pushes do
+not trigger Worker builds. The Pages project is separate and remains connected.
+
+## Jacobi voice revision — 12 October 2026
+
+Revised the article using five archived posts from 2018–2021, weighted toward
+the author's personal technical tutorials. One independent review covered voice,
+cadence, beginner accessibility and fidelity. The article is now 1,311 words;
+its benchmark table, citations, captions and media remain unchanged. Rebuilt the
+site and passed all thirteen checks, including canonical text/download parity.
+The source and preview packages include the revision. The editing references and
+reusable voice guidance are in `content/jacobi-forcing/voice-notes.txt`.
+This revision is local and has not been pushed or deployed by this editing task.
