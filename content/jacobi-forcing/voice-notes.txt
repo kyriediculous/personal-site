@@ -64,8 +64,12 @@ training details, decoding refinements, KV-cache reuse, the benchmark table and
 speed/quality caveats. First-person comments are judgments or hypothetical
 evaluation, not claims that the author ran the benchmarks. Benchmark values,
 primary-source links, explanation captions and the diagram are preserved.
-A subsequent motion revision uses a 30-second result-first marketing structure;
-it changes the video and poster without changing the article prose.
+The current 30-second motion revision opens with the owner's question,
+“What if LLMs could generate multiple tokens at once?” A simultaneous block
+and later multi-token commit make that promise visible; benchmark evidence
+comes after the mechanism and training. The former result-first opening was
+rejected by the owner. This cut changes the video and poster without changing
+the article prose.
 The cover now uses assets/jacobi-forcing-cover-parallel.png, with its generation
 instructions in cover-prompt-parallel.txt.
 

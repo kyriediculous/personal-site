@@ -72,9 +72,15 @@ author’s archived 2018–2021 writing; `content/jacobi-forcing/voice-notes.txt
 records the references and editing guidance. `DESIGN_MEMORY.md` records owner
 feedback, including the correction toward a technical audience and a mechanism-first
 opening. Native browser controls handle the silent motion graphic. Its current
-source is a 30-second technical promo with a scoped benchmark hook, parallel
-prediction and training examples, an ablation comparison, and an article CTA.
-Final encoded-media verification for this revision is still pending.
+source is a 30-second technical promo opening with “What if LLMs could generate
+multiple tokens at once?” A token tile becomes a parallel block, then the
+mechanism and training explanation lead to an illustrative multi-token commit
+and the scoped benchmark payoff. The clip closes on the article's actual URL.
+Article prose is unchanged by this video cut. The final 30-second, 900-frame
+silent H.264 export passes complete decoding and encoded-frame review; browser
+playback advances without a media error. Canonical and site media copies match,
+and the exact Cloudflare build passes all 15 acceptance tests. Production deployment and
+publication-ZIP verification are recorded separately in the delivery evidence.
 
 ## Social link previews
 

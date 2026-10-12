@@ -129,7 +129,7 @@ fit. No rejected title or canned opening remains in public output. Source and
 preview ZIPs are rebuilt at delivery; production completion is verified through
 the main commit's Cloudflare/GitHub checks and live-to-local byte comparison.
 
-## Marketing motion revision — 12 October 2026
+## Earlier marketing motion revision — superseded 12 October 2026
 
 Replaced the 24-second illustration with a 30-second technical promo. The
 3.97× result is visible immediately with benchmark/model scope and pass@1
@@ -151,3 +151,27 @@ carry content hashes; a new regression verifies those hashes and source/served
 byte equality. The Cloudflare build passes all fifteen site tests. Source and
 publication ZIPs are refreshed at delivery. Live publication is confirmed by
 the deployment commit's Cloudflare/GitHub checks and public-file byte comparison.
+
+
+## Owner-premise motion revision — 12 October 2026
+
+The owner rejected the benchmark-first opening and the proposed slowdown angle.
+The current 30-second cut starts on frame one with “What if LLMs could generate
+multiple tokens at once?” One token fans into simultaneous predictions; the
+same draft becomes training material. A separate illustrative pass commits four
+tokens together and leaves two provisional. This visibly answers the opening
+before the scoped benchmark evidence. Article prose and research values are unchanged.
+
+One independent reviewer checked the hook, motion continuity, technical semantics,
+new acceptance payoff and reading holds. Strict checks pass with zero errors,
+warnings or informational findings: 18 layout timestamps, 300 motion states and
+45 contrast checks. The final silent H.264/yuv420p MP4 is 1920×1080, 30 fps,
+30 seconds and 900 frames. Every encoded frame decodes; opening, transition,
+mechanism, training, payoff, evidence and outro frames were visually inspected.
+Browser playback has duration 30, readyState 4, advancing time and no error.
+
+The poster is the final MP4 frame at 2.5 seconds, showing the full opening question
+and parallel block. Root and site media match. The exact Cloudflare build passes
+all 15 site checks, including content-hash URLs and served-byte equality. Current
+publication verification is recorded in `.qa/jacobi-hook-verification.json`;
+ZIP integrity and member-byte checks are completed at delivery.

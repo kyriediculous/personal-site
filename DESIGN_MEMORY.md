@@ -48,3 +48,38 @@ Editorial application: put the concrete result on screen immediately, make the
 training contribution visible, and retain the benchmark scope and quality
 tradeoff. Use a readable article destination at the end. Keep each explanation
 visually distinct and avoid a long introduction to the familiar serial bottleneck.
+
+## 12 October 2026 — video-hook correction
+
+The owner rejected the “3.97× decoding throughput” opening: a plain statistic
+and title card did not earn attention. This is a hook and design correction;
+the owner did not explicitly label it AI slop.
+
+The earlier editorial application of putting the result on screen immediately
+is superseded as the opening strategy. It remains above as a record of the
+rejected interpretation, not an approved reference for future hooks.
+
+Superseded assistant interpretation: open on the measured contradiction, “Parallel
+decoding made this LLM slower.” Show the original autoregressive model at
+41.3 tokens/s beside plain Jacobi decoding at 39.9 tokens/s, scoped to the
+reported HumanEval setup. Explain why parallel predictions can fail to survive
+verification, then show how training addresses that problem before revealing
+the later 3.97× payoff. Keep the benchmark scope and accuracy tradeoff visible
+with the result. The hook should create a specific technical question that the
+film answers, rather than relying on a large number or title treatment alone.
+The owner subsequently rejected this direction; it is not an owner preference.
+
+## 12 October 2026 — owner restores the article's intended hook
+
+The owner corrected the contradiction-led interpretation: “OUR ARTICLE HOOK IS
+ABOUT WHAT IF MODELS COULD GENERATE MULTIPLE TOKENS AT A TIME NOT THE SHIT YOU
+ARE SAYING”. The prior “Parallel decoding made this LLM slower” direction was
+an assistant interpretation and is rejected. Do not reuse it as the hook or
+attribute it to the owner.
+
+Current intended opening: “What if LLMs could generate multiple tokens at once?”
+The owner's premise controls the video. Visually, the same serial token tile
+becomes a parallel block; the film then explains how training makes this useful.
+The scoped benchmark result and accuracy tradeoff come later as the payoff.
+Do not replace this premise with a statistic, a contradiction, or another
+assistant-invented framing.
