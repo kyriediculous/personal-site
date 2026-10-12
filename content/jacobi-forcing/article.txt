@@ -1,44 +1,30 @@
-Jacobi Forcing
+Jacobi Forcing: Training for Parallel Decoding
 
-Helping AI write faster
+Jacobi decoding can update an entire block of tokens in one forward pass, yet still produce only one accepted token. Its predictions depend on an unfinished prefix, and corrections early in that prefix can invalidate the work done further ahead. Jacobi Forcing (https://github.com/hao-ai-lab/JacobiForcing) trains autoregressive models on their own decoding trajectories to make those parallel predictions more useful.
 
-You ask an AI a question and it starts typing. Then you wait. Most language models generate text one token at a time, so a long answer means a long chain of steps. Jacobi Forcing trains a model to work on several upcoming tokens together. On one coding benchmark, the researchers got close to four times the generation speed, though accuracy took a hit.
+The decoder starts with a block of token guesses. In each iteration, every position is recalculated using the previous iteration’s values to its left. The third position, for example, uses the old guesses for positions one and two; it doesn’t wait for their updated values. This lets the model update the whole block in one forward pass.
 
-A token is a small piece of text: a word, part of a word, or a punctuation mark. For our example, let’s pretend each word is one token.
-
-To write “The cat sat on the mat,” the model first predicts “The.” It uses that to predict “cat,” then uses “The cat” to predict “sat,” and so on. Each prediction depends on the words already chosen.
-
-This is called autoregressive generation. In its ordinary form, a 1,000-token answer needs about 1,000 sequential generation steps. The model can already process your prompt in parallel, but generating the answer introduces a dependency between steps.
-
-The chips running these models, usually GPUs, are built to do many calculations at once. If we can get several useful tokens out of each round of computation, we can spend less time waiting for the answer.
-
-Jacobi Forcing (https://github.com/hao-ai-lab/JacobiForcing) is a training technique designed to help with this. First, we need to look at Jacobi decoding, the procedure it builds on. The decoder fills a block of upcoming tokens with guesses, updates them together, and repeats.
-
-Think of it as revising a rough sentence. Several words might improve in one pass, while others need another go. For the model, revising means recalculating its predictions.
-
-The detail that makes this work is that each position uses the previous round’s guesses to its left. To update the third word, the model uses the old guesses for words one and two. It doesn’t wait for their replacements. All positions can therefore update in the same model pass.
-
-The model still only looks left when predicting a token, a property called causal attention. It can work ahead because some of those earlier tokens are allowed to be guesses.
+Causal attention is preserved: each token only attends to positions to its left. The parallelism comes from using provisional values at those positions, rather than waiting for each one to be confirmed.
 
 A made-up example, with words standing in for tokens. Blue marks a match with the eventual sentence for illustration; it does not mean that word has already been accepted.
 
-In the example, a word near the end can be right while an earlier one is still wrong. We can’t accept it yet. The decoder checks and commits an unbroken stretch from the left; anything beyond that stays provisional until the preceding text is confirmed.
+Matching a token at a later position isn’t enough to accept it. The decoder verifies and commits a contiguous prefix from the left; later guesses stay provisional until their preceding context is confirmed.
 
 The animation separates provisional guesses from the confirmed prefix. Its timing illustrates the mechanism; it is not a measured model run.
 
-There’s a catch: we need enough of those guesses to survive. A model trained mostly on clean text can struggle when its context contains mistakes. Fix an earlier token and several later predictions may need to change too. We could do all this extra work and still get just one useful new token.
+Parallel decoding only helps if enough predictions survive verification. A model trained mostly on clean text can struggle with these changing prefixes. More parallel computation doesn’t automatically mean more accepted tokens.
 
-Jacobi Forcing trains the model for exactly this situation. The researchers collect its decoding trajectories: the drafts it produces on the way to a settled answer. They use these to train it to reach the settled predictions with fewer rounds, even when earlier tokens or entire earlier blocks are still imperfect. They also retain an ordinary next-token training objective to help preserve answer quality.
+The researchers collect the model’s own decoding trajectories: intermediate drafts leading to a converged output. Jacobi Forcing uses them to train the model toward that output even when earlier tokens or entire earlier blocks are still unconverged. An ordinary next-token training objective is retained alongside this to help preserve answer quality.
 
 The published recipe (https://proceedings.mlr.press/v306/hu26aa.html) mixes cleaner and noisier context in a progressive schedule. Training starts with 16-token blocks for 10,000 steps. The researchers then collect fresh trajectories from the updated model and train with 32-token blocks for another 10,000 steps. Those block sizes describe the training setup; they don’t tell us how many tokens will be accepted in a generation step.
 
-Once the guesses improve, we can get more use out of them. Multi-block decoding works ahead on later blocks while the first is being confirmed. Rejection recycling keeps useful short fragments from discarded drafts to try again later. Throwing away a draft doesn’t mean every phrase in it was bad. Both refinements still require verification before those tokens become output, as the authors illustrate here (https://www.snowflake.com/en/blog/engineering/jacobi-forcing-casual-parallel-decoding/).
+Two decoding refinements make use of the improved drafts. Multi-block decoding updates later blocks while the first is being confirmed. Rejection recycling caches promising token sequences from discarded drafts and verifies them as future candidates. Neither refinement bypasses verification before tokens are committed. The authors’ explanation (https://www.snowflake.com/en/blog/engineering/jacobi-forcing-casual-parallel-decoding/) shows how both work.
 
-Keeping causal attention has a practical benefit too: the system can reuse its KV cache, stored attention information for confirmed tokens. It saves recomputing that information while the draft changes, making the approach compatible with caching already used to serve language models.
+Keeping causal attention also preserves KV-cache reuse for the confirmed prefix. The decoder can revise the draft without recomputing attention information for tokens it has already accepted.
 
 The HumanEval results show why the training matters. On this benchmark of small coding problems, the original model generated 41.3 tokens per second. Plain Jacobi decoding managed 39.9, so it was actually slower. After Jacobi Forcing training, that rose to 159.5. Multi-block decoding and rejection recycling brought it to 163.9. Most of the gain here came from training the model to make better guesses.
 
-Here’s the broader comparison from Tables 1 and 3 of the paper (https://raw.githubusercontent.com/mlresearch/v306/main/assets/hu26aa/hu26aa.pdf). The models are based on Qwen2.5-Coder-7B-Instruct for coding and Qwen2.5-Math-7B-Instruct for maths, running on NVIDIA A100 GPUs. “7B” means roughly seven billion learned parameters. All use greedy decoding, choosing the highest-scoring next token. The Jacobi Forcing results include both refinements, with speed and quality measured under the same settings.
+Here’s the broader comparison from Tables 1 and 3 of the paper (https://raw.githubusercontent.com/mlresearch/v306/main/assets/hu26aa/hu26aa.pdf). The models are based on Qwen2.5-Coder-7B-Instruct for coding and Qwen2.5-Math-7B-Instruct for maths, running on NVIDIA A100 GPUs. All use greedy decoding, choosing the highest-scoring next token. The Jacobi Forcing results include both refinements, with speed and quality measured under the same settings.
 
 Test | Tokens/s, original → JF | Speedup | Score, original → JF
 HumanEval · coding | 41.3 → 163.9 | 3.97× | 87.8% → 83.5%
@@ -49,14 +35,14 @@ JF = Jacobi Forcing with multi-block decoding and rejection recycling. Coding sc
 
 I’d pay as much attention to the last column as the speedup. HumanEval dropped by 4.3 percentage points and MBPP by 3.9. The changes on maths were smaller. Training changes the model, and its answers can change too. Whether that tradeoff is worthwhile depends on what you’re using it for.
 
-To put the speed in more familiar terms, 1,000 tokens at those HumanEval rates would take about 24.2 seconds versus 6.1 seconds. That’s just dividing the token count by the reported rates. It excludes prompt processing, network delays and tool calls, so it isn’t a measurement of how long you’d wait in a chat app.
+At those HumanEval rates, generating 1,000 tokens would take about 24.2 seconds versus 6.1 seconds. This is illustrative arithmetic, excluding prompt processing, network delays and tool calls, rather than measured end-to-end latency.
 
 The hardware and serving software matter as well. In a separate test with one request at a time on an NVIDIA B200, using the serving framework vLLM, the researchers measured 221.3 → 865.8 tokens per second, a 3.91× speedup. That’s a different setup from the A100 comparison above; the details are in Table 2 (https://raw.githubusercontent.com/mlresearch/v306/main/assets/hu26aa/hu26aa.pdf).
 
-There’s another number worth keeping straight. In the A100 HumanEval result, the decoder proposed 64-token blocks but accepted an average of 4.09 tokens per forward pass, or round of model computation. Most guesses didn’t become output in that pass. And because a parallel pass does extra work, accepting four tokens per pass doesn’t necessarily make generation four times faster.
+Block size and acceptance rate are different measures. In the A100 HumanEval result, the decoder proposed 64-token blocks but accepted an average of 4.09 tokens per forward pass. Each parallel pass does more work, so accepting four tokens per pass doesn’t necessarily make generation four times faster.
 
-To use this, you need a model trained for Jacobi Forcing and a compatible decoder. You can’t enable it by changing your prompt. The extra computation also means faster generation won’t automatically be cheaper or use less energy, especially on a server handling many users at once.
+Using Jacobi Forcing requires a trained checkpoint and a compatible decoder. The extra computation means lower latency won’t automatically translate to lower cost or energy use, especially when serving concurrent requests.
 
-Also, “verification” here only checks agreement with the trained model’s own predictions. It doesn’t check facts or run the generated code. The model can still be wrong, just faster.
+Verification checks agreement with the trained model’s greedy predictions. It doesn’t establish factual correctness or test whether generated code works.
 
-What I like about Jacobi Forcing is that it trains the model for the imperfect drafts it will actually see during decoding. If I were evaluating it for an application, I’d check whether the speedup holds on its real workload and what happens to answer quality.
+I’d evaluate it on the application’s actual workload, measuring completed tasks as well as tokens per second. The useful gain is the time saved after accounting for the checks and corrections needed to use the output.

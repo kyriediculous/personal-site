@@ -68,8 +68,9 @@ GitHub Actions. This static site needs no Pages Functions or paid services.
 The repository is self-contained. The Jacobi page and its text download match
 the current canonical article. The 12 October 2026 voice revision uses the
 author’s archived 2018–2021 writing; `content/jacobi-forcing/voice-notes.txt`
-records the references and editing guidance. Native browser controls handle
-the unchanged silent motion graphic.
+records the references and editing guidance. `DESIGN_MEMORY.md` records owner
+feedback, including the correction toward a technical audience and a mechanism-first
+opening. Native browser controls handle the unchanged silent motion graphic.
 
 ## Social link previews
 

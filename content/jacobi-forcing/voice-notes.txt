@@ -1,10 +1,12 @@
 NICO VERGAUWEN — EDITORIAL VOICE
-Applied to Jacobi Forcing on 12 October 2026.
+Applied to Jacobi Forcing: Training for Parallel Decoding on 12 October 2026.
 
 Brief
 Use the author's own pre-AI writing as the reference. Improve clarity, flow and
 cadence rather than reproducing awkward sentences. Vary sentence length when
 it serves the thought. Add no filler, invented anecdotes or claims of testing.
+Readers already know the token-by-token generation bottleneck. Explain the
+specific mechanism and contribution without restarting at tokens or GPUs.
 
 Reference posts
 Primary technical reference:
@@ -28,7 +30,7 @@ A practitioner explaining a mechanism alongside the reader. Start from a
 concrete constraint and show what changes. Use plain verbs, contractions and
 occasional "we" in an example. Use "I" for an opinion or documented experience.
 Explain unfamiliar terms where they become useful. Connect technical choices
-to waiting time, cost, implementation or answer quality. Be candid about limits.
+to latency, cost, implementation or answer quality. Be candid about limits.
 A little dry humor can work, but it must arise from the subject.
 
 Improve
@@ -38,15 +40,33 @@ of slogan-like fragments. Cut repeated definitions, repeated transitions,
 concluding recaps and generic enthusiasm. Do not imitate old typos or comma
 splices. Do not insert personality through invented experiences or forced jokes.
 
-Jacobi revision
-The article retains its novice audience, concrete token example, previous-round
-causal updates, confirmation from the left, training details, decoding
-refinements, cache explanation, benchmark table and speed/quality caveats.
-First-person comments are judgments or hypothetical evaluation, not claims that
-the author ran the benchmarks. Benchmark values, primary-source links, captions,
-images and video are preserved. One independent reviewer checked voice, cadence
-and fidelity against the original draft; the final pass softened an overbroad
-claim about clean training data, introduced GPUs and removed a vague ending.
+Owner corrections on 12 October 2026
+The owner rejected the opening "You ask an AI a question and it starts typing.
+Then you wait." as "AI slop trash writing." Do not use canned second-person
+chatbot scenes, staged waiting or empty fragments to manufacture cadence. This
+rejected draft is not a reference for the owner's voice.
+
+Separately, the owner rejected "Helping AI write faster" as too layman and asked
+for a slightly more technical article. Assume familiarity with token-by-token
+generation. Name the method's contribution in the title and begin with its
+mechanism or constraint. These explicit corrections are also recorded in the
+site's DESIGN_MEMORY.md; they supersede the earlier novice-audience treatment.
+
+Current Jacobi revision
+Title: Jacobi Forcing: Training for Parallel Decoding.
+The lead starts with the gap between updating an entire token block and actually
+accepting its predictions. It introduces training on the model's own decoding
+trajectories as the contribution. Token and GPU definitions and the canned
+second-person opening have been removed.
+
+The article retains previous-round causal updates, contiguous-prefix commitment,
+training details, decoding refinements, KV-cache reuse, the benchmark table and
+speed/quality caveats. First-person comments are judgments or hypothetical
+evaluation, not claims that the author ran the benchmarks. Benchmark values,
+primary-source links, explanation captions, the diagram and video are preserved.
+The cover now uses assets/jacobi-forcing-cover-parallel.png, with its generation
+instructions in cover-prompt-parallel.txt.
 
 No external humanizer service was used. The local article and copy-ready export
-were revised directly. HTML, text, site output and packages share the same prose.
+are edited locally. HTML, text, site output and packages must share the same
+current prose; package and delivery checks are recorded separately.

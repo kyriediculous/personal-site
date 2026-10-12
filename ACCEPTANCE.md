@@ -79,7 +79,7 @@ error. The temporary mobile viewport override was cleared after verification.
 
 Revised the article using five archived posts from 2018–2021, weighted toward
 the author's personal technical tutorials. One independent review covered voice,
-cadence, beginner accessibility and fidelity. The article is now 1,311 words;
+cadence, beginner accessibility and fidelity. That draft was 1,311 words;
 its benchmark table, citations, captions and media remain unchanged. Rebuilt the
 site and passed all thirteen checks, including canonical text/download parity.
 The source and preview packages include the revision. The editing references and
@@ -108,3 +108,23 @@ extension was corrected to match its native JPEG bytes. One independent review
 found no remaining issues. No application layout, dependencies or hosting
 configuration changed. Production completion is recorded by the corresponding
 main commit's Cloudflare Pages deployment and GitHub checks.
+
+## Jacobi technical correction — 12 October 2026
+
+The owner rejected the novice title and canned chatbot opening. The article is
+now “Jacobi Forcing: Training for Parallel Decoding” and 952 words. It starts
+with the gap between parallel predictions and accepted tokens, assumes readers
+know the serial generation bottleneck, and explains the training contribution.
+The benchmark table, primary citations, captions and motion graphic are
+unchanged. One independent editorial review found no accuracy or flow issues.
+The owner feedback and practical rules are recorded in `DESIGN_MEMORY.md`.
+
+The corrected cover is a 1733 × 907 PNG, with a new asset filename for social
+previews. Homepage OG artwork remains unchanged. The title is synchronized
+across the article, homepage card, blog index, feed, JSON-LD and social tags.
+The canonical HTML/text and downloads agree. The exact Cloudflare build command
+passes all fourteen checks; the parity check now also covers title surfaces.
+Desktop and 375px mobile render checks confirm the heading, cover and opening
+fit. No rejected title or canned opening remains in public output. Source and
+preview ZIPs are rebuilt at delivery; production completion is verified through
+the main commit's Cloudflare/GitHub checks and live-to-local byte comparison.

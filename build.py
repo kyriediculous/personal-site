@@ -13,6 +13,8 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parent
 DIST = ROOT / 'dist'
 PUBLICATION = ROOT / 'content' / 'jacobi-forcing'
+JACOBI_TITLE = 'Jacobi Forcing: Training for Parallel Decoding'
+JACOBI_DESCRIPTION = 'How Jacobi Forcing trains autoregressive models for parallel decoding, with measured speedups and accuracy tradeoffs.'
 CONTENT = json.loads((ROOT / 'src' / 'content.json').read_text())
 MEDIUM = ROOT / 'src' / 'medium'
 POSTS = json.loads((MEDIUM / 'posts.json').read_text())
@@ -106,8 +108,8 @@ def homepage():
 <div class="research-links">{external('https://arxiv.org/abs/2602.12630','Read the paper')}{external('https://github.com/NeurIPS26TC/TensorCommitment','Explore the code')}{external('https://utaustin-swarmlab.github.io/2026/10/04/TensorCommitments.html','Research explanation')}</div></div>
 <div class="research-side"><p class="acceptance">Accepted at NeurIPS 2026</p><p>Co-authored with researchers from UT Austin, Georgia Tech, and McGill.</p></div></article></section>
 <section class="shell section" id="writing" aria-labelledby="writing-title"><h2 class="section-title" id="writing-title">Writing</h2>
-<article class="feature"><a class="feature-image" href="/blog/jacobi-forcing/" aria-label="Read Jacobi Forcing: Helping AI write faster"><img src="/blog/jacobi-forcing/assets/jacobi-forcing-cover-beginner.png" width="1733" height="907" alt="Jacobi Forcing: Helping AI write faster" loading="lazy"></a>
-<div><h3><a href="/blog/jacobi-forcing/">Jacobi Forcing: Helping AI write faster</a></h3><p>Start with one token at a time, then explore parallel guesses, the training that makes them useful, and what the speed and accuracy numbers actually show. Includes an animated explanation.</p><a class="button" href="/blog/jacobi-forcing/">Read the article</a></div></article>
+<article class="feature"><a class="feature-image" href="/blog/jacobi-forcing/" aria-label="Read {JACOBI_TITLE}"><img src="/blog/jacobi-forcing/assets/jacobi-forcing-cover-parallel.png" width="1733" height="907" alt="{JACOBI_TITLE}" loading="lazy"></a>
+<div><h3><a href="/blog/jacobi-forcing/">{JACOBI_TITLE}</a></h3><p>Training on imperfect decoding trajectories improves parallel token acceptance. A look at the mechanism, measured speedups, and accuracy tradeoffs.</p><a class="button" href="/blog/jacobi-forcing/">Read the article</a></div></article>
 <div class="post-grid">{posts}</div><p class="more-writing"><a href="/blog/">Browse all writing</a></p></section>
 <section class="shell section" id="experience" aria-labelledby="experience-title"><h2 class="section-title" id="experience-title">What I’ve built</h2><div class="work-list">{''.join(work)}</div></section>
 <section class="shell section" aria-labelledby="about-title"><h2 class="section-title" id="about-title">About me</h2><div class="about-grid"><div>
@@ -130,13 +132,13 @@ def articlepage():
 <p class="article-byline">By Nico Vergauwen. Published 11 October 2026.</p>
 <div class="article-tools"><button class="button" type="button" data-copy-link>Copy link</button><a href="article.txt" download>Download article text</a><p class="copy-status" role="status" aria-live="polite"></p></div>
 <section class="article-end"><h2>More on AI and agents</h2><a href="/blog/the-verifiable-agent/">Read The Verifiable Agent</a></section></div></main>'''
-    schema={'@context':'https://schema.org','@type':'BlogPosting','headline':'Jacobi Forcing: Helping AI write faster','datePublished':'2026-10-11','author':{'@type':'Person','name':CONTENT['name']},'description':'How Jacobi Forcing trains language models for parallel guesses, with measured speed and quality results.'}
-    return document('Jacobi Forcing: Helping AI write faster | Nico Vergauwen','A beginner-friendly explanation of Jacobi Forcing, with real benchmark numbers, speed–accuracy tradeoffs, and an animated example.',body,schema,'/blog/jacobi-forcing/assets/jacobi-forcing-cover-beginner.png','/blog/jacobi-forcing/',image_alt='Charcoal and blue text tiles become an ordered line beneath Jacobi Forcing: Helping AI write faster.',image_size=(1733,907))
+    schema={'@context':'https://schema.org','@type':'BlogPosting','headline':JACOBI_TITLE,'datePublished':'2026-10-11','author':{'@type':'Person','name':CONTENT['name']},'description':'How Jacobi Forcing trains language models for parallel guesses, with measured speed and quality results.'}
+    return document(JACOBI_TITLE+' | Nico Vergauwen',JACOBI_DESCRIPTION,body,schema,'/blog/jacobi-forcing/assets/jacobi-forcing-cover-parallel.png','/blog/jacobi-forcing/',image_alt='Charcoal and blue token tiles converge beneath Jacobi Forcing: Training for parallel decoding.',image_size=(1733,907))
 
 def all_posts():
-    jacobi = {'title': 'Jacobi Forcing: Helping AI write faster', 'url': '/blog/jacobi-forcing/',
+    jacobi = {'title': JACOBI_TITLE, 'url': '/blog/jacobi-forcing/',
               'date': '2026-10-11', 'published_at': '2026-10-11T12:00:00+00:00',
-              'description': 'Parallel guesses, the training that makes them useful, and what the speed and accuracy numbers actually show. Includes an animated explanation.'}
+              'description': JACOBI_DESCRIPTION}
     return sorted([jacobi, *POSTS], key=lambda p: p['published_at'], reverse=True)
 
 def blogpage():
@@ -167,8 +169,9 @@ def build():
     (assets/'favicon.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#ffc757"/><text x="32" y="43" text-anchor="middle" font-family="Arial,sans-serif" font-size="32" fill="#0b1b20">NV</text></svg>')
     blog=DIST/'blog'/'jacobi-forcing'; blog.mkdir(parents=True,exist_ok=True)
     shutil.copytree(PUBLICATION/'assets',blog/'assets',dirs_exist_ok=True)
-    # Exclude the superseded cover; the live article uses the beginner cover.
-    (blog/'assets'/'jacobi-forcing-cover.png').unlink(missing_ok=True)
+    # Exclude superseded covers from incremental builds.
+    for obsolete in ('jacobi-forcing-cover.png', 'jacobi-forcing-cover-beginner.png'):
+        (blog/'assets'/obsolete).unlink(missing_ok=True)
     shutil.copy2(PUBLICATION/'article.txt',blog/'article.txt')
     (DIST/'index.html').write_text(homepage())
     (blog/'index.html').write_text(articlepage())

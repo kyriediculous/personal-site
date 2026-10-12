@@ -47,6 +47,20 @@ class SiteAcceptance(unittest.TestCase):
         self.assertEqual(exported_article((DIST/'blog/jacobi-forcing/index.html').read_text()),(CANONICAL/'article.txt').read_text())
         self.assertEqual((DIST/'blog/jacobi-forcing/article.txt').read_bytes(),(CANONICAL/'article.txt').read_bytes())
         self.assertEqual((DIST/'blog/jacobi-forcing/assets/jacobi-forcing-motion.mp4').read_bytes(),(CANONICAL/'assets/jacobi-forcing-motion.mp4').read_bytes())
+        canonical=BeautifulSoup((CANONICAL/'article.html').read_text(),'html.parser')
+        title=canonical.title.get_text()
+        article=BeautifulSoup((DIST/'blog/jacobi-forcing/index.html').read_text(),'html.parser')
+        self.assertEqual(article.h1.get_text(),title)
+        self.assertEqual(article.select_one('meta[property="og:title"]')['content'],title+' | Nico Vergauwen')
+        self.assertEqual(json.loads(article.select_one('script[type="application/ld+json"]').string)['headline'],title)
+        for route in ('index.html','blog/index.html'):
+            page=BeautifulSoup((DIST/route).read_text(),'html.parser')
+            titles=[a.get_text() for a in page.select('h2 a[href="/blog/jacobi-forcing/"],h3 a[href="/blog/jacobi-forcing/"]')]
+            self.assertEqual(titles,[title])
+        if (DIST/'feed.xml').exists():
+            item=next(i for i in ET.parse(DIST/'feed.xml').findall('./channel/item') if i.findtext('link').endswith('/blog/jacobi-forcing/'))
+            self.assertEqual(item.findtext('title'),title)
+
 
     def test_every_internal_reference_and_fragment_resolves(self):
         for page in DIST.rglob('*.html'):
@@ -229,7 +243,7 @@ class SiteAcceptance(unittest.TestCase):
         card='/assets/social/nico-vergauwen-og.jpg'
         posts=json.loads((ROOT/'src/medium/posts.json').read_text())
         expected={'/':card,'/blog/':card,'/404.html':card,
-                  '/blog/jacobi-forcing/':'/blog/jacobi-forcing/assets/jacobi-forcing-cover-beginner.png',
+                  '/blog/jacobi-forcing/':'/blog/jacobi-forcing/assets/jacobi-forcing-cover-parallel.png',
                   **{p['url']:p['image'] for p in posts}}
         for route,image_path in expected.items():
             page=DIST/route.lstrip('/')
