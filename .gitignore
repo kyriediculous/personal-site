@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.sites-runtime/
+.qa/
+.openai/
+dist/
+.DS_Store
+.env
+.env.*
+*.zip

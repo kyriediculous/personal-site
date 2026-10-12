@@ -1,0 +1,117 @@
+# Nico Vergauwen’s personal site
+
+Personal site and blog for applied AI, agents, and distributed infrastructure.
+Cloudflare Pages target: `https://nicovergauwen.pages.dev` (pending account setup
+and hostname confirmation).
+
+The site is static HTML, CSS, and JavaScript, built with Python. It contains the
+project portfolio, research, career history, ten locally archived Medium articles,
+and the Jacobi Forcing article with its motion graphic.
+
+## Run locally
+
+```sh
+python3 build.py
+python3 serve.py
+```
+
+Open [127.0.0.1:4173](http://127.0.0.1:4173/). The preview binds only to loopback.
+Python 3 is sufficient to build and serve the site. No npm packages are required.
+
+To run the delivery checks:
+
+```sh
+python3 -m pip install -r requirements-test.txt
+python3 -m unittest discover -s tests -v
+```
+
+## Deploy with Cloudflare Pages
+
+Connect the `kyriediculous/personal-site` GitHub repository through Cloudflare
+Pages' Git integration. Limit the GitHub app installation to this repository.
+Use these settings:
+
+- Project name: `nicovergauwen` (confirm the assigned hostname before publishing).
+- Production branch: `main`.
+- Framework preset: None.
+- Build command: `sh build_cloudflare.sh`.
+- Build output directory: `dist`.
+- Root directory: repository root (leave blank).
+- Environment variable: `SKIP_DEPENDENCY_INSTALL=1`.
+- Python: `.python-version` selects Python 3.12.
+
+Cloudflare runs the build and all delivery checks before uploading only `dist/`.
+A failed check stops deployment. Pushes to `main` rebuild production; other
+branches receive previews. GitHub Actions runs the same checks independently on
+pushes and pull requests. Official actions are pinned to commit SHAs, and the
+workflow needs only read access. GitHub Pages is not enabled.
+
+`src/site.json` contains the public HTTPS origin used for canonical URLs, social
+previews, RSS, and the sitemap. If Cloudflare assigns a different hostname, update
+the origin before the first production deployment. A future custom domain also
+requires updating the origin and adding that domain in Cloudflare Pages.
+
+Styles and scripts carry content hashes in their URLs to avoid stale browser
+assets after an update. Git integration needs no API token in this repository or
+GitHub Actions. This static site needs no Pages Functions or paid services.
+
+## Edit the site
+
+- `src/content.json`: projects, career history, and selected writing.
+- `build.py`: page templates and static output.
+- `src/site.css` and `src/site.js`: styles, navigation, and copy-link behavior.
+- `src/site.json`: public site origin.
+- `content/jacobi-forcing/`: canonical article text, diagram, cover, and video.
+- `src/medium/posts.json` and `src/medium/*/article.html`: imported articles.
+- `assets/`: fonts, portrait, brand logos, and archived article images.
+
+The repository is self-contained. Canonical Jacobi text and video remain
+unchanged when integrated into the shared site. Its text download matches the
+canonical original. Native browser controls handle the silent motion graphic.
+
+## Imported articles
+
+Homepage writing links and the blog index lead to full local posts. Each imported
+article includes its original date and an original-publication link inside it.
+All ten full entries available in the author’s public RSS feed on 12 October 2026
+are archived; older posts absent from that feed are not claimed as included.
+
+Authored prose, lists, captions, commands, and images are preserved. Medium
+tracking pixels, RSS syndication footers, unrelated Coinmonks recommendations,
+and Upscribe signup embeds are removed. X and YouTube widgets become ordinary
+links. Original historical claims and code remain dated to their publication.
+
+The 28 Go snippets and four Solidity snippets are restored as escaped local code.
+Medium embed IDs were matched to the MD5 of their exact original public gist URLs.
+Raw revisions and SHA-256 hashes are recorded in `src/medium/assets.json`. Article
+code is displayed as text and never executed by the importer or site.
+
+To regenerate prepared bodies from the frozen sources without network access:
+
+```sh
+python3 import_medium.py
+python3 build.py
+```
+
+The optional importer flag `--fetch-assets /path/to/public-gist-inventory.json`
+explicitly refreshes public image and gist bytes. Normal builds are offline.
+
+## Content and privacy
+
+Career facts and the portrait come from the owner-supplied résumé, supplemented
+by the owner’s corrections. The original PDF, personal email, telephone number,
+local review screenshots, and hosting account metadata are excluded from the
+published site and repository. Contact uses LinkedIn and social profiles.
+
+TensorCommitments authorship and NeurIPS acceptance were verified with the paper
+and research lab. Its current post-training extension using lattice-based
+commitments is described as ongoing work, focused on performance and post-quantum
+security. VIC-HTN is omitted until a public link is available.
+
+Colors, Host Grotesk typography, and the grokked brand lockup follow the owner’s
+existing grokked.ai codebase. Kollekt’s SVG is reused unchanged. Brand assets are
+local, and fonts retain their included SIL Open Font License. Business links to
+kollekt.now and grokked.ai remain ordinary followable links. The site has no
+analytics, third-party runtime media, cookie scripts, or signup forms.
+
+`sources.json` records provenance. `ACCEPTANCE.md` records delivery verification.

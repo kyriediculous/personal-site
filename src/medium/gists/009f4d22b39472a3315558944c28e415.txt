@@ -1,0 +1,4 @@
+contract DummyInterface {
+    function increment() external;
+    function get() external view returns (uint);
+}

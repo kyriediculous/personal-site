@@ -1,0 +1,554 @@
+{
+  "images": {
+    "https://cdn-images-1.medium.com/max/1024/0*2Vb5SYKAd0No6isP": {
+      "path": "/assets/writing/93dd409c2bcaf514a1af.jpg",
+      "sha256": "88b00576963ba2dc89ef1b80852ade258ad9387d6a09b25a9aad26b62dd6550d",
+      "width": 1024,
+      "height": 410
+    },
+    "https://cdn-images-1.medium.com/max/1024/0*NtJ8sgGGPlVww5TD": {
+      "path": "/assets/writing/e524bd339c21210900d4.jpg",
+      "sha256": "b0bbd66a3de24a73c15f4dbe10c4aff7f3cf53d2b4363379adcc62097386f6b5",
+      "width": 1024,
+      "height": 480
+    },
+    "https://cdn-images-1.medium.com/max/1024/0*OmtHiKMq6y02XBZQ": {
+      "path": "/assets/writing/3e4184566a38ccc7b672.png",
+      "sha256": "61cde5eecafad6a5ee6a8def8639453601fc4ae57205e333b55af978f0edf59e",
+      "width": 1024,
+      "height": 683
+    },
+    "https://cdn-images-1.medium.com/max/1024/0*U5Jo2UZ41fwa9pVw.jpg": {
+      "path": "/assets/writing/784f77ddcecf4d517b83.jpg",
+      "sha256": "49a7c41cf3c374e96b212f5f0bcf92d9b794f688fd3b823a476a26bd0489f63d",
+      "width": 1024,
+      "height": 356
+    },
+    "https://cdn-images-1.medium.com/max/1024/0*_f8n_x6nkxgnSxsQ.png": {
+      "path": "/assets/writing/493fd1dd103e0653f650.png",
+      "sha256": "7f7c8e1d5a0cff37c0ecb7b169904d2cefc24d7bb2ea155077eaa5f3328824d5",
+      "width": 1024,
+      "height": 349
+    },
+    "https://cdn-images-1.medium.com/max/1024/0*h3tvdv9IBEehcwZp.png": {
+      "path": "/assets/writing/2e32eeb11bdf6b0ad786.png",
+      "sha256": "da29be0a2d2855485eebd36df89e383c967c9b58d19f76fe812886891ceadaf3",
+      "width": 1024,
+      "height": 683
+    },
+    "https://cdn-images-1.medium.com/max/1024/0*yQLjm1A9s2cxiIyY.png": {
+      "path": "/assets/writing/64872d52d14d65bd57ae.png",
+      "sha256": "6aaba8855867d8665c179b7d21debefbbf955b58237e1bd0260d42025bac6235",
+      "width": 1024,
+      "height": 649
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*-Q7LrtX-KlbyQ__EF5eJdg.png": {
+      "path": "/assets/writing/44b929270327548e1fa2.png",
+      "sha256": "a5b7f22555e7fafba6a2a6b14431a47723fed360b1f518dac96da99ec802c6b5",
+      "width": 1024,
+      "height": 1188
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*22XH_yeQS117IkFHYvKpDg.png": {
+      "path": "/assets/writing/68ef8c3cea0d86175f74.png",
+      "sha256": "a95a38c714df8be90b8a4637fb6ef43cede46d618a2571ad3400254ad20c5b97",
+      "width": 1024,
+      "height": 960
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*5LEJqinFf7xcsKc1ARTc3w.jpeg": {
+      "path": "/assets/writing/74f37475b7fe7815776f.jpg",
+      "sha256": "1212c159ba64016ebd050cae362821868e9de98b733095356cfa38e3e5f4f881",
+      "width": 1024,
+      "height": 683
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*7bjm5IOxAbhHt8DkIaE9yg.png": {
+      "path": "/assets/writing/32de227986453d25e88e.png",
+      "sha256": "85168e0c3a1ef2f872b4fd42279d2adfee0f9bc634ddb051f37c1755fe9229fb",
+      "width": 1024,
+      "height": 627
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*Jc_xR-F_DfvG-CyKv3128A.png": {
+      "path": "/assets/writing/d819c379704b1a37045c.png",
+      "sha256": "3ef6064aeff000ca320e58da77704f0365b33c77a486a249276e819d884b24db",
+      "width": 1024,
+      "height": 737
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*Jj4A2VbQo0HGFB5ixTRGWg.png": {
+      "path": "/assets/writing/7f5add063ad63a42536e.png",
+      "sha256": "b3162e75cbc718c162bf22a1841ff51ec83a56eca7593600214c610e8f4b5629",
+      "width": 1024,
+      "height": 471
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*Kqvo3asQLxiiLMeeOLw6zQ.png": {
+      "path": "/assets/writing/6311ebdef8cc66d9c76a.png",
+      "sha256": "1d5b57d47cb3f66d39a515e500d0ffe6bb3276ae86974a55ee49d408bddb9406",
+      "width": 1024,
+      "height": 1375
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*OWLa3gLYtbWlPxTbwZnKHQ.png": {
+      "path": "/assets/writing/5c0b1384bba7e2cafe1e.png",
+      "sha256": "649fc78f61869676b32d5d15e291f47ffae4f98dde5aa0423f2ca3ff547499af",
+      "width": 1024,
+      "height": 1005
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*WyT-GIdaCz6htUTBaA4BMQ.png": {
+      "path": "/assets/writing/f2b27f5de895543ec5da.png",
+      "sha256": "2115a6fe6afd3375ecbcaecc25e90d6a0d37206884450fb8e874479a05c9e00d",
+      "width": 1024,
+      "height": 771
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*Z7oUI6BL9weir45MvNfBNA.png": {
+      "path": "/assets/writing/99adbf3918985ab83507.png",
+      "sha256": "0d7f75c674ca3f1e93b668bc536181569b3f6db05347de2f04f49e3e7cb09b24",
+      "width": 1024,
+      "height": 501
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*fKX2mtg7p1lOs7JmosPLsA.png": {
+      "path": "/assets/writing/4fa32decfff8041d37de.png",
+      "sha256": "bc82a58e7aa25e55001b4a9bca4f9b194447ff710b8ef8c171cbfe6da88a8908",
+      "width": 1024,
+      "height": 512
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*fvTFs_7hwciFNjbfyjiCTw.png": {
+      "path": "/assets/writing/3608683522bd5e7b5350.png",
+      "sha256": "c8fa75973e1296dc87a9ace6795e8ab63f2e150261d88f17c7404faad4931fd7",
+      "width": 1024,
+      "height": 483
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*vwMiUUVIbgvaKhyQr6u_Ww.png": {
+      "path": "/assets/writing/779355c4bf664bd248d9.png",
+      "sha256": "0f8e261c53f1e97ad1cb3772f5d969f2669ebd77e92518916ee683c660337d9d",
+      "width": 1024,
+      "height": 608
+    },
+    "https://cdn-images-1.medium.com/max/1024/1*zhTG63vcvTbcyk3G13ABxg.png": {
+      "path": "/assets/writing/a30c4a537997cfee6948.png",
+      "sha256": "cf6a120d969286c1c684ad3f4cd9a0c5a3ab3fa8618dcbc5b1e70b84346266ba",
+      "width": 1024,
+      "height": 595
+    },
+    "https://cdn-images-1.medium.com/max/236/0*jSVdjQX5tDsLhxHw.jpg": {
+      "path": "/assets/writing/c8601a3e51b89b47bd1d.jpg",
+      "sha256": "ac8d6cd9c994db97a905eafc7f0d429b30a45834a7285dd943d058812441bf02",
+      "width": 236,
+      "height": 206
+    },
+    "https://cdn-images-1.medium.com/max/296/1*Z6WPXJzb1J1Rz9I9Vmkf_A.png": {
+      "path": "/assets/writing/7527acfb71d2c45aa407.png",
+      "sha256": "db3668e77f47093b389c59b67f84420cee213ca4a5810b9d46d4f0951a22581b",
+      "width": 296,
+      "height": 222
+    },
+    "https://cdn-images-1.medium.com/max/307/0*GccK_os7uZumMgFU.png": {
+      "path": "/assets/writing/3de9687c0e3219ee11fc.png",
+      "sha256": "f4d792103dd433842586f189c1d5e661f88853b70a7df906cdd2553fd9abc201",
+      "width": 307,
+      "height": 360
+    },
+    "https://cdn-images-1.medium.com/max/347/0*gGSECB9am19-F6xt.png": {
+      "path": "/assets/writing/12f4ba8150975fbb982d.png",
+      "sha256": "c7eb68675d2c533b8fbb6080a2ec5c41bd91f97a70d599c6d71dfa2ede285c1e",
+      "width": 347,
+      "height": 511
+    },
+    "https://cdn-images-1.medium.com/max/450/0*YIKklfLB8y_0VpWg.jpg": {
+      "path": "/assets/writing/e57fa6b78a55a5fe9327.jpg",
+      "sha256": "2fa771d9714487b6c95466e458d597366e85a701380b2f3384cb287fe3497afd",
+      "width": 450,
+      "height": 304
+    },
+    "https://cdn-images-1.medium.com/max/536/1*KamsTX-Chf45NYzxCN0kfw.png": {
+      "path": "/assets/writing/3388401725b0795c89ca.png",
+      "sha256": "aa0cd176d2a776a0c6fac192308fd17aff03459bb71db9a8dc2c8688fc813e47",
+      "width": 536,
+      "height": 146
+    },
+    "https://cdn-images-1.medium.com/max/581/1*MT2x2BRSYyECJEHwVu5JgA.png": {
+      "path": "/assets/writing/f064b59f466ae9ad8c9b.png",
+      "sha256": "efd8a91b7e177003e11a6b93ff8f43d49bc5e8ec36bf2aab42ab66c2088db304",
+      "width": 581,
+      "height": 869
+    },
+    "https://cdn-images-1.medium.com/max/667/0*HaGKyUqJPJS9vgzn.png": {
+      "path": "/assets/writing/9ff0fcce0987469f2d30.png",
+      "sha256": "181640f38a7df6b8cae53c333ab6432d1da70c7d4573100586ba1db7e3860515",
+      "width": 667,
+      "height": 292
+    },
+    "https://cdn-images-1.medium.com/max/676/0*z27CGh0nvUyvRITs": {
+      "path": "/assets/writing/a32cdf20e64279a93bc1.png",
+      "sha256": "f30d13c515c31931ae5373267802f73b44b2ca666df2f32f213c95fb6138dab9",
+      "width": 676,
+      "height": 483
+    },
+    "https://cdn-images-1.medium.com/max/696/0*4867MiUel2RkdvGa.png": {
+      "path": "/assets/writing/d7b5fcf40b752dd53961.png",
+      "sha256": "7b5e357b972aaed3a8f9bfc17b3665771cef7ce9a2f15b3dde41e85570319961",
+      "width": 696,
+      "height": 417
+    },
+    "https://cdn-images-1.medium.com/max/712/1*FD9wRu1VI6Fgo2QEJqjS2w.png": {
+      "path": "/assets/writing/4c76c8a5d6628fd94925.png",
+      "sha256": "ffc18ad6856332e6011d847c803b78f71531d4d650247833bf3a07ce7840bd57",
+      "width": 712,
+      "height": 460
+    },
+    "https://cdn-images-1.medium.com/max/773/1*RAfJueeaQrkJDOOhtIQEcg.png": {
+      "path": "/assets/writing/ed445da98b21a090bc95.png",
+      "sha256": "c5010082fe9d961d1959c4b327e3c10910c69709a1895ec4823c6efc4a9680d0",
+      "width": 773,
+      "height": 378
+    },
+    "https://cdn-images-1.medium.com/max/784/1*hZK9yqVzRcITfP0hWXuBxQ.png": {
+      "path": "/assets/writing/2486dab09d72ee6d67fc.png",
+      "sha256": "bfd7af80835274560d522b85a4d306b021941c9f0491b1127adf3c669d995bfe",
+      "width": 784,
+      "height": 267
+    },
+    "https://cdn-images-1.medium.com/max/814/0*xPE5ByVA3IgbMnf3.jpg": {
+      "path": "/assets/writing/7e9817b7754d74a8bdd9.jpg",
+      "sha256": "f8963c00bf718f2e03b0719353ca24ce4c1a1f3f6b588b2ecdd0d21172b65210",
+      "width": 814,
+      "height": 363
+    },
+    "https://cdn-images-1.medium.com/max/904/0*vC8xc7roPRoY9rHk.jpg": {
+      "path": "/assets/writing/d3ed58bef092fcb242db.jpg",
+      "sha256": "c16afc35e65f265c5e10ce7c95d77304c3a8f5991d5f9f3f523b00e4c35a6780",
+      "width": 904,
+      "height": 666
+    },
+    "https://cdn-images-1.medium.com/max/970/0*xIEsYJplggYmACCp.gif": {
+      "path": "/assets/writing/1558fd709c37c3fca28e.gif",
+      "sha256": "b2a12ef2d58822314ce0a836decf107cfb9fb9c3dff5c5586dbdc447055fa1ae",
+      "width": 970,
+      "height": 642
+    },
+    "https://cdn-images-1.medium.com/proxy/1*r6LLu7uRLpMBsmTa0b58aQ.png": {
+      "path": "/assets/writing/be371e4db0eb09b8e6c8.png",
+      "sha256": "a816b48587fb68c3d03dec0c63b7a8aee8051e4bf3ee3f5c478074ba4de5ec50",
+      "width": 470,
+      "height": 338
+    }
+  },
+  "code": {
+    "009f4d22b39472a3315558944c28e415": {
+      "gist_id": "3433ca4bb384eb9eea0ecc87820ed384",
+      "filename": "DummyInterface.sol",
+      "original_embed_url": "https://gist.github.com/kyriediculous/3433ca4bb384eb9eea0ecc87820ed384#file-dummyinterface-sol",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/3433ca4bb384eb9eea0ecc87820ed384/raw/5ce3b241fdf35161b71127182c4f69e80df56482/DummyInterface.sol",
+      "source_url": "https://gist.github.com/kyriediculous/3433ca4bb384eb9eea0ecc87820ed384",
+      "path": "gists/009f4d22b39472a3315558944c28e415.txt",
+      "sha256": "47d48a5016661459ffd5edfdaeb31b5a1ce6db73baf8dc2718031ef18f4f3f86",
+      "match": "MD5 of exact original embed URL"
+    },
+    "019d443c1960e5ee925767b900c0d7a9": {
+      "gist_id": "f499c7ebb9d12bafcef0a1f3a702565f",
+      "filename": "UpdateBlog.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/f499c7ebb9d12bafcef0a1f3a702565f",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/f499c7ebb9d12bafcef0a1f3a702565f/raw/4bada8234a789a964b55a2b54ea9ef45bf1b5838/UpdateBlog.go",
+      "source_url": "https://gist.github.com/kyriediculous/f499c7ebb9d12bafcef0a1f3a702565f",
+      "path": "gists/019d443c1960e5ee925767b900c0d7a9.txt",
+      "sha256": "05b216ab8a875a366d566d413036def85f67b08838143001122525f89e4bbfda",
+      "match": "MD5 of exact original embed URL"
+    },
+    "0c77e174295a20c77aca490f0ace56ef": {
+      "gist_id": "8a8678612db26ac307cc7fe7f896e9ba",
+      "filename": "server4.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/8a8678612db26ac307cc7fe7f896e9ba",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/8a8678612db26ac307cc7fe7f896e9ba/raw/8d4b2340c9a3eaee8963dc0ec82f35a41aa86f3e/server4.go",
+      "source_url": "https://gist.github.com/kyriediculous/8a8678612db26ac307cc7fe7f896e9ba",
+      "path": "gists/0c77e174295a20c77aca490f0ace56ef.txt",
+      "sha256": "f7665277e1e4746813c61dc89b408c0ff1f7799c5ed288c9546dde95fea61605",
+      "match": "MD5 of exact original embed URL"
+    },
+    "0cfb6d7195fd5aacede9bb4ba910479c": {
+      "gist_id": "fa166a24b1cb51f684feb946cf1c9f33",
+      "filename": "boiler.proto",
+      "original_embed_url": "https://gist.github.com/kyriediculous/fa166a24b1cb51f684feb946cf1c9f33",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/fa166a24b1cb51f684feb946cf1c9f33/raw/118c01624a091bc200efe8f29dab191b6d5d192e/boiler.proto",
+      "source_url": "https://gist.github.com/kyriediculous/fa166a24b1cb51f684feb946cf1c9f33",
+      "path": "gists/0cfb6d7195fd5aacede9bb4ba910479c.txt",
+      "sha256": "4e74c40810b3421e3f321b6fcc7d29ce839a0a7b51b8d7ea03209266468e1566",
+      "match": "MD5 of exact original embed URL"
+    },
+    "0f04fd1b85a738530b91086b8d2f54e1": {
+      "gist_id": "36fe161830a70fdfc680330ec2ea81df",
+      "filename": "readblog.proto",
+      "original_embed_url": "https://gist.github.com/kyriediculous/36fe161830a70fdfc680330ec2ea81df",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/36fe161830a70fdfc680330ec2ea81df/raw/74162595294d890920cbab7c288582e9b7e0c8a1/readblog.proto",
+      "source_url": "https://gist.github.com/kyriediculous/36fe161830a70fdfc680330ec2ea81df",
+      "path": "gists/0f04fd1b85a738530b91086b8d2f54e1.txt",
+      "sha256": "94afede4ad6788da42c6e6fdf6f58d9a0413bbd59386d2dca2665c88a13d7a9c",
+      "match": "MD5 of exact original embed URL"
+    },
+    "2f897ff24858662f258755fd2f9fe898": {
+      "gist_id": "e1f628ee5f40346d7406a666e2fc227e",
+      "filename": "listblog.proto",
+      "original_embed_url": "https://gist.github.com/kyriediculous/e1f628ee5f40346d7406a666e2fc227e",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/e1f628ee5f40346d7406a666e2fc227e/raw/974e7e0e65c9917413d590664ceb33c25d95f256/listblog.proto",
+      "source_url": "https://gist.github.com/kyriediculous/e1f628ee5f40346d7406a666e2fc227e",
+      "path": "gists/2f897ff24858662f258755fd2f9fe898.txt",
+      "sha256": "79f68f76dad3e3619782795ea246aee9a333e75f4c38734f945f65c6419b91fe",
+      "match": "MD5 of exact original embed URL"
+    },
+    "35ace2c84ff38da9daea38df7810149f": {
+      "gist_id": "38b34c9ff3cefdcde9f14f2e4b29845d",
+      "filename": "readCmd.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/38b34c9ff3cefdcde9f14f2e4b29845d",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/38b34c9ff3cefdcde9f14f2e4b29845d/raw/5a3f199bf16269610e6f4ffadf96ef06562ff2a9/readCmd.go",
+      "source_url": "https://gist.github.com/kyriediculous/38b34c9ff3cefdcde9f14f2e4b29845d",
+      "path": "gists/35ace2c84ff38da9daea38df7810149f.txt",
+      "sha256": "ff040a3a4834a313f1fc5cc32b9f5faab69d31f51d5b98f70365ead8c571fa51",
+      "match": "MD5 of exact original embed URL"
+    },
+    "4335da3145a35f5533fc0a8ca97f88b1": {
+      "gist_id": "7635a8386c5b50ee14105f3a271057e8",
+      "filename": "readInit.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/7635a8386c5b50ee14105f3a271057e8",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/7635a8386c5b50ee14105f3a271057e8/raw/0dcb2438c2f99a91a50c9e55724d380e113d5bd2/readInit.go",
+      "source_url": "https://gist.github.com/kyriediculous/7635a8386c5b50ee14105f3a271057e8",
+      "path": "gists/4335da3145a35f5533fc0a8ca97f88b1.txt",
+      "sha256": "78869c653346d15ade65a798011ba6f98d870f7a7db4dab0aaa706eeca2c5eb5",
+      "match": "MD5 of exact original embed URL"
+    },
+    "44f0fea32d0bdc1b66c8148a66939ca6": {
+      "gist_id": "9ce4c20c651ebc4bb3dbdbd2d0ea9044",
+      "filename": "initClient.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/9ce4c20c651ebc4bb3dbdbd2d0ea9044",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/9ce4c20c651ebc4bb3dbdbd2d0ea9044/raw/837805d20a25d6f85bb2cc8892559739fecd9d73/initClient.go",
+      "source_url": "https://gist.github.com/kyriediculous/9ce4c20c651ebc4bb3dbdbd2d0ea9044",
+      "path": "gists/44f0fea32d0bdc1b66c8148a66939ca6.txt",
+      "sha256": "81a3dfc2cb9ff567aa1e3d1b43f7ed846ad6ffddb9ca8a1dfaf65963b57f6d18",
+      "match": "MD5 of exact original embed URL"
+    },
+    "4c3485ef9d86b5a21a4c4ed3226b92c7": {
+      "gist_id": "0a33d05ec67b51ec8a3f4abdd194d6a5",
+      "filename": "CreateBlog.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/0a33d05ec67b51ec8a3f4abdd194d6a5",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/0a33d05ec67b51ec8a3f4abdd194d6a5/raw/9a57fe1bc01cc3e725eb053c8a4f8a9bab028de3/CreateBlog.go",
+      "source_url": "https://gist.github.com/kyriediculous/0a33d05ec67b51ec8a3f4abdd194d6a5",
+      "path": "gists/4c3485ef9d86b5a21a4c4ed3226b92c7.txt",
+      "sha256": "d51ddd5b0e1f83d80cb053083f641a429daced67ff464d5dd2ec58d666542e4b",
+      "match": "MD5 of exact original embed URL"
+    },
+    "51af7fc325a9d54e62f71d3617bdf040": {
+      "gist_id": "efa0a044af59a7fd960f6ec2af077117",
+      "filename": "UpdateBlog.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/efa0a044af59a7fd960f6ec2af077117",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/efa0a044af59a7fd960f6ec2af077117/raw/b2a974e07ae193fd40c78f836090c51ce538822f/UpdateBlog.go",
+      "source_url": "https://gist.github.com/kyriediculous/efa0a044af59a7fd960f6ec2af077117",
+      "path": "gists/51af7fc325a9d54e62f71d3617bdf040.txt",
+      "sha256": "a3f684da10abaf470ef76be5c700486842245689f28cf853864f73982af3c2eb",
+      "match": "MD5 of exact original embed URL"
+    },
+    "540fd926b0dc85ac9af9b14043bcb19b": {
+      "gist_id": "69a079373e7e2a854448a60dce27bfa4",
+      "filename": "deleteblog.proto",
+      "original_embed_url": "https://gist.github.com/kyriediculous/69a079373e7e2a854448a60dce27bfa4",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/69a079373e7e2a854448a60dce27bfa4/raw/293de27865063801f0ecb0efdf3a9fc016f035a7/deleteblog.proto",
+      "source_url": "https://gist.github.com/kyriediculous/69a079373e7e2a854448a60dce27bfa4",
+      "path": "gists/540fd926b0dc85ac9af9b14043bcb19b.txt",
+      "sha256": "425e8a8483282e09580b45726f5f3f1444acdddeb67fb6ff0809f749303b8e5e",
+      "match": "MD5 of exact original embed URL"
+    },
+    "56dd71f9ec77b85db17a1e9884a204d4": {
+      "gist_id": "565ae5193a228cb60da5e11ba4992773",
+      "filename": "test.js",
+      "original_embed_url": "https://gist.github.com/kyriediculous/565ae5193a228cb60da5e11ba4992773",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/565ae5193a228cb60da5e11ba4992773/raw/6fa11ae1565b6b6672b837714c8a415b0d14fad2/test.js",
+      "source_url": "https://gist.github.com/kyriediculous/565ae5193a228cb60da5e11ba4992773",
+      "path": "gists/56dd71f9ec77b85db17a1e9884a204d4.txt",
+      "sha256": "2ecf9f6f432227c224bec7071a74a39970092228017568c05f12aac13aec9517",
+      "match": "MD5 of exact original embed URL"
+    },
+    "586182c049d230c71b70cbbbee22291d": {
+      "gist_id": "1ce2ffbad74bd37692993146b69e5295",
+      "filename": "Dummy.sol",
+      "original_embed_url": "https://gist.github.com/kyriediculous/1ce2ffbad74bd37692993146b69e5295#file-dummy-sol",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/1ce2ffbad74bd37692993146b69e5295/raw/d05c340cbf04153aa747e54fe01ad187a27075b4/Dummy.sol",
+      "source_url": "https://gist.github.com/kyriediculous/1ce2ffbad74bd37692993146b69e5295",
+      "path": "gists/586182c049d230c71b70cbbbee22291d.txt",
+      "sha256": "c5e8574bb6df02036fbaa0650ee0ab1f4c17507f722fe2a28cbadd2b23612387",
+      "match": "MD5 of exact original embed URL"
+    },
+    "5ded8a930a6f6450228cc5c25f783362": {
+      "gist_id": "57a14ffc723fc05ce649e847c7ed0e85",
+      "filename": "server2.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/57a14ffc723fc05ce649e847c7ed0e85",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/57a14ffc723fc05ce649e847c7ed0e85/raw/a1904db36e471078592ef5016e568f2c7b9cf256/server2.go",
+      "source_url": "https://gist.github.com/kyriediculous/57a14ffc723fc05ce649e847c7ed0e85",
+      "path": "gists/5ded8a930a6f6450228cc5c25f783362.txt",
+      "sha256": "6f2e4971715e6e0cf4026565ecd799fba3c7e796e856005ba2dece8122823ece",
+      "match": "MD5 of exact original embed URL"
+    },
+    "61c359b748a3eb652148ad790870e952": {
+      "gist_id": "32928dc29eb63b9b9003f59038ca0b8e",
+      "filename": "DummyMaster.sol",
+      "original_embed_url": "https://gist.github.com/kyriediculous/32928dc29eb63b9b9003f59038ca0b8e#file-dummymaster-sol",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/32928dc29eb63b9b9003f59038ca0b8e/raw/59a56a49a34cc5c5f7465ab5b67859397685399d/DummyMaster.sol",
+      "source_url": "https://gist.github.com/kyriediculous/32928dc29eb63b9b9003f59038ca0b8e",
+      "path": "gists/61c359b748a3eb652148ad790870e952.txt",
+      "sha256": "06dd1d2528eb62c142ff9d28482ef6625a28d1d9f291a26d3762fee538e0bb3c",
+      "match": "MD5 of exact original embed URL"
+    },
+    "627e355a3ea820a51fb539e57a7d107a": {
+      "gist_id": "f4b40772fc00aa50a7c97503f7d435a7",
+      "filename": "createInit.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/f4b40772fc00aa50a7c97503f7d435a7",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/f4b40772fc00aa50a7c97503f7d435a7/raw/0ebeea8d48e8889ed79ddaf2486b365de68a46e1/createInit.go",
+      "source_url": "https://gist.github.com/kyriediculous/f4b40772fc00aa50a7c97503f7d435a7",
+      "path": "gists/627e355a3ea820a51fb539e57a7d107a.txt",
+      "sha256": "d89a53bdde1d6393976d1e66335dc65356f5f88f623213f825303c31c2c618fd",
+      "match": "MD5 of exact original embed URL"
+    },
+    "69820cb52d530fff1c8a9714e9a851b0": {
+      "gist_id": "4b163fb9e512e5132a6a17d0d0f6edce",
+      "filename": "blogmessage.proto",
+      "original_embed_url": "https://gist.github.com/kyriediculous/4b163fb9e512e5132a6a17d0d0f6edce",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/4b163fb9e512e5132a6a17d0d0f6edce/raw/bc1a6afa0fcd44412fe8a1fba27a414036945d10/blogmessage.proto",
+      "source_url": "https://gist.github.com/kyriediculous/4b163fb9e512e5132a6a17d0d0f6edce",
+      "path": "gists/69820cb52d530fff1c8a9714e9a851b0.txt",
+      "sha256": "ad36e1e6f416a84287f7d587e7e1991303b22598ff0b27ac8edb8a5dd27be4b6",
+      "match": "MD5 of exact original embed URL"
+    },
+    "6dfa04ea745e1adc60eab0b5932e20a0": {
+      "gist_id": "bc1d80f20fea3d433428f88ce2689f3b",
+      "filename": "ListBlogsclient.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/bc1d80f20fea3d433428f88ce2689f3b",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/bc1d80f20fea3d433428f88ce2689f3b/raw/c41e8857d9e6e6137ea2bbba5caf08bc70f02641/ListBlogsclient.go",
+      "source_url": "https://gist.github.com/kyriediculous/bc1d80f20fea3d433428f88ce2689f3b",
+      "path": "gists/6dfa04ea745e1adc60eab0b5932e20a0.txt",
+      "sha256": "5ccaca2588b785f480082fac5ab5a1f7122d27365210441f6514db30c7b28256",
+      "match": "MD5 of exact original embed URL"
+    },
+    "6eba567ef416c1004ded82ae3bc5f7f9": {
+      "gist_id": "3ace3b72f3602d71322aa9f6ee1f29d5",
+      "filename": "updateblog.proto",
+      "original_embed_url": "https://gist.github.com/kyriediculous/3ace3b72f3602d71322aa9f6ee1f29d5",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/3ace3b72f3602d71322aa9f6ee1f29d5/raw/d1f9d66edf3a919dcad62dc6acd391692a672184/updateblog.proto",
+      "source_url": "https://gist.github.com/kyriediculous/3ace3b72f3602d71322aa9f6ee1f29d5",
+      "path": "gists/6eba567ef416c1004ded82ae3bc5f7f9.txt",
+      "sha256": "9a6ac49aa644a842417df493c0304378b3e58b6f47e017759e78a84188f529e7",
+      "match": "MD5 of exact original embed URL"
+    },
+    "79c473fce1174434a9288289eb3b7835": {
+      "gist_id": "7a5a7dc48e32b925fa41d8d9adabb16a",
+      "filename": "createblog.proto",
+      "original_embed_url": "https://gist.github.com/kyriediculous/7a5a7dc48e32b925fa41d8d9adabb16a",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/7a5a7dc48e32b925fa41d8d9adabb16a/raw/0ca301e72454899bcb0c16ab3ba834e3f4d74575/createblog.proto",
+      "source_url": "https://gist.github.com/kyriediculous/7a5a7dc48e32b925fa41d8d9adabb16a",
+      "path": "gists/79c473fce1174434a9288289eb3b7835.txt",
+      "sha256": "fb831f599fc4b2796b684921987dd056e8feae7016f6d3500fb3aa0e78997e2e",
+      "match": "MD5 of exact original embed URL"
+    },
+    "8f9d1a364b5f48892034fa7ee6443a1d": {
+      "gist_id": "d53ac65ed69ad9e600f16a035ae1cc6d",
+      "filename": "services.proto",
+      "original_embed_url": "https://gist.github.com/kyriediculous/d53ac65ed69ad9e600f16a035ae1cc6d",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/d53ac65ed69ad9e600f16a035ae1cc6d/raw/3b84e673266bdb94bdeb569212a4a916fd15ce3e/services.proto",
+      "source_url": "https://gist.github.com/kyriediculous/d53ac65ed69ad9e600f16a035ae1cc6d",
+      "path": "gists/8f9d1a364b5f48892034fa7ee6443a1d.txt",
+      "sha256": "943d4ada863e9890925efea501f66ee6b2769a759da93889fd28d15c792db1a4",
+      "match": "MD5 of exact original embed URL"
+    },
+    "9727c69e13be219f9b501643872c9e72": {
+      "gist_id": "e1f0a296f7b15e1a0f89eeb75a2208d1",
+      "filename": "BlogItem.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/e1f0a296f7b15e1a0f89eeb75a2208d1",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/e1f0a296f7b15e1a0f89eeb75a2208d1/raw/ac090404ec81e4691f4f0d649a0c701342e1af73/BlogItem.go",
+      "source_url": "https://gist.github.com/kyriediculous/e1f0a296f7b15e1a0f89eeb75a2208d1",
+      "path": "gists/9727c69e13be219f9b501643872c9e72.txt",
+      "sha256": "5f142cc70ec452f847643020c7f1959f10f07eaed60a6364eb3d415f2bf6c26b",
+      "match": "MD5 of exact original embed URL"
+    },
+    "9d407f2ba32260ffe319a7d785eec9a3": {
+      "gist_id": "7ca525c70eb30331b645d15beb4485a2",
+      "filename": "ReadBlog.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/7ca525c70eb30331b645d15beb4485a2",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/7ca525c70eb30331b645d15beb4485a2/raw/4acd69b51207fe63328cc5d13faaa2ae1d69e3b4/ReadBlog.go",
+      "source_url": "https://gist.github.com/kyriediculous/7ca525c70eb30331b645d15beb4485a2",
+      "path": "gists/9d407f2ba32260ffe319a7d785eec9a3.txt",
+      "sha256": "4b137295c7650970657422bb4132307ab9c8782de5d06abe9987110110b953c3",
+      "match": "MD5 of exact original embed URL"
+    },
+    "a84bd767a63d81897770966f7aee8d6c": {
+      "gist_id": "6b631371b75a8a0e4d944cc73033e9a8",
+      "filename": "createCmd.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/6b631371b75a8a0e4d944cc73033e9a8",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/6b631371b75a8a0e4d944cc73033e9a8/raw/139a8c4e3a07e72ab4bf65327661bafd72dba38b/createCmd.go",
+      "source_url": "https://gist.github.com/kyriediculous/6b631371b75a8a0e4d944cc73033e9a8",
+      "path": "gists/a84bd767a63d81897770966f7aee8d6c.txt",
+      "sha256": "67d1ba34874c8500db170cc84eb734a7f50f82f68e7623fc61fe82139b1168da",
+      "match": "MD5 of exact original embed URL"
+    },
+    "abefc1334330ad6f6eb09dc318cfd30f": {
+      "gist_id": "3bb17943689e5ad10c40483b6e7ceb0e",
+      "filename": "server1.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/3bb17943689e5ad10c40483b6e7ceb0e",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/3bb17943689e5ad10c40483b6e7ceb0e/raw/3005ea02d8d20470f6a1ac6b115be042a7669dd3/server1.go",
+      "source_url": "https://gist.github.com/kyriediculous/3bb17943689e5ad10c40483b6e7ceb0e",
+      "path": "gists/abefc1334330ad6f6eb09dc318cfd30f.txt",
+      "sha256": "d4f5f0f18bf984e901fede57335a8ec2c461a30bd78ccf0b4d61c8143269efdf",
+      "match": "MD5 of exact original embed URL"
+    },
+    "ad4942488b4b7b30e4fc4dc8c01111b5": {
+      "gist_id": "a11c5fa9760008420f194a8dbb14b11e",
+      "filename": "interface.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/a11c5fa9760008420f194a8dbb14b11e",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/a11c5fa9760008420f194a8dbb14b11e/raw/441d1a30768ec8b52ad3fbb90c593071232a7bab/interface.go",
+      "source_url": "https://gist.github.com/kyriediculous/a11c5fa9760008420f194a8dbb14b11e",
+      "path": "gists/ad4942488b4b7b30e4fc4dc8c01111b5.txt",
+      "sha256": "80ddc7833f4c40a092fc8c9033a7e53f184b0a069fa49bec77de95a576c4a6ee",
+      "match": "MD5 of exact original embed URL"
+    },
+    "b346b4b7140304a28130b7bb58e69eb5": {
+      "gist_id": "d39641942f6ef25a07fcb32d3e32b982",
+      "filename": "rootCmd.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/d39641942f6ef25a07fcb32d3e32b982",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/d39641942f6ef25a07fcb32d3e32b982/raw/74c994d1a63da0a16e30a2c26e5e7fc21873728b/rootCmd.go",
+      "source_url": "https://gist.github.com/kyriediculous/d39641942f6ef25a07fcb32d3e32b982",
+      "path": "gists/b346b4b7140304a28130b7bb58e69eb5.txt",
+      "sha256": "a4bcc45df50d5e1963c6d52dec7bf17258e92fa984b8de2d2d29fa3c42b221f6",
+      "match": "MD5 of exact original embed URL"
+    },
+    "e0ee40b4a6a402bece33ce00255af48e": {
+      "gist_id": "66eddc9c9e4a3841ec97235f4b3faca0",
+      "filename": "DeleteBlog.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/66eddc9c9e4a3841ec97235f4b3faca0",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/66eddc9c9e4a3841ec97235f4b3faca0/raw/1f5ec63cd32a88423c31a6f7008d242beef887f8/DeleteBlog.go",
+      "source_url": "https://gist.github.com/kyriediculous/66eddc9c9e4a3841ec97235f4b3faca0",
+      "path": "gists/e0ee40b4a6a402bece33ce00255af48e.txt",
+      "sha256": "fcd766863b55a91b07382fb3e1855bd7c71520c55cc24ce33b166847fd3e3ec5",
+      "match": "MD5 of exact original embed URL"
+    },
+    "e2eb43fcf1de0c0ccc26fc3fbd2782e3": {
+      "gist_id": "6b82c26d419a2ff72f5b96713c06c18b",
+      "filename": "server3.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/6b82c26d419a2ff72f5b96713c06c18b",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/6b82c26d419a2ff72f5b96713c06c18b/raw/c4c57d0ff0171d8c0bbbebd0e644a94a71999974/server3.go",
+      "source_url": "https://gist.github.com/kyriediculous/6b82c26d419a2ff72f5b96713c06c18b",
+      "path": "gists/e2eb43fcf1de0c0ccc26fc3fbd2782e3.txt",
+      "sha256": "7f48b5b29c8493ae129a53b708b60c7596f2c8f46fb0abd603453eb277d419a8",
+      "match": "MD5 of exact original embed URL"
+    },
+    "e7cc5fc206eb34bfafceb438e9b9f385": {
+      "gist_id": "c24a300d47332ac58eb6dd40d2c5d651",
+      "filename": "ListBlogs.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/c24a300d47332ac58eb6dd40d2c5d651",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/c24a300d47332ac58eb6dd40d2c5d651/raw/800d9963d9335eb7759f725b2bf5aa4b2d4aad01/ListBlogs.go",
+      "source_url": "https://gist.github.com/kyriediculous/c24a300d47332ac58eb6dd40d2c5d651",
+      "path": "gists/e7cc5fc206eb34bfafceb438e9b9f385.txt",
+      "sha256": "9f551d392b688eff01e8b59258e6e05203d882c37b50dad62b40e7c0eaf2c8f3",
+      "match": "MD5 of exact original embed URL"
+    },
+    "ee2d7a15d8cfd9d510991a29ec45cd5b": {
+      "gist_id": "7fddd8d0df87673238fd58e69dccfb3c",
+      "filename": "deleteblogclient.go",
+      "original_embed_url": "https://gist.github.com/kyriediculous/7fddd8d0df87673238fd58e69dccfb3c",
+      "raw_url": "https://gist.githubusercontent.com/kyriediculous/7fddd8d0df87673238fd58e69dccfb3c/raw/42c21bafc066e4e61079bb539b935c6eb2cbeb21/deleteblogclient.go",
+      "source_url": "https://gist.github.com/kyriediculous/7fddd8d0df87673238fd58e69dccfb3c",
+      "path": "gists/ee2d7a15d8cfd9d510991a29ec45cd5b.txt",
+      "sha256": "bad700d42b6b1d1b915263fdc830ddc026570217f17eeee4b1474ba7a6b2591b",
+      "match": "MD5 of exact original embed URL"
+    }
+  }
+}

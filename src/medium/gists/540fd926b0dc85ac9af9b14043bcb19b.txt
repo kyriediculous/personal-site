@@ -1,0 +1,7 @@
+message DeleteBlogReq {
+    string id = 1;
+}
+
+message DeleteBlogRes {
+    bool success = 1;
+}

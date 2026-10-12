@@ -1,0 +1,34 @@
+func (s *BlogServiceServer) ListBlogs(req *blogpb.ListBlogsReq, stream blogpb.BlogService_ListBlogsServer) error {
+	// Initiate a BlogItem type to write decoded data to
+	data := &BlogItem{}
+	// collection.Find returns a cursor for our (empty) query
+	cursor, err := blogdb.Find(context.Background(), bson.M{})
+	if err != nil {
+		return status.Errorf(codes.Internal, fmt.Sprintf("Unknown internal error: %v", err))
+	}
+	// An expression with defer will be called at the end of the function
+	defer cursor.Close(context.Background())
+	// cursor.Next() returns a boolean, if false there are no more items and loop will break
+	for cursor.Next(context.Background()) {
+		// Decode the data at the current pointer and write it to data
+		err := cursor.Decode(data)
+		// check error
+		if err != nil {
+			return status.Errorf(codes.Unavailable, fmt.Sprintf("Could not decode data: %v", err))
+		}
+		// If no error is found send blog over stream
+		stream.Send(&blogpb.ListBlogsRes{
+			Blog: &blogpb.Blog{
+				Id:       data.ID.Hex(),
+				AuthorId: data.AuthorID,
+				Content:  data.Content,
+				Title:    data.Title,
+			},
+		})
+	}
+	// Check if the cursor has any errors
+	if err := cursor.Err(); err != nil {
+		return status.Errorf(codes.Internal, fmt.Sprintf("Unkown cursor error: %v", err))
+	}
+	return nil
+}

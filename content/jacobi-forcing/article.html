@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jacobi Forcing: Helping AI Write Faster</title>
+  <meta name="description" content="A beginner-friendly explanation of Jacobi Forcing: parallel token guesses, training on imperfect drafts, measured speedups, and the accuracy tradeoffs.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Jacobi Forcing: Helping AI Write Faster">
+  <meta property="og:description" content="From one token at a time to parallel guesses: how Jacobi Forcing works, with real benchmark numbers and an animated explanation.">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    :root { color-scheme: light; --paper: #f7f5ef; --ink: #242421; --muted: #6b6b64; --blue: #315ad4; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); }
+    main { max-width: 1120px; margin: auto; padding: 64px 36px 80px; }
+    header { max-width: 800px; margin: 0 auto 36px; }
+    .eyebrow { margin: 0 0 24px; font: 600 12px/1.3 -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: .16em; color: var(--muted); }
+    h1 { margin: 0; font: 650 clamp(40px, 5vw, 68px)/1.02 -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; letter-spacing: -.045em; }
+    .subtitle { margin: 16px 0 0; font: 400 clamp(22px, 3vw, 30px)/1.3 -apple-system, BlinkMacSystemFont, sans-serif; color: var(--muted); }
+    figure { margin: 34px 0 44px; }
+    figure img, figure video { display: block; width: 100%; height: auto; }
+    figure video { background: #f7f5ef; aspect-ratio: 16 / 9; }
+    .body { max-width: 760px; margin: 0 auto; }
+    .body p, .body li { font: 400 20px/1.7 Georgia, "Times New Roman", serif; }
+    .body p { margin: 0 0 25px; }
+    .body .lead { font-size: 25px; line-height: 1.5; letter-spacing: -.015em; }
+    a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: #193b9e; }
+    strong { font-weight: 700; }
+    .equation { padding: 22px 24px; border-left: 3px solid var(--blue); background: #eeece5; font: 500 17px/1.5 -apple-system, BlinkMacSystemFont, sans-serif !important; }
+    .table-wrap { overflow-x: auto; margin-bottom: 18px; }
+    table { width: 100%; border-collapse: collapse; font: 400 15px/1.5 -apple-system, BlinkMacSystemFont, sans-serif; font-variant-numeric: tabular-nums; }
+    th { text-align: left; font-weight: 600; color: var(--muted); border-bottom: 1px solid #c9c7bf; padding: 12px 12px; }
+    td { padding: 14px 12px; border-bottom: 1px solid #dedcd4; }
+    th:first-child, td:first-child { padding-left: 0; }
+    th:last-child, td:last-child { text-align: right; padding-right: 0; }
+    .body .note, figcaption { font: 400 13px/1.6 -apple-system, BlinkMacSystemFont, sans-serif; color: var(--muted); }
+    figcaption { margin-top: 12px; }
+    .closing { font-size: 24px !important; line-height: 1.5 !important; }
+    @media (max-width: 600px) {
+      main { padding: 34px 20px 44px; }
+      header { margin-bottom: 26px; }
+      .eyebrow { margin-bottom: 18px; }
+      .body p, .body li { font-size: 18px; line-height: 1.65; }
+      .body .lead { font-size: 22px; }
+      figure { margin: 26px -6px 30px; }
+      .equation { padding: 18px; font-size: 15px !important; }
+      th, td { padding: 11px 8px; font-size: 13px; }
+    }
+    @media print {
+      body { background: white; }
+      main { padding: 0; }
+      a { color: inherit; }
+      figure, table { break-inside: avoid; }
+      .body p { font-size: 11pt; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article>
+      <header>
+        <p class="eyebrow">AI EXPLAINED</p>
+        <h1>Jacobi Forcing</h1>
+        <p class="subtitle">Helping AI write faster</p>
+      </header>
+      <figure class="cover">
+        <img src="assets/jacobi-forcing-cover-beginner.png" width="1733" height="907" alt="Jacobi Forcing cover: rows of charcoal and blue text tiles become an ordered line, beneath the subtitle Helping AI write faster.">
+      </figure>
+      <div class="body">
+        <p class="lead">You ask an AI a question, and its answer appears piece by piece. You may have heard why: many AI chatbots generate text one token at a time. Jacobi Forcing teaches a model to make useful progress on several upcoming tokens together. In one coding benchmark, that meant almost four times the generation speed — with a measurable change in accuracy.</p>
+
+        <p>A <strong>token</strong> is a small piece of text. It might be a whole word, part of a word, or a punctuation mark. To keep the idea simple, imagine the pieces are words.</p>
+
+        <p>To write “The cat sat on the mat,” a typical language model predicts “The,” then uses that to predict “cat,” then uses “The cat” to predict what comes next. Each new piece becomes part of the information used to choose the following one.</p>
+
+        <p>This is called <strong>autoregressive generation</strong>: each new piece becomes part of the context for the next one. A 1,000-token answer ordinarily needs about 1,000 sequential generation steps. Processing your initial prompt can already happen in parallel; producing the answer introduces this dependency between steps.</p>
+
+        <p>The chips running these models can perform many calculations at once. Yet a single answer gives them a chain of predictions to work through. If a round of computation could produce several useful tokens, the answer could arrive sooner.</p>
+
+        <p><a href="https://github.com/hao-ai-lab/JacobiForcing"><strong>Jacobi Forcing</strong></a> is a training technique designed to make that possible. Its starting point is a generation procedure called <strong>Jacobi decoding</strong>, which works on a block of upcoming tokens. It fills the block with guesses, recalculates predictions across the block, and repeats.</p>
+
+        <p>Imagine editing a sentence you have already sketched out. You can spot improvements in several places during one read. Here, the AI’s equivalent of editing is recalculating its token predictions. Some positions settle quickly; others need another round.</p>
+
+        <p>There is a precise rule behind this. <strong>Every position in a round uses the previous round’s earlier guesses.</strong> To predict the third word, the model uses the old guesses for words one and two. It does not wait for their newly updated versions. That lets all positions be recalculated in the same model pass.</p>
+
+        <p>The model still looks only to the left when predicting a token. That property is called <strong>causal attention</strong>. Parallel updates are possible because the model temporarily accepts uncertainty about its earlier context.</p>
+
+        <figure>
+          <img src="assets/jacobi-forcing-refinement.png" width="1600" height="1150" loading="lazy" alt="A made-up sentence improves across several rounds of guesses. Some later words match the finished sentence while earlier words are still changing.">
+          <figcaption>A made-up example, with words standing in for tokens. Blue marks a match with the eventual sentence for illustration; it does not mean that word has already been accepted.</figcaption>
+        </figure>
+
+        <p>A later word can happen to be right while an earlier one is still wrong. The decoder therefore checks and commits a <strong>contiguous stretch from the left</strong>. A promising word farther ahead remains provisional until the preceding text is confirmed. Work can happen across the block; the released answer still advances in order.</p>
+
+        <figure>
+          <video controls loop playsinline preload="none" poster="assets/jacobi-forcing-motion-poster.png" width="1920" height="1080" aria-label="Animated toy example of sequential generation and parallel refinement with left-to-right confirmation">
+            <source src="assets/jacobi-forcing-motion.mp4" type="video/mp4">
+          </video>
+          <figcaption>The animation separates provisional guesses from the confirmed prefix. Its timing illustrates the mechanism; it is not a measured model run.</figcaption>
+        </figure>
+
+        <p><strong>Guessing in parallel is only useful if enough guesses survive.</strong> A model trained mostly on clean, completed text may struggle when its context contains mistakes. Correcting one earlier token can force later predictions to change again. Many parallel predictions can still yield just one useful new token.</p>
+
+        <p>This is where Jacobi Forcing’s training matters. The researchers collect the model’s own <strong>decoding trajectories</strong> — sequences of drafts between the first guesses and the settled output. They train it to move toward the settled predictions even when earlier tokens, including earlier blocks, are still imperfect. Ordinary next-token training is included alongside this objective to help retain answer quality.</p>
+
+        <p>The training uses a progressive schedule of cleaner and noisier context. In the reported recipe, the researchers trained with <strong>16-token blocks for 10,000 training steps</strong>, then generated new trajectories with the updated model and trained with <strong>32-token blocks for another 10,000 steps</strong>. These are training settings; they do not promise that 16 or 32 tokens will be accepted in one generation step. <a href="https://proceedings.mlr.press/v306/hu26aa.html">The published paper</a> describes the recipe.</p>
+
+        <p>Two decoding refinements make more use of those improved guesses. <strong>Multi-block decoding</strong> works ahead on additional blocks while the first is being confirmed. <strong>Rejection recycling</strong> saves useful short fragments from earlier drafts and checks them as future candidates. A discarded draft can contain a useful phrase. Those later blocks and recycled fragments still need verification before they become output. The <a href="https://www.snowflake.com/en/blog/engineering/jacobi-forcing-casual-parallel-decoding/">authors’ explanation</a> illustrates both refinements.</p>
+
+        <p>Keeping causal attention also lets the system reuse its <strong>KV cache</strong>: stored attention information for already confirmed tokens. That saves work on the accepted context while the upcoming draft changes. This is one reason the method fits the machinery already used to serve many language models.</p>
+
+        <p>The results make the difference between the procedure and the training unusually clear. On <strong>HumanEval</strong>, a test of small coding problems, the original model generated <strong>41.3 tokens per second</strong>. Plain Jacobi decoding reached <strong>39.9</strong>, slightly slower. The Jacobi Forcing model reached <strong>159.5</strong>; adding multi-block decoding and rejection recycling raised that to <strong>163.9</strong>. Training accounted for most of the gain in this comparison.</p>
+
+        <p>The following results use models based on <strong>Qwen2.5-Coder-7B-Instruct</strong> for coding and <strong>Qwen2.5-Math-7B-Instruct</strong> for maths, on NVIDIA A100 GPUs. “7B” means roughly seven billion learned parameters. These experiments use <strong>greedy decoding</strong>: the model chooses its highest-scoring next token. The Jacobi Forcing column includes both decoding refinements. Speed and quality come from the same reported settings. <a href="https://raw.githubusercontent.com/mlresearch/v306/main/assets/hu26aa/hu26aa.pdf">Published paper, Tables 1 and 3</a>.</p>
+
+        <div class="table-wrap">
+          <table aria-label="Reported A100 decoding speed and benchmark scores">
+            <thead>
+              <tr><th scope="col">Test</th><th scope="col">Tokens/s, original → JF</th><th scope="col">Speedup</th><th scope="col">Score, original → JF</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">HumanEval · coding</th><td>41.3 → 163.9</td><td>3.97×</td><td>87.8% → 83.5%</td></tr>
+              <tr><th scope="row">MBPP · coding</th><td>43.1 → 113.0</td><td>2.62×</td><td>74.3% → 70.4%</td></tr>
+              <tr><th scope="row">GSM8K · school maths</th><td>41.8 → 154.9</td><td>3.71×</td><td>92.4% → 91.4%</td></tr>
+              <tr><th scope="row">MATH · harder maths</th><td>41.3 → 152.0</td><td>3.68×</td><td>77.0% → 77.4%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">JF = Jacobi Forcing with multi-block decoding and rejection recycling. Coding scores measure success on the first generated answer (pass@1); maths scores are solve rates. These are researchers’ measurements, not tests run for this article.</p>
+
+        <p>The quality column deserves the same attention as the speed column. HumanEval fell by <strong>4.3 percentage points</strong>, and MBPP by 3.9. The maths changes were smaller. The trained model’s answers can differ from those of the original model, so this is a speed–quality tradeoff to evaluate on the task you care about.</p>
+
+        <p>What might the speed feel like? At the reported HumanEval rates, generating 1,000 tokens would take about <strong>24.2 seconds versus 6.1 seconds</strong>. That is simple arithmetic to illustrate the rates, not an observed chat latency. It excludes processing the prompt, network delays, tool calls, and other waiting.</p>
+
+        <p>The software and hardware matter too. In a separate single-request test on an NVIDIA B200, using the optimized serving framework vLLM, the paper reports <strong>221.3 → 865.8 tokens per second</strong>, a <strong>3.91× speedup</strong>. Those absolute rates belong to that setup; they should not be mixed with the A100 comparison. <a href="https://raw.githubusercontent.com/mlresearch/v306/main/assets/hu26aa/hu26aa.pdf">Published paper, Table 2</a>.</p>
+
+        <p>In the A100 HumanEval result above, the decoder proposed blocks of <strong>64 tokens</strong>, but the average was <strong>4.09 accepted tokens per forward pass</strong>. A <em>forward pass</em> is one round of model computation. A large block of guesses does not mean they all become output at once. Each parallel pass does extra work, so accepted tokens per pass and tokens per second are different measures.</p>
+
+        <p>There are practical limits. This requires a specially trained model and a compatible decoder; it is not a prompt trick you can switch on in any chatbot. Faster generation also does not automatically mean lower cost or energy use, especially when a server is handling many users at once.</p>
+
+        <p>And verification here checks agreement with the <strong>trained model’s own predictions</strong>. It does not check whether a statement is true or a program works. A converged draft can still be confidently wrong.</p>
+
+        <p>What I find interesting is that speed becomes something the model can learn. Jacobi Forcing trains it to make useful predictions from an imperfect draft, then gives the decoder a way to turn those predictions into several accepted tokens at once.</p>
+
+        <p class="closing"><strong>For the person waiting for an answer, the promise is less time watching text appear. The evidence to watch is how much faster it arrives — and how well the answer holds up.</strong></p>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

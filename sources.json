@@ -1,0 +1,36 @@
+{
+  "verified_date": "2026-10-12",
+  "resume": "User-supplied Nico_Vergauwen_Resume_2026_AI.pdf, pages 1 and 2",
+  "portrait": "Portrait from the owner-supplied résumé, reused unchanged",
+  "style_reference": "Owner’s grokked.ai codebase: src/app/globals.css and locale layout; Host Grotesk and the existing palette",
+  "project_descriptions": {
+    "grokked.ai": "Owner’s grokked.ai codebase, src/i18n/dictionaries/en.ts",
+    "kollekt.now": "Owner’s Kollekt codebase, src/content.mjs"
+  },
+  "writing_inventory": "https://medium.com/feed/@Nico_Vergauwen",
+  "paper_authorship": "https://arxiv.org/abs/2602.12630",
+  "neurips_acceptance": "https://utaustin-swarmlab.github.io/",
+  "paper_explanation": "https://utaustin-swarmlab.github.io/2026/10/04/TensorCommitments.html",
+  "paper_code": "https://github.com/NeurIPS26TC/TensorCommitment",
+  "jacobi": "Canonical content/jacobi-forcing/article.html; citations and verified numeric claims are preserved",
+  "vic_htn": "Omitted because no public link exists; confirmed by the user on 2026-10-12",
+  "publication_status": "Prepared for GitHub Pages publication at the owner’s request",
+  "writing_import": {
+    "archive": "src/medium/original-feed.xml",
+    "imported_posts": 10,
+    "local_index": "/blog/",
+    "images": 38,
+    "restored_code_snippets": 32,
+    "code_provenance": "Exact original gist URLs reconstructed by matching their MD5 to the Medium embed IDs; raw revisions and SHA-256 hashes are recorded in src/medium/assets.json.",
+    "scope": "All ten full entries available in the public RSS feed on 2026-10-12. Authored prose preserved; tracking pixels, RSS syndication boilerplate, Coinmonks recommendations and Upscribe signup embeds removed. Other third-party embeds become ordinary click-through links."
+  },
+  "applied_ai_scope": "Owner clarified on 2026-10-12 that their work includes applied AI, exemplified by kollekt.now.",
+  "brand_assets": {
+    "kollekt": "Owner’s Kollekt public/kollekt-logo.svg, copied unchanged",
+    "grokked": "Owner’s grokked.ai components/BrandMark.tsx and lib/brandImage.tsx; same mark and Host Grotesk wordmark",
+    "github": "Existing grokked.ai lib/logos.generated.ts icon collection (CC0)"
+  },
+  "current_research": "Owner-provided on 2026-10-12: extending TC to post-training using lattice-based commitments, focused on performance and post-quantum security. Described as ongoing work.",
+  "contact_privacy": "Personal email removed at the owner’s request. Public contact uses LinkedIn and social profiles.",
+  "emakina_business_unit": "Owner clarified on 2026-10-12 that they were responsible for setting up Emakina’s new blockchain business unit, alongside their Blockchain Lead role."
+}

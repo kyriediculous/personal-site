@@ -1,0 +1,73 @@
+<h3>Getting the most out of delegatecall</h3><figure><img alt="Illustration from Upgradeable Ethereum Contracts V2" decoding="async" height="480" loading="lazy" src="/assets/writing/e524bd339c21210900d4.jpg" width="1024"/></figure><h3><a href="https://github.com/kyriediculous/upgradeable-contracts-v2" rel="noopener" target="_blank">Looking for the code?</a></h3><p>A couple of months ago I wrote my first blog post about upgradeable smart contracts on the <a href="https://hackernoon.com/tagged/ethereum" rel="noopener" target="_blank">Ethereum</a> <a href="https://hackernoon.com/tagged/blockchain" rel="noopener" target="_blank">blockchain</a>. We explained that once a smart contract has been deployed onto the blockchain it cannot be changed.</p><figure><img alt="Illustration from Upgradeable Ethereum Contracts V2" decoding="async" height="338" loading="lazy" src="/assets/writing/be371e4db0eb09b8e6c8.png" width="470"/></figure><p>Wait? Not being able to upgrade code after launching it? That seems like a bad idea, especially if you’re used to an agile development cycle. And while guaranteed code execution can be a benefit, when there is a bug it is the total opposite. Bugs in smart contracts have caused millions of dollars in losses and even gave birth to Ethereum as we know today, after one of the most popular smart contracts in the early days, the<em> slock.it DAO</em>, was found to have a vulnerability that allowed an attacker to drain all funds in the contract (<a href="https://solidity.readthedocs.io/en/v0.4.25/security-considerations.html#re-entrancy" rel="noopener" target="_blank">re-entrancy attack</a>).</p><figure><img alt="https://medium.com/swlh/the-story-of-the-dao-its-history-and-consequences-71e6a8a551ee" decoding="async" height="222" loading="lazy" src="/assets/writing/7527acfb71d2c45aa407.png" width="296"/><figcaption><a href="https://medium.com/swlh/the-story-of-the-dao-its-history-and-consequences-71e6a8a551ee" rel="noopener" target="_blank">https://medium.com/swlh/the-story-of-the-dao-its-history-and-consequences-71e6a8a551ee</a></figcaption></figure><h2>First Version</h2><p><a href="https://hackernoon.com/upgradeable-smart-contracts-a7e9aef76fdd" rel="noopener" target="_blank">In our last blog post on this subject</a>, we explored a strategy based on the <a href="https://github.com/monax/legacy-docs/blob/master/solidity/solidity_1_the_five_types_model.md" rel="noopener" target="_blank"><em>five-types-model</em></a> that was conceived by Monax (now <a href="https://www.hyperledger.org/projects/hyperledger-burrow" rel="noopener" target="_blank">Hyperledger Burrow</a>) before Solc was even released, so it’s pretty old in the ethereum world. This model splits storage and logic into separate contracts and has a registry to keep track of the individual parts. <br/> <br/> This version becomes expensive to deploy, especially if we instantiate the same contract over and over again. This is similar to instantiating classes in traditional programming but contract deployment on the Ethereum blockchain costs real money, so we don’t want to spend more than necessary.</p><h2>Proxy Libraries</h2><p>The <em>five-types-model </em>was okay to start with but wasn’t optimal. With proxy libraries, our base contract is a library already deployed on the blockchain. When we create an instance of this, we will deploy a contract that forwards its calls to the address that is specified. If we want to update some function logic in the library we would redeploy the library and point our contracts to this new library. Even with this strategy, there’s quite a bit of code overhead to make it happen. Eventually, our goal was to limit the code of our instantiated contracts to only one function, a forwarding function.</p><h2>Upgradeable V2</h2><p>A little over a year ago Vitalik released <a href="https://www.reddit.com/r/ethereum/comments/6c1jui/delegatecall_forwarders_how_to_save_5098_on/" rel="noopener" target="_blank">a Reddit post</a> regarding the subject of forwarding contracts. The issue was that pre-metropolis (when the post was written), the output size of forwarded functions could not be dynamic and was restricted to <em>4096 bytes</em>. That issue was fixed in <em>Metropolis</em> which allows us to properly implement this type of forwarding now. <br/> <br/> Contract calls are forwarded using a low-level version of <strong>DELEGATECALL </strong>(although in solidity 0.5.0, the high-level version also returns data now). Delegatecall forwards a call to another contract and allows that contract to <strong>change the storage of the delegator while keeping the original message object</strong>.</p><p>Delegatecall isn’t very well documented. The documentation says that it takes the context of the calling contract (message object and storage) and uses that in the forwarded call. One undocumented feature is that if the forwarder has no storage definitions of itself in the contract, it will still assume the definitions of the master contract with its own values after initialization as long as the storage order matches.</p><p>Let’s make it more clear with a code example (thanks to the guys from <a href="https://www.originprotocol.com/" rel="noopener" target="_blank">Origin Protocol</a> for pointing me to this method)</p><h2>Example</h2><p>For starters, we have a master contract. It has an unsigned integer set in storage called <em>count </em>and two functions. One to increment <em>count </em>by one, and one to retrieve the variable.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="61c359b748a3eb652148ad790870e952">contract DummyMaster {
+    // resolver needs to be the first in storage to match the Proxy contract storage ordering
+    address impl;
+    uint count;
+
+    function increment() public {
+        count = count + 1;
+    }
+    function get() external view returns (uint) {
+        return count;
+    }
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/32928dc29eb63b9b9003f59038ca0b8e" rel="noopener" target="_blank">DummyMaster.sol — original code</a></figcaption></figure><p>Next up we have the contract that will serve as the instance of <em>DummyMaster.sol</em> , <strong>note that both contracts start with <em>address impl</em> because the contracts need to follow each other’s storage order.</strong> In the constructor of <em>Dummy.sol </em>we set the address of <em>DummyMaster.sol </em>.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="586182c049d230c71b70cbbbee22291d">contract Dummy {
+    address impl;
+
+    constructor (address _impl) public {
+      impl = _impl;
+    }
+
+    function () public {
+     require(msg.sig != 0x0);
+     address _impl = impl;
+     assembly {
+        let ptr := mload(0x40)
+        calldatacopy(ptr, 0, calldatasize)
+        let result := delegatecall(gas, _impl, ptr, calldatasize, ptr, 0)
+        let size := returndatasize
+        returndatacopy(ptr, 0, size)
+        switch result
+        case 0 { revert(ptr, size) }
+        default { return(ptr, size) }
+    }
+  }
+  
+  //This function can make the current instance upgradeable, instead of only newly spawned instances
+  // Acces control not included for simplicity (you could use Ownable.sol from OpenZeppelin)
+  function changeImplementation(address _impl) public {
+    impl = _impl;
+  }
+}
+</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/1ce2ffbad74bd37692993146b69e5295" rel="noopener" target="_blank">Dummy.sol — original code</a></figcaption></figure><p>After compiling, <em>Dummy.sol</em> has no ABI that matches DummyMaster, in order to easier interact with the contracts we can write an interface contract that is not deployed. This step isn’t necessary but it’s easier to create the <em>calldata</em> this way by instantiating the interface at the proxy address (see <em>test.js</em>).</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="009f4d22b39472a3315558944c28e415">contract DummyInterface {
+    function increment() external;
+    function get() external view returns (uint);
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/3433ca4bb384eb9eea0ecc87820ed384" rel="noopener" target="_blank">DummyInterface.sol — original code</a></figcaption></figure><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="56dd71f9ec77b85db17a1e9884a204d4">const DummyMaster = artifacts.require('DummyMaster')
+const Dummy = artifacts.require('Dummy')
+const DummyInterface = artifacts.require('DummyInterface')
+
+contract('Test Proxies', async () =&gt; {
+  let dummyMaster, dummy
+  before(async () =&gt; {
+    dummyMaster = await DummyMaster.new()
+  })
+
+  it("Deploys a proxy", async () =&gt; {
+    dummy = await Dummy.new(dummyMaster.address)
+    dummy = await DummyInterface.at(dummy.address)
+    await dummy.increment()
+    assert.equal((await dummy.get()).toString(10), '1')
+  })
+
+  it("Deploys another proxy", async () =&gt; {
+    dummy = await Dummy.new(dummyMaster.address)
+    dummy = await DummyInterface.at(dummy.address)
+    await dummy.increment()
+    assert.equal((await dummy.get()).toString(10), '1')
+  })
+
+  it("Deploys a third proxy", async () =&gt; {
+    dummy = await Dummy.new(dummyMaster.address)
+    dummy = await DummyInterface.at(dummy.address)
+    await dummy.increment()
+    assert.equal((await dummy.get()).toString(10), '1')
+  })
+})</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/565ae5193a228cb60da5e11ba4992773" rel="noopener" target="_blank">test.js — original code</a></figcaption></figure><p>Let’s test our new architecture! First deploy the master, then deploy the proxy a couple of times and pass the master address in the constructor. In our test, we deploy the proxy three times. We can test that each proxy has separate storage, the count in all instances must equal 1 if we were using the same contract everytime the count would be 3.</p><p>And that’s it, a really light method to write upgradeable smart contracts! One caveat is that transactions to these contracts are slightly more expensive, therefore it’s not a good idea to use this with a monolith contract that holds all the data, like ERC20 token contracts.</p><p>On the other hand, contracts that are per-user or between a limited set of users, like an escrow, bounty or identity claims registry would greatly benefit from this.</p><p>The full code can be found on <a href="https://github.com/kyriediculous/upgradeable-contracts-v2" rel="noopener" target="_blank">my Github</a>! Thanks for reading!</p><figure><a href="http://bit.ly/2G71Sp7" rel="noopener" target="_blank"><img alt="Illustration from Upgradeable Ethereum Contracts V2" decoding="async" height="512" loading="lazy" src="/assets/writing/4fa32decfff8041d37de.png" width="1024"/></a><figcaption>Learn smart contract development</figcaption></figure>

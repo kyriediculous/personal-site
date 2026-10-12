@@ -1,0 +1,28 @@
+func (s *BlogServiceServer) CreateBlog(ctx context.Context, req *blogpb.CreateBlogReq) (*blogpb.CreateBlogRes, error) {
+	// Essentially doing req.Blog to access the struct with a nil check
+	blog := req.GetBlog()
+	// Now we have to convert this into a BlogItem type to convert into BSON
+	data := BlogItem{
+		// ID:    Empty, so it gets omitted and MongoDB generates a unique Object ID upon insertion.
+		AuthorID: blog.GetAuthorId(),
+		Title:    blog.GetTitle(),
+		Content:  blog.GetContent(),
+	}
+
+	// Insert the data into the database, result contains the newly generated Object ID for the new document
+	result, err := blogdb.InsertOne(mongoCtx, data)
+	// check for potential errors
+	if err != nil {
+		// return internal gRPC error to be handled later
+		return nil, status.Errorf(
+			codes.Internal,
+			fmt.Sprintf("Internal error: %v", err),
+		)
+	}
+  // add the id to blog, first cast the "generic type" (go doesn't have real generics yet) to an Object ID.
+	oid := result.InsertedID.(primitive.ObjectID)
+  // Convert the object id to it's string counterpart
+	blog.Id = oid.Hex()
+	// return the blog in a CreateBlogRes type
+	return &blogpb.CreateBlogRes{Blog: blog}, nil
+}

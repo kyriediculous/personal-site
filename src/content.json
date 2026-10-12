@@ -1,0 +1,117 @@
+{
+  "name": "Nico Vergauwen",
+  "github": "https://github.com/kyriediculous",
+  "x": "https://x.com/nico_vrgwn",
+  "medium": "https://medium.com/@Nico_Vergauwen",
+  "linkedin": "https://www.linkedin.com/in/nico-vergauwen-b45ba2386/",
+  "projects": [
+    {
+      "name": "grokked.ai",
+      "url": "https://grokked.ai",
+      "description": "Helping companies license their workplace data to AI labs. Data is de-identified, and the company decides who can buy it.",
+      "color": "sky"
+    },
+    {
+      "name": "kollekt.now",
+      "url": "https://kollekt.now",
+      "description": "AI for recovering overdue invoices through conversations, payment agreements, and follow-up. Collection fees are payable when money is recovered.",
+      "color": "sun"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Stealth startup",
+      "role": "Head of Protocol & Infrastructure",
+      "dates": "August 2026 to present",
+      "text": "Leading protocol architecture and infrastructure for people, AI agents, and robots. Building user-owned personal AI context, private payments, and a naming protocol for a Sui-derived chain."
+    },
+    {
+      "company": "Theseus Network",
+      "role": "CTO",
+      "dates": "November 2025 to August 2026",
+      "url": "https://theseus.network/",
+      "text": "Built a programmable agent runtime with a compiler and VM stack, and a browser IDE for deploying on-chain agents. Agents manage their own keys, funds, and memory. Also built Causal, an experience-memory engine with temporal graphs and hybrid retrieval.",
+      "links": [
+        {
+          "label": "Agent IDE",
+          "url": "https://play.theseus.network/"
+        },
+        {
+          "label": "Causal",
+          "url": "https://causal.store/"
+        }
+      ]
+    },
+    {
+      "company": "JoinHive",
+      "role": "Founder & Engineer",
+      "dates": "October 2024 to November 2025",
+      "url": "https://joinhive.ai/",
+      "text": "Built a self-balancing peer-to-peer GPU network for LLM inference and PEFT/LoRA post-training, adapting Qwen3 and DeepSeek-R1 for distributed execution. The app won a prize at the 2024 DMCC × Bybit hackathon."
+    },
+    {
+      "company": "Tenderize",
+      "role": "Solo Founder",
+      "dates": "December 2021 to March 2025",
+      "url": "https://tenderize.me/",
+      "text": "Owned architecture and most of the code, and led three engineers and the executive team. Built validator-specific liquid staking across 150+ validator destinations and TenderSwap, which reached $10M in cumulative swap volume."
+    },
+    {
+      "company": "Livepool",
+      "role": "Founder & Engineer",
+      "dates": "February 2020 to December 2023",
+      "text": "Built, operated, and open-sourced a GPU video-transcoding pool. The software was adopted by major Livepeer operators, including the official grants node."
+    },
+    {
+      "company": "Livepeer",
+      "role": "Senior Protocol Engineer",
+      "dates": "May 2019 to December 2021",
+      "url": "https://livepeer.org/",
+      "text": "An early engineering hire in a two-person protocol team. Co-designed probabilistic micropayments, owned the orchestrator/transcoder split, and guided the pre-launch Arbitrum migration through design and review. In 2024, built open-source Livepeer AI infrastructure for LLMs, video models, and object detection."
+    },
+    {
+      "company": "Emakina",
+      "role": "Blockchain Lead",
+      "dates": "May 2018 to May 2019",
+      "text": "Established Emakina’s new blockchain business unit and led architecture, prototyping, and enterprise and government pre-sales. Delivered pilots in telco settlement, trade finance, identity, and supply-chain provenance. Won the Emakina Group Silver Innovation Award."
+    }
+  ],
+  "posts": [
+    {
+      "title": "The Verifiable Agent",
+      "url": "https://medium.com/@Nico_Vergauwen/the-verifiable-agent-d3f7be6e6f9c",
+      "date": "2026-06-29",
+      "description": "Why autonomous agents need verifiable execution, trustworthy memory, and a provable right to act."
+    },
+    {
+      "title": "AI Agents & Smart Contracts 2.0",
+      "url": "https://medium.com/coinmonks/ai-agents-smart-contracts-2-0-the-third-wave-of-blockchain-88a1137fdeae",
+      "date": "2026-06-11",
+      "description": "How agents extend programmable execution with the ability to interpret context and make decisions."
+    },
+    {
+      "title": "Rollups are Symbi-idiotic",
+      "url": "https://medium.com/@Nico_Vergauwen/rollups-are-symbi-idiotic-7ebd3680eb7a",
+      "date": "2025-04-22",
+      "description": "A critique of the economic incentives between Ethereum and its rollups."
+    },
+    {
+      "title": "How I set up a Livepeer node and earned over 1000$ in a month",
+      "url": "https://medium.com/coinmonks/a-new-livepeer-video-mining-rig-is-born-46919de23eae",
+      "date": "2021-03-01",
+      "description": "A practical account of the hardware, setup, and results of running a Livepeer node."
+    },
+    {
+      "title": "Learning Go: MongoDB CRUD with gRPC",
+      "url": "https://itnext.io/learning-go-mongodb-crud-with-grpc-98e425aeaae6",
+      "date": "2019-05-10",
+      "description": "Building a simple CRUD API to explore Go, gRPC, and MongoDB."
+    },
+    {
+      "title": "Upgradeable Ethereum Contracts V2",
+      "url": "https://medium.com/hackernoon/upgradeable-ethereum-contracts-v2-786d9c18cd9d",
+      "date": "2018-12-05",
+      "description": "A code-led explanation of proxy contracts and delegatecall, with a working example."
+    }
+  ]
+}

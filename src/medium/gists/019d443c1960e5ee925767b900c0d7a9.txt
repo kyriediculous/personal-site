@@ -1,0 +1,45 @@
+func (s *BlogServiceServer) UpdateBlog(ctx context.Context, req *blogpb.UpdateBlogReq) (*blogpb.UpdateBlogRes, error) {
+	// Get the blog data from the request
+	blog := req.GetBlog()
+
+	// Convert the Id string to a MongoDB ObjectId
+	oid, err := primitive.ObjectIDFromHex(blog.GetId())
+	if err != nil {
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			fmt.Sprintf("Could not convert the supplied blog id to a MongoDB ObjectId: %v", err),
+		)
+	}
+
+	// Convert the data to be updated into an unordered Bson document
+	update := bson.M{
+		"authord_id": blog.GetAuthorId(),
+		"title":      blog.GetTitle(),
+		"content":    blog.GetContent(),
+	}
+
+	// Convert the oid into an unordered bson document to search by id
+	filter := bson.M{"_id": oid}
+
+	// Result is the BSON encoded result
+	// To return the updated document instead of original we have to add options.
+	result := blogdb.FindOneAndUpdate(ctx, filter, bson.M{"$set": update}, options.FindOneAndUpdate().SetReturnDocument(1))
+
+	// Decode result and write it to 'decoded'
+	decoded := BlogItem{}
+	err = result.Decode(&decoded)
+	if err != nil {
+		return nil, status.Errorf(
+			codes.NotFound,
+			fmt.Sprintf("Could not find blog with supplied ID: %v", err),
+		)
+	}
+	return &blogpb.UpdateBlogRes{
+		Blog: &blogpb.Blog{
+			Id:       decoded.ID.Hex(),
+			AuthorId: decoded.AuthorID,
+			Title:    decoded.Title,
+			Content:  decoded.Content,
+		},
+	}, nil
+}

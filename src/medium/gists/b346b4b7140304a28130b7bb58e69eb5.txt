@@ -1,0 +1,7 @@
+// rootCmd represents the base command when called without any subcommands
+var rootCmd = &cobra.Command{
+	Use:   "blogclient",
+	Short: "a gRPC client to communicate with the BlogService server",
+	Long: `a gRPC client to communicate with the BlogService server.
+	You can use this client to create and read blogs.`,
+}

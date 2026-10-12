@@ -1,0 +1,7 @@
+message UpdateBlogReq {
+    Blog blog = 1;
+}
+
+message UpdateBlogRes {
+    Blog blog = 1;
+}

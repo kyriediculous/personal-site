@@ -1,0 +1,9 @@
+func init() {
+	createCmd.Flags().StringP("author", "a", "", "Add an author")
+	createCmd.Flags().StringP("title", "t", "", "A title for the blog")
+	createCmd.Flags().StringP("content", "c", "", "The content for the blog")
+	createCmd.MarkFlagRequired("author")
+	createCmd.MarkFlagRequired("title")
+	createCmd.MarkFlagRequired("content")
+	rootCmd.AddCommand(createCmd)
+}

@@ -1,0 +1,21 @@
+import (
+  // other imports ...
+  blogpb "../proto"
+  // ... 
+)
+
+type BlogServiceServer struct {}
+
+func main() {
+ // STEP 1 & STEP 2
+ // ... 
+  
+ // Set options, here we can configure things like TLS support 
+ opts := []grpc.ServerOption{}
+ // Create new gRPC server with (blank) options
+ s := grpc.NewServer(opts...)
+ // Create BlogService type 
+ srv := &BlogServiceServer{}
+ // Register the service with the server 
+ blogpb.RegisterBlogServiceServer(s, srv)
+}

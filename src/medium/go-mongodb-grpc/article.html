@@ -1,0 +1,499 @@
+<figure><img alt="A Gopher in Belgium" decoding="async" height="360" loading="lazy" src="/assets/writing/3de9687c0e3219ee11fc.png" width="307"/><figcaption>A Gopher in Belgium</figcaption></figure><h2>Go</h2><p>The last couple of weeks I’ve been busy with my new favorite toy: Go. It is an open source programming language created at google in 2007. It is heavily used at Google and has been battle tested before a public release and by now, is considered to be a very stable language. Go tries to find a middle ground between humans and machines for optimal productivity and performance. Many believe it to be the future of back-end development and micro-services.</p><p>While Go is still relatively young, it has been welcomed with open arms in the distributed systems world. Docker, Kubernetes, InfluxDB, Go-Ethereum, … are all built in Go.</p><p>Here’s the classical “Why Go?” list:</p><ul><li>Elegant concurrency using GoRoutines and Channels</li><li>Multi-core support</li><li>Very good raw CPU-and-memory-bound performance</li><li>Types aren’t cumbersome</li><li>Built in testing framework</li><li>Static code analysis</li><li>Compilation / deployment</li></ul><p>In this blog I will not teach you how to write “Hello World” in go, instead we’ll write a CRUD API using the official mongodb-go-driver and gRPC. Before continuing make sure you have Golang, MongoDB, RoboMongo (for ease of use) and Protocol Buffers (link is below) installed. To get the most out of this tutorial you should be familiar with Go syntax a little bit as well as pointers.</p><figure><img alt="A Gopher that clearly lifts" decoding="async" height="483" loading="lazy" src="/assets/writing/a32cdf20e64279a93bc1.png" width="676"/><figcaption>A Gopher that clearly lifts</figcaption></figure><h2>gRPC &amp; HTTP2</h2><p>REST in peace, there’s a new kid on the block and it’s called gRPC. <br/>gRPC is a modern, HTTP2 based protocol that provides Remote Procedure Call semantics using a strongly-typed binary data format called Protocol Buffers instead of JSON.</p><p>Parsing JSON is very CPU intensive and it is estimated that it takes up 45% of all CPU resources for RESTful services. Combined with the upgrades HTTP/2 offers, gRPC API’s are estimated to be<strong> 5–25x faster</strong> than their RESTful counterpart.</p><p>gRPC was built from the ground up to leverage all the good stuff coming with HTTP/2 and has been battle-tested by Google yet again, handling 10 billion requests per second. Here’s a list of fun stuff that HTTP/2 brings to the table:</p><ul><li>Multiplexing (HTTP/1 opens a TCP connection for every request)</li><li>Server Push</li><li>Header compression (plaintext in HTTP/1 and sent with every request)</li><li>Binary instead of Text (Great match for Protocol Buffers)</li><li>SSL is a first class citizen</li></ul><h2>gRPC vs REST</h2><p>Fully comparing gRPC to REST would be material for a blog post on its own, so here’s an overview:</p><figure><img alt="Illustration from Learning Go: MongoDB CRUD with gRPC" decoding="async" height="267" loading="lazy" src="/assets/writing/2486dab09d72ee6d67fc.png" width="784"/></figure><h2>Protocol Buffers</h2><p>Like mentioned before Protocol Buffers (protobufs in short) are a strongly-typed, language- and platform neutral, binary data format. You can define how you want your data to be structured once in a <em>.proto</em> file and then use special generated source code to easily create server and client stubs for many languages, your .proto file is the canonical format for API contracts. According to google, <strong>protobufs are 3–10x smaller than XML and 20–100x faster.</strong></p><p>Protocol Buffers are used to defined <strong>messages</strong> (data, requests and responses) and <strong>services</strong> (RPC endpoints) in <em>.proto</em> files.</p><p>To learn more about protocol buffers, please check the extensive <a href="https://developers.google.com/protocol-buffers/docs/overview" rel="noopener" target="_blank">documentation</a>.</p><h2>Down To Business: Blog Service API</h2><p>For the remainder of this blog post we will be building a simple CRUD API for a blog service. Since MongoDB just released their official Go driver, we’ll be using MongoDB. We’ll create a server and a small CLI application for the client using Cobra. <strong>Let’s get our hands dirty !</strong></p><ul><li>Cobra does not yet support go-modules for generating subcommands, thus for this tutorial we’ll be using good ol’ $GOPATH :) .</li><li>This is what your folder structure should look like: <br/><em>$GOPATH</em>/grpc-mongo-crud/<br/>- server<br/>- client<br/>- proto</li><li>Alternatively you could just generate the subcommand files in your <em>$GOPATH</em> and copy-paste the code into your own repository and use relative paths instead (this is the route I took).</li></ul><p><a href="https://github.com/kyriediculous/go-grpc-mongodb" rel="noopener" target="_blank">You can find the code repository on my github</a>.</p><figure><img alt="Illustration from Learning Go: MongoDB CRUD with gRPC" decoding="async" height="642" loading="lazy" src="/assets/writing/1558fd709c37c3fca28e.gif" width="970"/></figure><h2>1. Creating a Proto file</h2><p>After setting up a new working directory in your <em>$GOPATH</em>, create a new file in the proto folder, let’s call it <em>blog.proto</em>. For simplicity we’ll create seperate messages for each request/response altough some will overlap.</p><p>First a little bit of boilerplate that expresses we use protbufs v3, our package is called blog, and our generate go package will be called blogpb (short for blog protocol buffer).</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="0cfb6d7195fd5aacede9bb4ba910479c">syntax = "proto3";
+package blog;
+option go_package = "blogpb";</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/fa166a24b1cb51f684feb946cf1c9f33" rel="noopener" target="_blank">boiler.proto — original code</a></figcaption></figure><p>We’ll need 5 services, each service takes in a request and returns a response:</p><ul><li>CreateBlog (unary)</li><li>ReadBlog (unary)</li><li>UpdateBlog (unary)</li><li>DeleteBlog (unary)</li><li>ListBlog (server streaming)</li></ul><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="8f9d1a364b5f48892034fa7ee6443a1d">service BlogService {
+    rpc CreateBlog(CreateBlogReq) returns (CreateBlogRes);
+    rpc ReadBlog(ReadBlogReq) returns (ReadBlogRes);
+    rpc UpdateBlog(UpdateBlogReq) returns (UpdateBlogRes);
+    rpc DeleteBlog(DeleteBlogReq) returns (DeleteBlogRes);
+    rpc ListBlogs(ListBlogReq) returns (stream ListBlogRes);
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/d53ac65ed69ad9e600f16a035ae1cc6d" rel="noopener" target="_blank">services.proto — original code</a></figcaption></figure><p><em>CreateBlog, ReadBlog</em> and <em>UpdateBlog </em>will return a <em>Blog item</em> in their responses, so we’ll need a Blog Message Type. Messages can be nested, so we can use our Blog Message inside Request/Response messages.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="69820cb52d530fff1c8a9714e9a851b0">message Blog {
+    string id = 1;
+    string author_id = 2;
+    string title = 3;
+    string content= 4;
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/4b163fb9e512e5132a6a17d0d0f6edce" rel="noopener" target="_blank">blogmessage.proto — original code</a></figcaption></figure><p><strong>CreateBlog Request / Response</strong></p><p>Both the request and response will consist out of a Blog message, the main difference being that in the request, the ID will be blank as that is created by MongoDB upon creation of the document inside the database. In the response the ID will be filled in.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="79c473fce1174434a9288289eb3b7835">message CreateBlogReq {
+    Blog blog = 1; // Blog id blank
+}
+
+message CreateBlogRes {
+    Blog blog = 1; // Blog id filled in
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/7a5a7dc48e32b925fa41d8d9adabb16a" rel="noopener" target="_blank">createblog.proto — original code</a></figcaption></figure><p><strong>UpdateBlog Request / Response</strong></p><p>Very similar to CreateBlog, but the Blog message in our Request will already contain the id to find and update that specific item in our database. The response will return the updated document.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="6eba567ef416c1004ded82ae3bc5f7f9">message UpdateBlogReq {
+    Blog blog = 1;
+}
+
+message UpdateBlogRes {
+    Blog blog = 1;
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/3ace3b72f3602d71322aa9f6ee1f29d5" rel="noopener" target="_blank">updateblog.proto — original code</a></figcaption></figure><p><strong>ReadBlog Request / Response</strong></p><p>We’ll keep this straightforward and make Blogs searchable by Id only. It is possible though to use id OR title in a single request message using <a href="https://developers.google.com/protocol-buffers/docs/proto3#using-oneof" rel="noopener" target="_blank"><em>oneof</em></a><em> .</em></p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="0f04fd1b85a738530b91086b8d2f54e1">message ReadBlogReq {
+    string id = 1;
+}
+
+message ReadBlogRes {
+    Blog blog = 1;
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/36fe161830a70fdfc680330ec2ea81df" rel="noopener" target="_blank">readblog.proto — original code</a></figcaption></figure><p><strong>DeleteBlog Request / Response</strong></p><p>The request object is identical to ReadBlog, we find the blog by id and remove it (oneof can be used here too). On success we return true otherwise an error is returned.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="540fd926b0dc85ac9af9b14043bcb19b">message DeleteBlogReq {
+    string id = 1;
+}
+
+message DeleteBlogRes {
+    bool success = 1;
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/69a079373e7e2a854448a60dce27bfa4" rel="noopener" target="_blank">deleteblog.proto — original code</a></figcaption></figure><p><strong>ListBlogs Request/Response</strong></p><p>This one is special, ListBlogs will list all blogs in our database. All our previous services were unary , which means they adhere to the classic request/response mechanism. It works fine when the data is small, but for large data streaming is more optimal. ListBlogs will use server-streaming; for one request message the server will send back multiple blog messages.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="2f897ff24858662f258755fd2f9fe898">message ListBlogsRequest {}
+
+message ListBlogsResponse {
+    Blog blog = 1;
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/e1f628ee5f40346d7406a666e2fc227e" rel="noopener" target="_blank">listblog.proto — original code</a></figcaption></figure><p><strong>Protocol Compiler: Protoc</strong></p><p>Now that we have created our <em>.proto</em> definitions it is time to generate our Client and Server stubs in Go. We do this using the <a href="https://github.com/golang/protobuf" rel="noopener" target="_blank">protocol buffer compiler combined with the protoc-gen-go plugin.</a></p><p>You can check whether the installation was successful:</p><pre aria-label="Code example, scroll horizontally if needed" tabindex="0">$ protoc — version<br/>libprotoc 3.7.1</pre><p>If it is you can compile your proto file to Go stubs, this will result in a new file in the /proto folder: blog.pb.go</p><pre aria-label="Code example, scroll horizontally if needed" tabindex="0">protoc proto/blog.proto --go_out=plugins=grpc:.</pre><p>I suggest you go through the newly generated file, you’ll see types and interfaces for the server and client, methods to create a new server and client, types to instantiate (requests, responses and blog) and getters for the fields of those structs.</p><p>You will also see this line at the top of the file, please take it to heart:</p><pre aria-label="Code example, scroll horizontally if needed" tabindex="0">// Code generated by protoc-gen-go. DO NOT EDIT.</pre><h2><strong>2. Server Implementation</strong></h2><p><strong>Starting / Stopping the server<br/></strong>First things first, we’ll need some boilerplate to create a gRPC server and mongoDB connection, give some feedback to the console and handle server shutdowns by the user through a <em>shutdown hook</em>.</p><p>We’ll set all of this up within our main() function, feel free to do some code splitting and cleanup by yourself.</p><ol><li>Add filename and linenumber flags when we use the log package</li><li>Start our listener</li><li>Start a new gRPC server with no service registered yet.</li><li>Create a blog service and register it to our new gRPC server.</li><li>Connect to MongoDB.</li><li>Accept incoming connections on our listener</li><li>Handle user initiated server shutdown (CTRL+C)</li></ol><p>Now let’s start creating our main() function.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="abefc1334330ad6f6eb09dc318cfd30f">func main() {
+	// Configure 'log' package to give file name and line number on eg. log.Fatal
+	// Pipe flags to one another (log.LstdFLags = log.Ldate | log.Ltime)
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	fmt.Println("Starting server on port :50051...")
+
+	// Start our listener, 50051 is the default gRPC port
+	listener, err := net.Listen("tcp", ":50051")
+	// Handle errors if any
+	if err != nil {
+		log.Fatalf("Unable to listen on port :50051: %v", err)
+	}
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/3bb17943689e5ad10c40483b6e7ceb0e" rel="noopener" target="_blank">server1.go — original code</a></figcaption></figure><p>Now let’s start a new gRPC server and register our Blog service. To achieve this we’ll use the<em> grpc package </em>as well as the <em>blogpb package</em> created by compiling our <em>.proto </em>file. Our <em>blogpb package</em> has a method called <em>RegisterBlogServiceServer</em> that takes in a pointer to a fresh gRPC server and a <em>BlogServiceServer struct</em> that adheres to the <em>BlogServiceServer interface</em> from our generated <em>blog.pb.go</em> file.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="5ded8a930a6f6450228cc5c25f783362">import (
+  // other imports ...
+  blogpb "../proto"
+  // ... 
+)
+
+type BlogServiceServer struct {}
+
+func main() {
+ // STEP 1 &amp; STEP 2
+ // ... 
+  
+ // Set options, here we can configure things like TLS support 
+ opts := []grpc.ServerOption{}
+ // Create new gRPC server with (blank) options
+ s := grpc.NewServer(opts...)
+ // Create BlogService type 
+ srv := &amp;BlogServiceServer{}
+ // Register the service with the server 
+ blogpb.RegisterBlogServiceServer(s, srv)
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/57a14ffc723fc05ce649e847c7ed0e85" rel="noopener" target="_blank">server2.go — original code</a></figcaption></figure><p>Great job ! Now well create our mongodb connection, so make sure you have MongoDB installed as well as the official <a href="https://github.com/mongodb/mongo-go-driver" rel="noopener" target="_blank"><em>mongodb-go-driver</em></a> we’ll be using. If you’ve ever worked with a mongodb driver in another language, you’ll see that it’s quite similar.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="e2eb43fcf1de0c0ccc26fc3fbd2782e3">// Global variables for db connection , collection and context
+var db *mongo.Client
+var blogdb *mongo.Collection
+var mongoCtx context.Context
+
+func main {
+  // STEP 1 &amp; STEP 2 
+  // STEP 3 (gRPC server)
+  // ... 
+  
+  // Initialize MongoDb client
+	fmt.Println("Connecting to MongoDB...")
+  
+  // non-nil empty context 
+	mongoCtx = context.Background()
+  
+  // Connect takes in a context and options, the connection URI is the only option we pass for now
+	db, err = mongo.Connect(mongoCtx, options.Client().ApplyURI("mongodb://localhost:27017"))
+  // Handle potential errors
+	if err != nil {
+		log.Fatal(err)
+	}
+  
+  // Check whether the connection was succesful by pinging the MongoDB server
+	err = db.Ping(mongoCtx, nil)
+	if err != nil {
+		log.Fatalf("Could not connect to MongoDB: %v\n", err)
+	} else {
+		fmt.Println("Connected to Mongodb")
+	}
+  
+  // Bind our collection to our global variable for use in other methods
+	blogdb = db.Database("mydb").Collection("blog")
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/6b82c26d419a2ff72f5b96713c06c18b" rel="noopener" target="_blank">server3.go — original code</a></figcaption></figure><p>Last but not least we’ll serve the listener to accept incoming connections and handle proper server shutdown using a goroutine and channel to block the main channel until the user presses CTRL+C.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="0c77e174295a20c77aca490f0ace56ef">func main() {
+  // STEP 1, STEP 2, STEP 3
+  // ... 
+  
+  // Start the server in a child routine
+	go func() {
+		if err := s.Serve(listener); err != nil {
+			log.Fatalf("Failed to serve: %v", err)
+		}
+	}()
+	fmt.Println("Server succesfully started on port :50051")
+
+	// Right way to stop the server using a SHUTDOWN HOOK
+	// Create a channel to receive OS signals
+	c := make(chan os.Signal)
+
+	// Relay os.Interrupt to our channel (os.Interrupt = CTRL+C)
+	// Ignore other incoming signals
+	signal.Notify(c, os.Interrupt)
+
+	// Block main routine until a signal is received
+	// As long as user doesn't press CTRL+C a message is not passed and our main routine keeps running
+	&lt;-c
+
+	// After receiving CTRL+C Properly stop the server
+	fmt.Println("\nStopping the server...")
+	s.Stop()
+	listener.Close()
+	fmt.Println("Closing MongoDB connection")
+	db.Disconnect(mongoCtx)
+	fmt.Println("Done.")
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/8a8678612db26ac307cc7fe7f896e9ba" rel="noopener" target="_blank">server4.go — original code</a></figcaption></figure><p>And we’re done! You can now start the server running go run server/main.go , make sure however to run sudo service mongod start beforehand, or <em>db.Ping()</em> will return an error. You can then close the server by pressing CTRL+C.</p><p>If all went well you should see something like:</p><figure><img alt="Illustration from Learning Go: MongoDB CRUD with gRPC" decoding="async" height="146" loading="lazy" src="/assets/writing/3388401725b0795c89ca.png" width="536"/></figure><p><em>** Note: You’ll likely need to add empty methods from the next section to not get compile errors, since BlogServiceServer does not adhere to it’s interface (in blog.pb.go) yet.</em></p><h3>Creating our Proto Service Handlers</h3><p>Now that we have our server ready, it’s time to add methods for the services we defined in our <em>.proto</em> file. The methods will take our BlogServiceServer as receiver so it will comply with its interface.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="ad4942488b4b7b30e4fc4dc8c01111b5">type BlogServiceServer interface {
+	CreateBlog(context.Context, *CreateBlogReq) (*CreateBlogRes, error)
+	ReadBlog(context.Context, *ReadBlogReq) (*ReadBlogRes, error)
+	UpdateBlog(context.Context, *UpdateBlogReq) (*UpdateBlogRes, error)
+	DeleteBlog(context.Context, *DeleteBlogReq) (*DeleteBlogRes, error)
+	ListBlogs(*ListBlogsReq, BlogService_ListBlogsServer) error
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/a11c5fa9760008420f194a8dbb14b11e" rel="noopener" target="_blank">interface.go — original code</a></figcaption></figure><p>In the function bodies we’ll generally use the following workflow:</p><p>Protbuf Message (Request) → Regular Go Struct → Convert to BSON + Mongo Action → Protobuf Message (Response)</p><p>What’s currently missing is the regular go struct to represent a blog, which can be converted to BSON. So let’s create this type above the main function and add some tags, so that the bson package will use the meta information to assign keys.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="9727c69e13be219f9b501643872c9e72">type BlogItem struct {
+	ID       primitive.ObjectID `bson:"_id,omitempty"`
+	AuthorID string             `bson:"author_id"`
+	Content  string             `bson:"content"`
+	Title    string             `bson:"title"`
+}
+
+func main() { ... }</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/e1f0a296f7b15e1a0f89eeb75a2208d1" rel="noopener" target="_blank">BlogItem.go — original code</a></figcaption></figure><p>Now let’s make our <strong>CreateBlog</strong> method. It takes in a <em>context</em> and a request, in this case <em>CreateBlogReq. </em>First we’ll extract the Blog message from our request message and convert it to a regular go struct. <em>InsertOne()</em> will convert it into <em>BSON</em> for us, using the meta tags we provided. The result from <em>InsertOne() </em>returns the <em>Object ID </em>of the new <em>document </em>inside our <em>collection</em>, which we can then add to our <em>Blog protobuf message</em> to be wrapped in a <em>CreateBlogResponse</em>.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="4c3485ef9d86b5a21a4c4ed3226b92c7">func (s *BlogServiceServer) CreateBlog(ctx context.Context, req *blogpb.CreateBlogReq) (*blogpb.CreateBlogRes, error) {
+	// Essentially doing req.Blog to access the struct with a nil check
+	blog := req.GetBlog()
+	// Now we have to convert this into a BlogItem type to convert into BSON
+	data := BlogItem{
+		// ID:    Empty, so it gets omitted and MongoDB generates a unique Object ID upon insertion.
+		AuthorID: blog.GetAuthorId(),
+		Title:    blog.GetTitle(),
+		Content:  blog.GetContent(),
+	}
+
+	// Insert the data into the database, result contains the newly generated Object ID for the new document
+	result, err := blogdb.InsertOne(mongoCtx, data)
+	// check for potential errors
+	if err != nil {
+		// return internal gRPC error to be handled later
+		return nil, status.Errorf(
+			codes.Internal,
+			fmt.Sprintf("Internal error: %v", err),
+		)
+	}
+  // add the id to blog, first cast the "generic type" (go doesn't have real generics yet) to an Object ID.
+	oid := result.InsertedID.(primitive.ObjectID)
+  // Convert the object id to it's string counterpart
+	blog.Id = oid.Hex()
+	// return the blog in a CreateBlogRes type
+	return &amp;blogpb.CreateBlogRes{Blog: blog}, nil
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/0a33d05ec67b51ec8a3f4abdd194d6a5" rel="noopener" target="_blank">CreateBlog.go — original code</a></figcaption></figure><p>Next we’ll do <strong>ReadBlog()</strong>, the <em>ReadBlogReq</em> will take in the<em> Object ID</em> of the blog and retrieve that document from our collection. The MongoDB <em>FindOne()</em> methods takes in a context and a filter, which is a <em>BSON document </em>for which to filter by its keys. We’ll simply have to decode the found document to a regular go struct so we can convert it back to protobuffer messages.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="9d407f2ba32260ffe319a7d785eec9a3">func (s *BlogServiceServer) ReadBlog(ctx context.Context, req *blogpb.ReadBlogReq) (*blogpb.ReadBlogRes, error) {
+	// convert string id (from proto) to mongoDB ObjectId
+	oid, err := primitive.ObjectIDFromHex(req.GetId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
+	}
+	result := blogdb.FindOne(ctx, bson.M{"_id": oid})
+	// Create an empty BlogItem to write our decode result to
+	data := BlogItem{}
+	// decode and write to data
+	if err := result.Decode(&amp;data); err != nil {
+		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Could not find blog with Object Id %s: %v", req.GetId(), err))
+	}
+	// Cast to ReadBlogRes type
+	response := &amp;blogpb.ReadBlogRes{
+		Blog: &amp;blogpb.Blog{
+			Id:       oid.Hex(),
+			AuthorId: data.AuthorID,
+			Title:    data.Title,
+			Content:  data.Content,
+		},
+	}
+	return response, nil
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/7ca525c70eb30331b645d15beb4485a2" rel="noopener" target="_blank">ReadBlog.go — original code</a></figcaption></figure><p>Now that we can create and read a blog, we should also be able to delete one. For <strong>DeleteBlog</strong> we’ll use the mongodb <em>DeleteOne()</em> method, which takes in an <em>Object ID</em> of the document to remove. If the removal is succesful we’ll return a boolean else an error.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="e0ee40b4a6a402bece33ce00255af48e">func (s *BlogServiceServer) DeleteBlog(ctx context.Context, req *blogpb.DeleteBlogReq) (*blogpb.DeleteBlogRes, error) {
+	// Get the ID (string) from the request message and convert it to an Object ID
+	oid, err := primitive.ObjectIDFromHex(req.GetId())
+	// Check for errors
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
+	}
+	// DeleteOne returns DeleteResult which is a struct containing the amount of deleted docs (in this case only 1 always)
+	// So we return a boolean instead
+	_, err = blogdb.DeleteOne(ctx, bson.M{"_id": oid})
+	// Check for errors
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Could not find/delete blog with id %s: %v", req.GetId(), err))
+	}
+	// Return response with success: true if no error is thrown (and thus document is removed)
+	return &amp;blogpb.DeleteBlogRes{
+		Success: true,
+	}, nil
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/66eddc9c9e4a3841ec97235f4b3faca0" rel="noopener" target="_blank">DeleteBlog.go — original code</a></figcaption></figure><p>For the last of our CRUD operations, we’ll need method to<strong> update a blog</strong>. For simplicity’s sake we are going to entirely replace the existing document inside the collection with the document encoded from our request. In a real-world scenario we’d do nil checks on the arguments so that only filled out fields are actually updated (using the $set keyword from MongoDB). The second quirk is that Mongo’s <em>FindOneAndUpdate()</em> returns the old document, so we’ll have to explicitly tell it to return the new document instead.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="019d443c1960e5ee925767b900c0d7a9">func (s *BlogServiceServer) UpdateBlog(ctx context.Context, req *blogpb.UpdateBlogReq) (*blogpb.UpdateBlogRes, error) {
+	// Get the blog data from the request
+	blog := req.GetBlog()
+
+	// Convert the Id string to a MongoDB ObjectId
+	oid, err := primitive.ObjectIDFromHex(blog.GetId())
+	if err != nil {
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			fmt.Sprintf("Could not convert the supplied blog id to a MongoDB ObjectId: %v", err),
+		)
+	}
+
+	// Convert the data to be updated into an unordered Bson document
+	update := bson.M{
+		"authord_id": blog.GetAuthorId(),
+		"title":      blog.GetTitle(),
+		"content":    blog.GetContent(),
+	}
+
+	// Convert the oid into an unordered bson document to search by id
+	filter := bson.M{"_id": oid}
+
+	// Result is the BSON encoded result
+	// To return the updated document instead of original we have to add options.
+	result := blogdb.FindOneAndUpdate(ctx, filter, bson.M{"$set": update}, options.FindOneAndUpdate().SetReturnDocument(1))
+
+	// Decode result and write it to 'decoded'
+	decoded := BlogItem{}
+	err = result.Decode(&amp;decoded)
+	if err != nil {
+		return nil, status.Errorf(
+			codes.NotFound,
+			fmt.Sprintf("Could not find blog with supplied ID: %v", err),
+		)
+	}
+	return &amp;blogpb.UpdateBlogRes{
+		Blog: &amp;blogpb.Blog{
+			Id:       decoded.ID.Hex(),
+			AuthorId: decoded.AuthorID,
+			Title:    decoded.Title,
+			Content:  decoded.Content,
+		},
+	}, nil
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/f499c7ebb9d12bafcef0a1f3a702565f" rel="noopener" target="_blank">UpdateBlog.go — original code</a></figcaption></figure><p>The last method we’ll implement, <strong>ListBlogs</strong>, is slightly different. Our previous operations were <em>unary CRUD operations</em>, which means they use a classical <em>1 response for 1 request mechanism</em>.</p><p>If we want to list all blogs however, the data payload might grow too large to return it in one response, therefore we’ll implement <strong><em>server streaming</em></strong> through gRPC. For one request to list the blogs, the server will keep streaming blog messages until all blogs have been sent back to the client.</p><p>MongoDB is really helpful with this through it’s<em> cursor</em> feature. A cursor in MongoDB is a pointer to the results of a query rather than all of the results in memory.</p><blockquote>A pointer to the result set of a query. Clients can iterate through a cursor to retrieve results.</blockquote><p>So what we’ll do is iterate over the cursor using <em>cursor.Next()</em> and send each blog as message to the client, until the cursor yields no more results at which point we’ll close the server side stream. It’s more straightforward when you see the code:</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="e7cc5fc206eb34bfafceb438e9b9f385">func (s *BlogServiceServer) ListBlogs(req *blogpb.ListBlogsReq, stream blogpb.BlogService_ListBlogsServer) error {
+	// Initiate a BlogItem type to write decoded data to
+	data := &amp;BlogItem{}
+	// collection.Find returns a cursor for our (empty) query
+	cursor, err := blogdb.Find(context.Background(), bson.M{})
+	if err != nil {
+		return status.Errorf(codes.Internal, fmt.Sprintf("Unknown internal error: %v", err))
+	}
+	// An expression with defer will be called at the end of the function
+	defer cursor.Close(context.Background())
+	// cursor.Next() returns a boolean, if false there are no more items and loop will break
+	for cursor.Next(context.Background()) {
+		// Decode the data at the current pointer and write it to data
+		err := cursor.Decode(data)
+		// check error
+		if err != nil {
+			return status.Errorf(codes.Unavailable, fmt.Sprintf("Could not decode data: %v", err))
+		}
+		// If no error is found send blog over stream
+		stream.Send(&amp;blogpb.ListBlogsRes{
+			Blog: &amp;blogpb.Blog{
+				Id:       data.ID.Hex(),
+				AuthorId: data.AuthorID,
+				Content:  data.Content,
+				Title:    data.Title,
+			},
+		})
+	}
+	// Check if the cursor has any errors
+	if err := cursor.Err(); err != nil {
+		return status.Errorf(codes.Internal, fmt.Sprintf("Unkown cursor error: %v", err))
+	}
+	return nil
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/c24a300d47332ac58eb6dd40d2c5d651" rel="noopener" target="_blank">ListBlogs.go — original code</a></figcaption></figure><p>Well done, that’s it for our entire server implementation. You’re on the path to becoming a supergopher ! Next we’ll start working on our CLI client application using <a href="https://github.com/spf13/cobra" rel="noopener" target="_blank">Cobra</a>.</p><figure><img alt="Illustration from Learning Go: MongoDB CRUD with gRPC" decoding="async" height="869" loading="lazy" src="/assets/writing/f064b59f466ae9ad8c9b.png" width="581"/></figure><h2>3. Client Implementation</h2><p><strong>Cobra<br/></strong>As mentioned earlier, we’ll be making a CLI application for our client using Cobra. It comes with a handy generator to generate boilerplate for us.</p><p>The cobra generator doesn’t work with go modules yet, so we’ll generate the command files in our <em>$GOPATH</em> and then copy paste them into our <em>/client</em> folder where we are creating our project (if you started in your <em>$GOPATH </em>from the start, you can run the generator from the <em>/client </em>folder).</p><p>First things first, install cobra. This will create an executable in <em>$GOPATH/bin</em> that we can run from anywhere in the terminal (if you have setup Go correctly).</p><pre aria-label="Code example, scroll horizontally if needed" tabindex="0">$ go get github.com/spf13/cobra/cobra</pre><p>Once Cobra is successfully installed, we can initiate a new project.</p><pre aria-label="Code example, scroll horizontally if needed" tabindex="0">$ cobra init</pre><p>This will generate a <em>main.go</em> file and a <em>/cmd </em>folder. The main.go file doesn’t do anything aside from calling <em>execute</em> on the root command, located in <em>/cmd/root.go .</em></p><p>Two things in <em>/cmd/root.go</em> are important to us, the <em>rootCmd struct </em>(a <em>cobra.Command</em> type), which contains the command name and descriptions and the <em>init()</em> function , where we’ll initiate the client. Since <em>sub-commands </em>are bound to the r<em>oot command</em>, Cobra will always initiate a client before executing the <em>sub-command</em>.</p><p>Give your root command a name and some descriptions:</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="b346b4b7140304a28130b7bb58e69eb5">// rootCmd represents the base command when called without any subcommands
+var rootCmd = &amp;cobra.Command{
+	Use:   "blogclient",
+	Short: "a gRPC client to communicate with the BlogService server",
+	Long: `a gRPC client to communicate with the BlogService server.
+	You can use this client to create and read blogs.`,
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/d39641942f6ef25a07fcb32d3e32b982" rel="noopener" target="_blank">rootCmd.go — original code</a></figcaption></figure><p>And initialize the client:</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="44f0fea32d0bdc1b66c8148a66939ca6">var cfgFile string
+
+// Client and context global vars for the cmd package
+// So they can be used by our subcommands
+var client blogpb.BlogServiceClient
+var requestCtx context.Context
+var requestOpts grpc.DialOption
+
+func init() {
+  // initConfig reads in config file and ENV variables
+	cobra.OnInitialize(initConfig)
+	// After Cobra root config init, initialize the client
+	fmt.Println("Starting Blog Service Client")
+	// Establish context to timeout after 10 seconds if server does not respond
+	requestCtx, _ = context.WithTimeout(context.Background(), 10*time.Second)
+	// Establish insecure grpc options (no TLS)
+	requestOpts = grpc.WithInsecure()
+	// Dial the server, returns a client connection
+	conn, err := grpc.Dial("localhost:50051", requestOpts)
+	if err != nil {
+		log.Fatalf("Unable to establish client connection to localhost:50051: %v", err)
+	}
+	// Instantiate the BlogServiceClient with our client connection to the server
+	client = blogpb.NewBlogServiceClient(conn)
+}
+</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/9ce4c20c651ebc4bb3dbdbd2d0ea9044" rel="noopener" target="_blank">initClient.go — original code</a></figcaption></figure><p>I’m not kidding if I say that was the hardest part of our client, pretty straightforward right? Feel free to play around with Cobra by adding flags or commands, you also have “help” flag out of the box. In our finished application it will look something like this when called:</p><figure><img alt="Illustration from Learning Go: MongoDB CRUD with gRPC" decoding="async" height="378" loading="lazy" src="/assets/writing/ed445da98b21a090bc95.png" width="773"/></figure><p><strong>Create Blog Command<br/></strong>Now that our root command is set up, let’s create our first sub-command so that we can actually add blogs to our database.</p><pre aria-label="Code example, scroll horizontally if needed" tabindex="0">$ cobra add create</pre><p>This will create a new file, <em>/cmd/create.go </em>with roughly the same layout as <em>root.go</em> . There’s a struct of type <em>cobra.Command</em> and an <em>init()</em> function.</p><p>In the <em>init</em>() function we’ll define our flags. Every blog entry needs an author, title and content so let’s make those flags required as well. To add a flag we first need the <em>Flagset</em> for that command, with <em>StringP(name, shorthand, defaultVal, description)</em> we can add a flag that has a shorthand (eg. ‘a’ for ‘author’). At the end of the<em> init() </em>function we bind our sub-command to the <em>root</em>.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="627e355a3ea820a51fb539e57a7d107a">func init() {
+	createCmd.Flags().StringP("author", "a", "", "Add an author")
+	createCmd.Flags().StringP("title", "t", "", "A title for the blog")
+	createCmd.Flags().StringP("content", "c", "", "The content for the blog")
+	createCmd.MarkFlagRequired("author")
+	createCmd.MarkFlagRequired("title")
+	createCmd.MarkFlagRequired("content")
+	rootCmd.AddCommand(createCmd)
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/f4b40772fc00aa50a7c97503f7d435a7" rel="noopener" target="_blank">createInit.go — original code</a></figcaption></figure><p>To run a method associated with the create command, our <em>cobra.Command</em> struct will take an additional property <em>RunE</em>. This allows us to execute a method that returns an error, because remember we’re returning internal gRPC errors. The <em>Flagset</em> associated with the command (<em>command.Flags()</em> ) allows us to easily retrieve the arguments given to the flags.</p><p>Out of these flags we can then create our request, <em>CreateBlogReq</em> and call the <em>CreateBlog</em> method on the client. Under the hood this will send the RPC request on the wire and return a response.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="a84bd767a63d81897770966f7aee8d6c">// createCmd represents the create command
+var createCmd = &amp;cobra.Command{
+	Use:   "create",
+	Short: "Create a new blog post",
+	Long: `Create a new blogpost on the server through gRPC. 
+	
+	A blog post requires an AuthorId, Title and Content.`,
+	RunE: func(cmd *cobra.Command, args []string) error {
+    // Get the data from our flags 
+		author, err := cmd.Flags().GetString("author")
+		title, err := cmd.Flags().GetString("title")
+		content, err := cmd.Flags().GetString("content")
+		if err != nil {
+			return err
+		}
+    // Create a blog protobuffer message  
+		blog := &amp;blogpb.Blog{
+			AuthorId: author,
+			Title:    title,
+			Content:  content,
+		}
+    // RPC call
+		res, err := client.CreateBlog(
+			context.TODO(),
+      // wrap the blog message in a CreateBlog request message
+			&amp;blogpb.CreateBlogReq{
+				Blog: blog,
+			},
+		)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("Blog created: %s\n", res.Blog.Id)
+		return nil
+	},
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/6b631371b75a8a0e4d944cc73033e9a8" rel="noopener" target="_blank">createCmd.go — original code</a></figcaption></figure><p><strong>Read Blog Command</strong><br/>That’s pretty easy right? Let’s continue with something even easier and more straightforward, especially now that you’re getting the hang of it! A command to read a blog; this will take in a single flag, the blog Object Id.</p><p>Similar to the <em>init()</em> function for our <em>create command</em>, we’ll create our flag for the <em>id </em>and bind the sub-command to our root.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="4335da3145a35f5533fc0a8ca97f88b1">func init() {
+	readCmd.Flags().StringP("id", "i", "", "The id of the blog")
+	readCmd.MarkFlagRequired("id")
+	rootCmd.AddCommand(readCmd)
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/7635a8386c5b50ee14105f3a271057e8" rel="noopener" target="_blank">readInit.go — original code</a></figcaption></figure><p>And in our command struct we’ll set the appropriate name and description. Our <em>runE</em> method will be similar as well. We’ll retrieve the <em>id</em> from the <em>flagset</em>, create our request (<em>ReadBlogReq</em>) out of it and invoke the RPC call.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="35ace2c84ff38da9daea38df7810149f">var readCmd = &amp;cobra.Command{
+	Use:   "read",
+	Short: "Find a Blog post by its ID",
+	Long: `Find a blog post by it's mongoDB Unique identifier.
+	
+	If no blog post is found for the ID it will return a 'Not Found' error`,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		id, err := cmd.Flags().GetString("id")
+		if err != nil {
+			return err
+		}
+		req := &amp;blogpb.ReadBlogReq{
+			Id: id,
+		}
+		res, err := client.ReadBlog(context.Background(), req)
+		if err != nil {
+			return err
+		}
+		fmt.Println(res)
+		return nil
+	},
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/38b34c9ff3cefdcde9f14f2e4b29845d" rel="noopener" target="_blank">readCmd.go — original code</a></figcaption></figure><p><strong>Update Blog Command <br/></strong>Updating a blog is nearly identical on the client as creating a blog, with the addition of the id flag, because we need to tell mongoDB which document to update of course. Let’s call cobra add update and edit the generated file.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="51af7fc325a9d54e62f71d3617bdf040">var updateCmd = &amp;cobra.Command{
+	Use:   "update",
+	Short: "Find a Blog post by its ID",
+	Long: `Find a blog post by it's mongoDB Unique identifier.
+	
+	If no blog post is found for the ID it will return a 'Not Found' error`,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		// Get the flags from CLI
+		id, err := cmd.Flags().GetString("id")
+		author, err := cmd.Flags().GetString("author")
+		title, err := cmd.Flags().GetString("title")
+		content, err := cmd.Flags().GetString("content")
+
+		// Create an UpdateBlogRequest
+		req := &amp;blogpb.UpdateBlogReq{
+			&amp;blogpb.Blog{
+				Id:       id,
+				AuthorId: author,
+				Title:    title,
+				Content:  content,
+			},
+		}
+
+		res, err := client.UpdateBlog(context.Background(), req)
+		if err != nil {
+			return err
+		}
+
+		fmt.Println(res)
+		return nil
+	},
+}
+
+func init() {
+	updateCmd.Flags().StringP("id", "i", "", "The id of the blog")
+	updateCmd.Flags().StringP("author", "a", "", "Add an author")
+	updateCmd.Flags().StringP("title", "t", "", "A title for the blog")
+	updateCmd.Flags().StringP("content", "c", "", "The content for the blog")
+	updateCmd.MarkFlagRequired("id")
+	rootCmd.AddCommand(updateCmd)
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/efa0a044af59a7fd960f6ec2af077117" rel="noopener" target="_blank">UpdateBlog.go — original code</a></figcaption></figure><p><strong>Delete Blog Command<br/></strong>Similar to the read command, this command takes a single flag, the blog id and removes it from the database. The code is nearly identical apart from the invoked client method.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="ee2d7a15d8cfd9d510991a29ec45cd5b">var deleteCmd = &amp;cobra.Command{
+	Use:   "delete",
+	Short: "Delete a Blog post by its ID",
+	Long: `Delete a blog post by it's mongoDB Unique identifier.
+	
+	If no blog post is found for the ID it will return a 'Not Found' error`,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		id, err := cmd.Flags().GetString("id")
+		if err != nil {
+			return err
+		}
+		req := &amp;blogpb.DeleteBlogReq{
+			Id: id,
+		}
+		// We only return true upon success for other cases an error is thrown
+		// We can thus omit the response variable for now and just print something to console
+		_, err = client.DeleteBlog(context.Background(), req)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("Succesfully deleted the blog with id %s\n", id)
+		return nil
+	},
+}
+
+func init() {
+	deleteCmd.Flags().StringP("id", "i", "", "The id of the blog")
+	deleteCmd.MarkFlagRequired("id")
+	rootCmd.AddCommand(deleteCmd)
+}
+</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/7fddd8d0df87673238fd58e69dccfb3c" rel="noopener" target="_blank">deleteblogclient.go — original code</a></figcaption></figure><p><strong>List Blogs Command</strong></p><p>This one will be slightly different, because if you remember it’s a RPC method that uses server side streaming. Calling ListBlogs will return a grpc client stream. If you wish to know more about this I suggest you check out the interface for it in the gRPC package. But essentially to list all blogs we’ll loop until we reach the end of the stream.</p><figure class="code-example"><pre aria-label="Code example, scroll horizontally if needed" tabindex="0"><code data-code-source="6dfa04ea745e1adc60eab0b5932e20a0">// listCmd represents the read command
+var listCmd = &amp;cobra.Command{
+	Use:   "list",
+	Short: "List all blog posts",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		// Create the request (this can be inline below too)
+		req := &amp;blogpb.ListBlogsReq{}
+		// Call ListBlogs that returns a stream
+		stream, err := client.ListBlogs(context.Background(), req)
+		// Check for errors
+		if err != nil {
+			return err
+		}
+		// Start iterating
+		for {
+			// stream.Recv returns a pointer to a ListBlogRes at the current iteration
+			res, err := stream.Recv()
+			// If end of stream, break the loop
+			if err == io.EOF {
+				break
+			}
+			// if err, return an error
+			if err != nil {
+				return err
+			}
+			// If everything went well use the generated getter to print the blog message
+			fmt.Println(res.GetBlog())
+		}
+		return nil
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(listCmd)
+}</code></pre><figcaption><a href="https://gist.github.com/kyriediculous/bc1d80f20fea3d433428f88ce2689f3b" rel="noopener" target="_blank">ListBlogsclient.go — original code</a></figcaption></figure><h2>4. Finishing Up</h2><p>It’s been a long road, but we’re at the finish line. Now you can actually start playing with the CLI application you made. If you’ve been working from your <em>$GOPATH </em>you can<em> go install</em> the CLI app and use the root command directly from the terminal. Otherwise you can call commands like so:</p><pre aria-label="Code example, scroll horizontally if needed" tabindex="0">go run client/main.go create -a “Nico Vergauwen” -t “Learning Go” -c “The quick brown fox jumps over the lazy dog”</pre><p>And that’s it , you’re well on your way to become a king at Go and gRPC ! Thank you for reading, I hope you enjoyed it!</p><figure><img alt="Illustration from Learning Go: MongoDB CRUD with gRPC" decoding="async" height="206" loading="lazy" src="/assets/writing/c8601a3e51b89b47bd1d.jpg" width="236"/></figure>

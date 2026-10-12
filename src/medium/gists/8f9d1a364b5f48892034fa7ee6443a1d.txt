@@ -1,0 +1,7 @@
+service BlogService {
+    rpc CreateBlog(CreateBlogReq) returns (CreateBlogRes);
+    rpc ReadBlog(ReadBlogReq) returns (ReadBlogRes);
+    rpc UpdateBlog(UpdateBlogReq) returns (UpdateBlogRes);
+    rpc DeleteBlog(DeleteBlogReq) returns (DeleteBlogRes);
+    rpc ListBlogs(ListBlogReq) returns (stream ListBlogRes);
+}

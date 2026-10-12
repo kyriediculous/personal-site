@@ -1,0 +1,36 @@
+// createCmd represents the create command
+var createCmd = &cobra.Command{
+	Use:   "create",
+	Short: "Create a new blog post",
+	Long: `Create a new blogpost on the server through gRPC. 
+	
+	A blog post requires an AuthorId, Title and Content.`,
+	RunE: func(cmd *cobra.Command, args []string) error {
+    // Get the data from our flags 
+		author, err := cmd.Flags().GetString("author")
+		title, err := cmd.Flags().GetString("title")
+		content, err := cmd.Flags().GetString("content")
+		if err != nil {
+			return err
+		}
+    // Create a blog protobuffer message  
+		blog := &blogpb.Blog{
+			AuthorId: author,
+			Title:    title,
+			Content:  content,
+		}
+    // RPC call
+		res, err := client.CreateBlog(
+			context.TODO(),
+      // wrap the blog message in a CreateBlog request message
+			&blogpb.CreateBlogReq{
+				Blog: blog,
+			},
+		)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("Blog created: %s\n", res.Blog.Id)
+		return nil
+	},
+}

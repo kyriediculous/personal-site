@@ -1,0 +1,9 @@
+{
+  "name": "nico-vergauwen-personal-site",
+  "private": true,
+  "scripts": {
+    "build": "python3 build.py",
+    "test": "python3 -m unittest discover -s tests -v",
+    "dev": "python3 serve.py"
+  }
+}

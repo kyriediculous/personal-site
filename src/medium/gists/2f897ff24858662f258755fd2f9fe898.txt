@@ -1,0 +1,5 @@
+message ListBlogsRequest {}
+
+message ListBlogsResponse {
+    Blog blog = 1;
+}

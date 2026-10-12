@@ -1,0 +1,7 @@
+type BlogServiceServer interface {
+	CreateBlog(context.Context, *CreateBlogReq) (*CreateBlogRes, error)
+	ReadBlog(context.Context, *ReadBlogReq) (*ReadBlogRes, error)
+	UpdateBlog(context.Context, *UpdateBlogReq) (*UpdateBlogRes, error)
+	DeleteBlog(context.Context, *DeleteBlogReq) (*DeleteBlogRes, error)
+	ListBlogs(*ListBlogsReq, BlogService_ListBlogsServer) error
+}

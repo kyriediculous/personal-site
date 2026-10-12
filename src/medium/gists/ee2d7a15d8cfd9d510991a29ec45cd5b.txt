@@ -1,0 +1,30 @@
+var deleteCmd = &cobra.Command{
+	Use:   "delete",
+	Short: "Delete a Blog post by its ID",
+	Long: `Delete a blog post by it's mongoDB Unique identifier.
+	
+	If no blog post is found for the ID it will return a 'Not Found' error`,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		id, err := cmd.Flags().GetString("id")
+		if err != nil {
+			return err
+		}
+		req := &blogpb.DeleteBlogReq{
+			Id: id,
+		}
+		// We only return true upon success for other cases an error is thrown
+		// We can thus omit the response variable for now and just print something to console
+		_, err = client.DeleteBlog(context.Background(), req)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("Succesfully deleted the blog with id %s\n", id)
+		return nil
+	},
+}
+
+func init() {
+	deleteCmd.Flags().StringP("id", "i", "", "The id of the blog")
+	deleteCmd.MarkFlagRequired("id")
+	rootCmd.AddCommand(deleteCmd)
+}
