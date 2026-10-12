@@ -51,9 +51,10 @@ previews, RSS, and the sitemap. Cloudflare assigned `nicovergauwen.pages.dev`.
 A future custom domain requires updating the origin and adding that domain in
 Cloudflare Pages.
 
-Styles and scripts carry content hashes in their URLs to avoid stale browser
-assets after an update. Git integration needs no API token in this repository or
-GitHub Actions. This static site needs no Pages Functions or paid services.
+Styles, scripts, and the embedded Jacobi MP4 and poster carry content hashes in
+their URLs to avoid stale browser assets after an update. Git integration needs
+no API token in this repository or GitHub Actions. This static site needs no
+Pages Functions or paid services.
 
 ## Edit the site
 
@@ -70,7 +71,10 @@ the current canonical article. The 12 October 2026 voice revision uses the
 author’s archived 2018–2021 writing; `content/jacobi-forcing/voice-notes.txt`
 records the references and editing guidance. `DESIGN_MEMORY.md` records owner
 feedback, including the correction toward a technical audience and a mechanism-first
-opening. Native browser controls handle the unchanged silent motion graphic.
+opening. Native browser controls handle the silent motion graphic. Its current
+source is a 30-second technical promo with a scoped benchmark hook, parallel
+prediction and training examples, an ablation comparison, and an article CTA.
+Final encoded-media verification for this revision is still pending.
 
 ## Social link previews
 

@@ -128,3 +128,26 @@ Desktop and 375px mobile render checks confirm the heading, cover and opening
 fit. No rejected title or canned opening remains in public output. Source and
 preview ZIPs are rebuilt at delivery; production completion is verified through
 the main commit's Cloudflare/GitHub checks and live-to-local byte comparison.
+
+## Marketing motion revision — 12 October 2026
+
+Replaced the 24-second illustration with a 30-second technical promo. The
+3.97× result is visible immediately with benchmark/model scope and pass@1
+tradeoff. The mechanism uses one synchronous update and a distinct accepted
+prefix; a training sequence leads into proportional ablation bars and an
+article CTA. The article prose, table, links, captions and cover are unchanged.
+
+One independent editorial/technical review approved the composition and sampled
+frames. Strict motion-project checks pass with zero warnings/errors: 15 layout
+times, 300 seeked motion states and 52 contrast checks. The final H.264/yuv420p
+export is 1920 × 1080, 30 fps, exactly 30 seconds/900 frames and silent. All frames
+decode; encoded opening, mechanism, training, comparison and CTA frames were
+visually reviewed. A brief entrance flash found in the first export was fixed,
+then affected checks and rendering repeated.
+
+The poster is an encoded frame from the final video. Browser playback reports
+30 seconds, advancing time, readyState 4 and no error. MP4 and poster URLs now
+carry content hashes; a new regression verifies those hashes and source/served
+byte equality. The Cloudflare build passes all fifteen site tests. Source and
+publication ZIPs are refreshed at delivery. Live publication is confirmed by
+the deployment commit's Cloudflare/GitHub checks and public-file byte comparison.

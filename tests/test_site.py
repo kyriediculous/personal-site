@@ -120,6 +120,21 @@ class SiteAcceptance(unittest.TestCase):
                 expected=sha256((DIST/'assets'/name).read_bytes()).hexdigest()[:12]
                 self.assertEqual(reference,'/assets/'+name+'?v='+expected)
 
+    def test_jacobi_video_and_poster_versions_match_their_served_bytes(self):
+        article_dir=DIST/'blog/jacobi-forcing'
+        soup=BeautifulSoup((article_dir/'index.html').read_text(),'html.parser')
+        video=soup.select_one('article video')
+        self.assertIsNotNone(video)
+        source=video.select_one('source[type="video/mp4"]')
+        self.assertIsNotNone(source)
+        for name,reference in [('jacobi-forcing-motion.mp4',source['src']),
+                               ('jacobi-forcing-motion-poster.png',video['poster'])]:
+            with self.subTest(asset=name):
+                served=(article_dir/'assets'/name).read_bytes()
+                self.assertEqual(served,(CANONICAL/'assets'/name).read_bytes())
+                expected=sha256(served).hexdigest()[:12]
+                self.assertEqual(reference,'assets/'+name+'?v='+expected)
+
     def test_research_and_curated_writing_inventory(self):
         home=(DIST/'index.html').read_text()
         content=json.loads((ROOT/'src/content.json').read_text())

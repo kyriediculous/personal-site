@@ -37,3 +37,14 @@ examples and clear prose; the request does not justify unnecessary jargon.
 
 Source: owner messages in this personal-site chat on 12 October 2026. Detailed
 writing references are in `content/jacobi-forcing/voice-notes.txt`.
+
+## 12 October 2026 — motion-video preference
+
+The owner asked for the motion video to be clearer and more powerful for
+marketing, and confirmed that 30 seconds is fine if it opens with a hook.
+This is a marketing-format preference, not an explicit AI-slop example.
+
+Editorial application: put the concrete result on screen immediately, make the
+training contribution visible, and retain the benchmark scope and quality
+tradeoff. Use a readable article destination at the end. Keep each explanation
+visually distinct and avoid a long introduction to the familiar serial bottleneck.

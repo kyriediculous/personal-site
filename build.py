@@ -127,7 +127,11 @@ def articlepage():
     canonical=(PUBLICATION/'article.html').read_text()
     article=re.search(r'<article>.*?</article>',canonical,re.S).group()
     article=re.sub(r'\s*<p class="eyebrow">.*?</p>','',article)
-    # Only surrounding chrome and styling change. Every article word stays canonical.
+    # Replacing the video or poster must also change its browser cache key.
+    for name in ('jacobi-forcing-motion.mp4','jacobi-forcing-motion-poster.png'):
+        version=sha256((PUBLICATION/'assets'/name).read_bytes()).hexdigest()[:12]
+        article=article.replace(f'"assets/{name}"',f'"assets/{name}?v={version}"')
+    # Article prose stays canonical; only chrome, styling and media URLs change.
     body='''<main id="main" class="shell"><div class="reading-nav"><a href="/blog/">Back to writing</a></div><div class="article-container">'''+article+'''
 <p class="article-byline">By Nico Vergauwen. Published 11 October 2026.</p>
 <div class="article-tools"><button class="button" type="button" data-copy-link>Copy link</button><a href="article.txt" download>Download article text</a><p class="copy-status" role="status" aria-live="polite"></p></div>

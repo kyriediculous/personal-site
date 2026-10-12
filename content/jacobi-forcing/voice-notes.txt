@@ -63,7 +63,9 @@ The article retains previous-round causal updates, contiguous-prefix commitment,
 training details, decoding refinements, KV-cache reuse, the benchmark table and
 speed/quality caveats. First-person comments are judgments or hypothetical
 evaluation, not claims that the author ran the benchmarks. Benchmark values,
-primary-source links, explanation captions, the diagram and video are preserved.
+primary-source links, explanation captions and the diagram are preserved.
+A subsequent motion revision uses a 30-second result-first marketing structure;
+it changes the video and poster without changing the article prose.
 The cover now uses assets/jacobi-forcing-cover-parallel.png, with its generation
 instructions in cover-prompt-parallel.txt.
 
