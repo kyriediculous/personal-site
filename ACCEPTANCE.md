@@ -50,3 +50,9 @@ enabled, and the repository contains no Cloudflare API token.
 The configured target origin is https://nicovergauwen.pages.dev. Cloudflare account
 sign-in, GitHub integration, hostname confirmation, and live verification are
 pending. Preparation checks do not establish that the site is live.
+
+The source is published at https://github.com/kyriediculous/personal-site. The
+initial Linux CI build passed all thirteen checks:
+https://github.com/kyriediculous/personal-site/actions/runs/38294731015.
+A source-only Git export produces the same 71 output files byte for byte as the
+reviewed local build. All thirteen local checks pass with the Pages target origin.

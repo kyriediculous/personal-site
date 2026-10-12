@@ -1,6 +1,7 @@
 # Nico Vergauwen’s personal site
 
 Personal site and blog for applied AI, agents, and distributed infrastructure.
+Source: [kyriediculous/personal-site](https://github.com/kyriediculous/personal-site).
 Cloudflare Pages target: `https://nicovergauwen.pages.dev` (pending account setup
 and hostname confirmation).
 
