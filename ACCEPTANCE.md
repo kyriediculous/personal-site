@@ -69,9 +69,11 @@ served as `video/mp4` with identical bytes. Cloudflare rejects the default Pytho
 client signature; verification succeeded with browser-style request headers.
 Private review evidence stays outside the public repository.
 
-The unused Worker created through the other setup flow has no enabled URLs. Its
-build was cancelled, and its Git connection is removed, so repository pushes do
-not trigger Worker builds. The Pages project is separate and remains connected.
+The live homepage was checked on desktop and at a 320px mobile viewport. No page
+or footer overflow was present; the keyboard-operated mobile menu and local blog
+navigation worked. All article images loaded in the Codex browser. The 24-second
+video reached ready state 4, played with advancing time, and reported no media
+error. The temporary mobile viewport override was cleared after verification.
 
 ## Jacobi voice revision — 12 October 2026
 
