@@ -54,10 +54,10 @@ site's DESIGN_MEMORY.md; they supersede the earlier novice-audience treatment.
 
 Current Jacobi revision
 Title: What if LLMs could generate multiple tokens at once?
-The lead starts with the gap between updating an entire token block and actually
-accepting its predictions. It introduces training on the model's own decoding
-trajectories as the contribution. Token and GPU definitions and the canned
-second-person opening have been removed.
+The lead starts with familiar token-by-token autoregressive decoding, then
+introduces parallel block prediction as the alternative. It names training on
+the model’s own intermediate drafts as the Jacobi Forcing contribution.
+Token and GPU definitions and the canned second-person opening have been removed.
 
 The article retains previous-round causal updates, contiguous-prefix commitment,
 training details, decoding refinements, KV-cache reuse, the benchmark table and

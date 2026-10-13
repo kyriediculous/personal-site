@@ -192,3 +192,14 @@ feature and thumbnail legibility. One independent review found no issues.
 Root/site canonical files and built image bytes match. Build output and
 deployment evidence for this delivery are kept locally under
 `.qa/jacobi-title-cover-*`.
+
+
+## 13 October 2026 — intro baseline restored
+
+Only the lead paragraph changes: standard token-by-token autoregressive
+decoding establishes the baseline, Jacobi decoding introduces parallel block
+prediction, and Jacobi Forcing supplies the training contribution. The
+remaining article HTML and all media are identical to the previous delivery.
+Both canonical copies and text exports match. One independent editorial and
+technical review approved the lead; all 15 Cloudflare build checks pass.
+Delivery evidence is kept locally under `.qa/jacobi-intro-*`.

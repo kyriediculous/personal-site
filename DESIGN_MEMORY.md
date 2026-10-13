@@ -93,3 +93,14 @@ the article, homepage feature, blog index, feed and social previews. Retain LLM
 and token terminology; the earlier instruction to name the method in the title
 is superseded by this explicit question-led packaging request. The technical
 article body and evidence remain unchanged.
+
+
+## 13 October 2026 — restore the baseline in the introduction
+
+The owner noted that the familiar token-by-token autoregressive generation
+baseline had been lost. They want the introduction to establish that commonly
+understood approach and present parallel generation as its alternative.
+Practical rule: acknowledge the baseline in one direct sentence, then move to
+parallel token prediction and the training contribution. Assuming familiarity
+does not mean removing the comparison that motivates the article. This does
+not reverse the rejection of canned chatbot scenes or staged waiting.
