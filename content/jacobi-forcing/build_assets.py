@@ -16,7 +16,7 @@ ASSETS = ROOT / "assets"
 def render_png(svg):
     """Render our own simple SVG with Pillow, without a native Cairo dependency."""
     scale = 2
-    canvas = Image.new("RGB", (1600 * scale, 1150 * scale), "#f7f5ef")
+    canvas = Image.new("RGB", (1600 * scale, 900 * scale), "#f7f5ef")
     draw = ImageDraw.Draw(canvas)
     for element in ET.fromstring(svg):
         tag = element.tag.rsplit("}", 1)[-1]
@@ -52,7 +52,7 @@ def render_png(svg):
                 raise ValueError(f"Diagram text exceeds its canvas: {element.text}")
             draw.text(pos, element.text or "", fill=attrs.get("fill", "#252523"),
                       font=font, anchor=anchor)
-    canvas.resize((1600, 1150), Image.Resampling.LANCZOS).save(ASSETS / "jacobi-forcing-refinement.png")
+    canvas.resize((1600, 900), Image.Resampling.LANCZOS).save(ASSETS / "jacobi-forcing-refinement.png")
 
 def text(x, y, value, size=28, fill="#252523", weight=400, anchor="start"):
     return (f'<text x="{x}" y="{y}" font-family="Helvetica, Arial, sans-serif" '
@@ -61,13 +61,11 @@ def text(x, y, value, size=28, fill="#252523", weight=400, anchor="start"):
 
 def render_diagram():
     ink, muted, blue, paper = "#252523", "#74746c", "#315ad4", "#f7f5ef"
-    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1150" viewBox="0 0 1600 1150">',
+    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">',
              '<title>Jacobi Forcing improves several guesses together</title>',
              '<desc>A made-up sentence improves through several rounds. Some later words match the finished sentence while earlier words are still changing. Words stand in for tokens.</desc>',
-             f'<rect width="1600" height="1150" fill="{paper}"/>',
-             text(96, 78, "JACOBI FORCING / AI EXPLAINED", 22, muted, 600),
-             text(96, 154, "Improve several guesses at once.", 66, ink, 700),
-             text(96, 211, "Some words can fall into place while others are still changing.", 30, muted),
+             f'<rect width="1600" height="900" fill="{paper}"/>',
+             text(96, 154, "Parallel token refinement", 66, ink, 700),
              f'<rect x="96" y="253" width="24" height="24" rx="5" fill="{blue}"/>',
              text(134, 273, "Matches the finished sentence", 25, ink),
              '<rect x="575" y="253" width="24" height="24" rx="5" fill="#e5e3dc" stroke="#cccac3"/>',
@@ -93,13 +91,7 @@ def render_diagram():
             parts.append(f'<line x1="285" y1="{y + 79}" x2="285" y2="{y + 122}" stroke="#a4a39b" stroke-width="2"/>')
             parts.append(f'<line x1="278" y1="{y + 113}" x2="285" y2="{y + 122}" stroke="#a4a39b" stroke-width="2"/>')
             parts.append(f'<line x1="292" y1="{y + 113}" x2="285" y2="{y + 122}" stroke="#a4a39b" stroke-width="2"/>')
-    parts.extend([
-        '<line x1="96" y1="906" x2="1504" y2="906" stroke="#cfcdc5"/>',
-        text(96, 964, "Several guesses can improve during the same round.", 37, ink, 600),
-        text(96, 1014, "The system still checks and finalizes the text from left to right.", 30, muted),
-        text(96, 1090, "A MADE-UP EXAMPLE. WORDS STAND IN FOR TOKENS.", 20, muted, 500),
-        '</svg>',
-    ])
+    parts.append('</svg>')
     svg = "\n".join(parts)
     (ASSETS / "jacobi-forcing-refinement.svg").write_text(svg)
     render_png(svg)
@@ -158,7 +150,7 @@ def export_text():
     value = re.sub(r"\n{3,}", "\n\n", value).strip() + "\n"
     (ROOT / "article.txt").write_text(value)
     words = len(re.findall(r"\b[\w’'-]+\b", re.sub(r"https?://\S+", "", value)))
-    print(f"Article exported: {words} words; diagram rendered: 1600 × 1150")
+    print(f"Article exported: {words} words")
 
 if __name__ == "__main__":
     render_diagram()

@@ -227,3 +227,21 @@ content-hash URLs invalidate cached video/poster bytes. Evidence for this
 delivery is kept under `.qa/jacobi-house-*`. Source and encoder reproduction
 notes are included in the publication ZIP; an encoder preflight handles the
 system FFmpeg build’s missing MJPEG decoder.
+
+
+## 13 October 2026 — first mismatch shown; rejected fine print removed
+
+The mechanism’s abstract slogan is replaced by a joint-update phase and a
+concrete expected cat/candidate dog comparison. Only The is accepted before
+the first mismatch; later positions remain guesses. All scene disclaimer
+footers, redundant explanations and the repeat below the video are removed.
+The older diagram loses its repeated disclaimers/eyebrow/caption and is cropped
+to 1600×900. Its media URL is now hashed to invalidate the previous image.
+
+Three copy-regression tests prevent the rejected phrases returning. Strict
+video checks have zero findings, with 19 requested layout times, 300 motion
+states and 51 contrast checks. The 30-second export has 900 decoded frames;
+encoded scenes were inspected. The exact Cloudflare build passes all 15 site
+checks, including canonical export/media parity and the strengthened copy
+regression. Owner feedback is saved in global AGENTS.md and DESIGN_MEMORY.md.
+Delivery evidence is kept under `.qa/jacobi-clarity-*`.

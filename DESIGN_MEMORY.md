@@ -116,3 +116,24 @@ Show a serial token chain versus grouped parallel guesses, including refinement
 and verification. Do not reuse abstract 3D token sculptures as the explanation.
 Preserve the exact multiple-token hook, the restored baseline intro, and the
 video’s distinction between guesses, committed prefixes and measured results.
+
+
+## 13 October 2026 — explicit AI-slop rejection of video fine print
+
+The owner explicitly called the small scene labels “entirely useless AI slop,”
+identifying “illustration not measured timing” in the opening and similar text
+in other scenes. Exact implemented example: “Illustration · not measured timing”.
+Practical rule: remove on-screen disclaimers such as “illustrative drafts”,
+“words stand in for tokens”, “illustrative training pairs” and “acceptance varies
+by pass”. Do not replace them with new small labels or repeat them below the
+video. Use only labels that identify an actual diagram role or measured data,
+at readable size. Technical provenance belongs in source/delivery notes.
+
+Related clarity correction: the owner found “Predict a block together. Verify
+from left to right.” unclear. Explain the check with visible candidate/expected
+tokens, accepted output and the first mismatch; do not rely on an abstract slogan.
+
+Application to the older explanatory diagram: remove its AI EXPLAINED eyebrow,
+made-up/word-token disclaimer, redundant explanation footer and the repeated
+caption. Retain its functional colour legend and draft/target rows. Provenance
+stays in SVG accessibility metadata and source/delivery notes.

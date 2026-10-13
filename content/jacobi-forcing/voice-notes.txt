@@ -86,3 +86,16 @@ the premise, including refinement and verification. The video uses the site’s
 Host Grotesk, dark teal, cream, mint, yellow and sky blue with rounded geometry.
 Mint marks committed output; sky outlines retain provisional predictions.
 The multiple-token hook, baseline intro and technical article prose are preserved.
+
+Owner correction, 13 October 2026 — remove video fine print
+The owner explicitly rejected “Illustration · not measured timing” and similar
+small disclaimer labels as AI slop. All scene disclaimer footers and the repeat
+below the video are removed. Diagram role labels and actual benchmark data
+remain readable. The unclear block-prediction/left-to-right slogan is replaced
+by a concrete expected cat versus candidate dog check, with The accepted and
+acceptance stopping at the first mismatch. Main article prose is preserved;
+only the redundant video caption is removed from the canonical text export.
+
+The older static diagram is cleaned too: no AI EXPLAINED eyebrow, redundant
+subtitle/footer, made-up disclaimer or repeat caption. It is now 1600×900;
+its functional colour legend and token rows are preserved.

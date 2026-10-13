@@ -74,8 +74,7 @@
         <p><strong>Causal attention</strong> is preserved: each token only attends to positions to its left. The parallelism comes from using provisional values at those positions, rather than waiting for each one to be confirmed.</p>
 
         <figure>
-          <img src="assets/jacobi-forcing-refinement.png" width="1600" height="1150" loading="lazy" alt="A made-up sentence improves across several rounds of guesses. Some later words match the finished sentence while earlier words are still changing.">
-          <figcaption>A made-up example, with words standing in for tokens. Blue marks a match with the eventual sentence for illustration; it does not mean that word has already been accepted.</figcaption>
+          <img src="assets/jacobi-forcing-refinement.png" width="1600" height="900" loading="lazy" alt="A made-up sentence improves across several rounds of guesses. Some later words match the finished sentence while earlier words are still changing.">
         </figure>
 
         <p>Matching a token at a later position isn’t enough to accept it. The decoder verifies and commits a <strong>contiguous prefix from the left</strong>; later guesses stay provisional until their preceding context is confirmed.</p>
@@ -84,7 +83,6 @@
           <video controls loop playsinline preload="none" poster="assets/jacobi-forcing-motion-poster.png" width="1920" height="1080" aria-label="Jacobi Forcing: parallel prediction, training on unfinished drafts, and reported benchmark results">
             <source src="assets/jacobi-forcing-motion.mp4" type="video/mp4">
           </video>
-          <figcaption>The animation separates provisional guesses from the confirmed prefix. Its timing illustrates the mechanism; it is not a measured model run.</figcaption>
         </figure>
 
         <p><strong>Parallel decoding only helps if enough predictions survive verification.</strong> A model trained mostly on clean text can struggle with these changing prefixes. More parallel computation doesn’t automatically mean more accepted tokens.</p>

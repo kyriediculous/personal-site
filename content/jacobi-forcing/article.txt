@@ -6,11 +6,7 @@ The decoder starts with a block of token guesses. In each iteration, every posit
 
 Causal attention is preserved: each token only attends to positions to its left. The parallelism comes from using provisional values at those positions, rather than waiting for each one to be confirmed.
 
-A made-up example, with words standing in for tokens. Blue marks a match with the eventual sentence for illustration; it does not mean that word has already been accepted.
-
 Matching a token at a later position isn’t enough to accept it. The decoder verifies and commits a contiguous prefix from the left; later guesses stay provisional until their preceding context is confirmed.
-
-The animation separates provisional guesses from the confirmed prefix. Its timing illustrates the mechanism; it is not a measured model run.
 
 Parallel decoding only helps if enough predictions survive verification. A model trained mostly on clean text can struggle with these changing prefixes. More parallel computation doesn’t automatically mean more accepted tokens.
 

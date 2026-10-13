@@ -297,6 +297,12 @@ class SiteAcceptance(unittest.TestCase):
             doc=parse(page)
             self.assertFalse(any(a.get('href','').startswith('tel:') for a in doc.anchors))
             self.assertNotIn('class="eyebrow"',page.read_text())
+        diagram=ET.parse(CANONICAL/'assets/jacobi-forcing-refinement.svg')
+        visible=' '.join(node.text or '' for node in diagram.iter() if node.tag.rsplit('}',1)[-1]=='text')
+        self.assertNotRegex(visible.lower(),r'illustration|made.up example|words stand in for tokens|ai explained')
+        article=BeautifulSoup((DIST/'blog/jacobi-forcing/index.html').read_text(),'html.parser')
+        for caption in article.select('figcaption'):
+            self.assertNotRegex(caption.get_text().lower(),r'not a measured model run|a made.up example|words standing in for tokens')
         self.assertFalse(list(DIST.rglob('*Resume*.pdf')))
         self.assertFalse(any(p.name in ('security-reports','.git','.openai') for p in DIST.rglob('*')))
 
