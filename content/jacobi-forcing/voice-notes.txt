@@ -99,3 +99,10 @@ only the redundant video caption is removed from the canonical text export.
 The older static diagram is cleaned too: no AI EXPLAINED eyebrow, redundant
 subtitle/footer, made-up disclaimer or repeat caption. It is now 1600×900;
 its functional colour legend and token rows are preserved.
+
+13 October 2026 — house-style clarification
+The owner identifies the colourful pastel cards as the defining visual style,
+more than the dark homepage hero. Use sky, lilac, yellow and mint with cream,
+dark ink and Host Grotesk for explanatory diagrams. The remaining refinement
+image now follows this direction and has a phone layout. Functional token
+labels and the final-output matching cue remain; do not add fine-print labels.

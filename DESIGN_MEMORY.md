@@ -137,3 +137,23 @@ Application to the older explanatory diagram: remove its AI EXPLAINED eyebrow,
 made-up/word-token disclaimer, redundant explanation footer and the repeated
 caption. Retain its functional colour legend and draft/target rows. Provenance
 stays in SVG accessibility metadata and source/delivery notes.
+
+
+## 13 October 2026 — colourful pastels define the house style
+
+The owner clarified: “Our house style is also less so a dark background but
+more so the various colorfoul pastels.” They asked to improve the remaining
+static article image. This is a style preference, not an explicit AI-slop label.
+
+The earlier emphasis on the dark homepage hero as the default media surface
+was an assistant interpretation. It is superseded by this clarification:
+lead with the site's sky, lilac, yellow and mint surfaces, cream background,
+dark ink, Host Grotesk and rounded geometry. Dark teal is one homepage surface,
+not the defining background for every visual. Match the actual colourful cards.
+
+The refinement diagram now uses pastel bands for successive passes and a
+consistent mint/check cue for tokens matching the final output. These matches
+are not automatically committed tokens; the article's contiguous-prefix
+explanation remains directly below. A separate phone composition preserves
+readable labels without shrinking the six-token diagram. Retain functional
+labels only; do not restore decorative eyebrows, disclaimers or repeat captions.

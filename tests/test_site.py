@@ -120,20 +120,30 @@ class SiteAcceptance(unittest.TestCase):
                 expected=sha256((DIST/'assets'/name).read_bytes()).hexdigest()[:12]
                 self.assertEqual(reference,'/assets/'+name+'?v='+expected)
 
-    def test_jacobi_video_and_poster_versions_match_their_served_bytes(self):
+    def test_jacobi_media_versions_and_diagram_dimensions_match_served_bytes(self):
         article_dir=DIST/'blog/jacobi-forcing'
         soup=BeautifulSoup((article_dir/'index.html').read_text(),'html.parser')
         video=soup.select_one('article video')
         self.assertIsNotNone(video)
         source=video.select_one('source[type="video/mp4"]')
         self.assertIsNotNone(source)
+        diagram=soup.select_one('picture img[src*="jacobi-forcing-refinement.png"]')
+        self.assertIsNotNone(diagram)
+        phone=diagram.parent.select_one('source[media="(max-width: 600px)"]')
+        self.assertIsNotNone(phone)
         for name,reference in [('jacobi-forcing-motion.mp4',source['src']),
-                               ('jacobi-forcing-motion-poster.png',video['poster'])]:
+                               ('jacobi-forcing-motion-poster.png',video['poster']),
+                               ('jacobi-forcing-refinement.png',diagram['src']),
+                               ('jacobi-forcing-refinement-mobile.png',phone['srcset'])]:
             with self.subTest(asset=name):
                 served=(article_dir/'assets'/name).read_bytes()
                 self.assertEqual(served,(CANONICAL/'assets'/name).read_bytes())
                 expected=sha256(served).hexdigest()[:12]
                 self.assertEqual(reference,'assets/'+name+'?v='+expected)
+        for element,attribute in ((diagram,'src'),(phone,'srcset')):
+            path=article_dir/urlsplit(element[attribute]).path
+            with Image.open(path) as image:
+                self.assertEqual(image.size,(int(element['width']),int(element['height'])))
 
     def test_research_and_curated_writing_inventory(self):
         home=(DIST/'index.html').read_text()

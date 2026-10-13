@@ -245,3 +245,23 @@ encoded scenes were inspected. The exact Cloudflare build passes all 15 site
 checks, including canonical export/media parity and the strengthened copy
 regression. Owner feedback is saved in global AGENTS.md and DESIGN_MEMORY.md.
 Delivery evidence is kept under `.qa/jacobi-clarity-*`.
+
+
+## 13 October 2026 — remaining diagram adopts the colourful pastel style
+
+The static refinement diagram now uses the website’s sky, lilac, yellow and
+mint card palette, cream background, dark ink and Host Grotesk. Mint/check
+tokens match the final output; white tokens still change. The example and the
+article’s contiguous-prefix explanation are preserved. No decorative copy or
+disclaimer is added. The owner’s pastel preference is saved in DESIGN_MEMORY.md.
+
+A separate 800×1120 phone composition is selected up to 600px; the desktop
+composition remains 1600×900. Local desktop and 390px phone views confirm the
+correct loaded asset, readable labels and no horizontal overflow. Both media
+URLs use hashes of their bytes. Native SVGs embed the same licensed variable
+font used by the deterministic Pillow exports; the font and OFL are bundled.
+
+The media acceptance check now covers both diagrams’ canonical bytes, cache
+keys and declared dimensions. All 15 site checks pass. This image-only delivery
+reuses the unchanged video’s prior lint, runtime, decode and playback evidence.
+Current delivery evidence is kept under `.qa/jacobi-pastel-*`.

@@ -74,7 +74,10 @@
         <p><strong>Causal attention</strong> is preserved: each token only attends to positions to its left. The parallelism comes from using provisional values at those positions, rather than waiting for each one to be confirmed.</p>
 
         <figure>
-          <img src="assets/jacobi-forcing-refinement.png" width="1600" height="900" loading="lazy" alt="A made-up sentence improves across several rounds of guesses. Some later words match the finished sentence while earlier words are still changing.">
+          <picture>
+            <source media="(max-width: 600px)" srcset="assets/jacobi-forcing-refinement-mobile.png" width="800" height="1120">
+            <img src="assets/jacobi-forcing-refinement.png" width="1600" height="900" loading="lazy" alt="Four rounds refine A dog ran near a tree into The cat sat on the mat. Mint tokens with check marks match the final output; white tokens still change. Later matches remain provisional until the prefix is verified.">
+          </picture>
         </figure>
 
         <p>Matching a token at a later position isn’t enough to accept it. The decoder verifies and commits a <strong>contiguous prefix from the left</strong>; later guesses stay provisional until their preceding context is confirmed.</p>

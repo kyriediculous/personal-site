@@ -128,7 +128,8 @@ def articlepage():
     article=re.search(r'<article>.*?</article>',canonical,re.S).group()
     article=re.sub(r'\s*<p class="eyebrow">.*?</p>','',article)
     # Replacing article media must also change its browser cache key.
-    for name in ('jacobi-forcing-motion.mp4','jacobi-forcing-motion-poster.png','jacobi-forcing-refinement.png'):
+    for name in ('jacobi-forcing-motion.mp4','jacobi-forcing-motion-poster.png',
+                 'jacobi-forcing-refinement.png','jacobi-forcing-refinement-mobile.png'):
         version=sha256((PUBLICATION/'assets'/name).read_bytes()).hexdigest()[:12]
         article=article.replace(f'"assets/{name}"',f'"assets/{name}?v={version}"')
     # Article prose stays canonical; only chrome, styling and media URLs change.

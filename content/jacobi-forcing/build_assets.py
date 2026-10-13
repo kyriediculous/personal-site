@@ -7,18 +7,25 @@ from pathlib import Path
 from html import escape
 from html.parser import HTMLParser
 import re
+import base64
 import xml.etree.ElementTree as ET
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent
 ASSETS = ROOT / "assets"
+FONT = ASSETS / "fonts" / "host-grotesk.ttf"
+INK, PAPER, WHITE = "#201f1e", "#f5f4ef", "#fbfbf9"
+MINT, SKY, LILAC, SUN = "#c6f1e9", "#70c4e1", "#c0b7f9", "#ffc757"
 
-def render_png(svg):
+def render_png(svg, destination):
     """Render our own simple SVG with Pillow, without a native Cairo dependency."""
     scale = 2
-    canvas = Image.new("RGB", (1600 * scale, 900 * scale), "#f7f5ef")
+    root = ET.fromstring(svg)
+    width, height = int(root.attrib["width"]), int(root.attrib["height"])
+    canvas = Image.new("RGB", (width * scale, height * scale), PAPER)
     draw = ImageDraw.Draw(canvas)
-    for element in ET.fromstring(svg):
+    fonts = {}
+    for element in root:
         tag = element.tag.rsplit("}", 1)[-1]
         attrs = element.attrib
         def number(key, default=0):
@@ -32,19 +39,13 @@ def render_png(svg):
             draw.line([(number("x1"), number("y1")), (number("x2"), number("y2"))],
                       fill=attrs.get("stroke", "#252523"), width=max(1, int(number("stroke-width", 1))))
         elif tag == "text":
-            bold = int(attrs.get("font-weight", 400)) >= 600
             size = int(number("font-size", 28))
-            font_paths = [
-                ("/System/Library/Fonts/Helvetica.ttc", 1 if bold else 0),
-                ("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold
-                 else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 0),
-            ]
-            for font_path, index in font_paths:
-                if Path(font_path).is_file():
-                    font = ImageFont.truetype(font_path, size=size, index=index)
-                    break
-            else:
-                raise RuntimeError("A Helvetica or DejaVu Sans font is required to render the diagram.")
+            weight = int(attrs.get("font-weight", 400))
+            key = size, weight
+            if key not in fonts:
+                fonts[key] = ImageFont.truetype(str(FONT), size=size)
+                fonts[key].set_variation_by_axes([weight])
+            font = fonts[key]
             anchor = "ms" if attrs.get("text-anchor") == "middle" else "ls"
             pos = (number("x"), number("y"))
             bounds = draw.textbbox(pos, element.text or "", font=font, anchor=anchor)
@@ -52,49 +53,88 @@ def render_png(svg):
                 raise ValueError(f"Diagram text exceeds its canvas: {element.text}")
             draw.text(pos, element.text or "", fill=attrs.get("fill", "#252523"),
                       font=font, anchor=anchor)
-    canvas.resize((1600, 900), Image.Resampling.LANCZOS).save(ASSETS / "jacobi-forcing-refinement.png")
+    canvas.resize((width, height), Image.Resampling.LANCZOS).save(destination)
 
-def text(x, y, value, size=28, fill="#252523", weight=400, anchor="start"):
-    return (f'<text x="{x}" y="{y}" font-family="Helvetica, Arial, sans-serif" '
+def text(x, y, value, size=28, fill=INK, weight=400, anchor="start"):
+    return (f'<text x="{x}" y="{y}" font-family="Host Grotesk, Arial, sans-serif" '
             f'font-size="{size}" font-weight="{weight}" text-anchor="{anchor}" '
             f'fill="{fill}">{escape(value)}</text>')
 
-def render_diagram():
-    ink, muted, blue, paper = "#252523", "#74746c", "#315ad4", "#f7f5ef"
-    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">',
-             '<title>Jacobi Forcing improves several guesses together</title>',
-             '<desc>A made-up sentence improves through several rounds. Some later words match the finished sentence while earlier words are still changing. Words stand in for tokens.</desc>',
-             f'<rect width="1600" height="900" fill="{paper}"/>',
-             text(96, 154, "Parallel token refinement", 66, ink, 700),
-             f'<rect x="96" y="253" width="24" height="24" rx="5" fill="{blue}"/>',
-             text(134, 273, "Matches the finished sentence", 25, ink),
-             '<rect x="575" y="253" width="24" height="24" rx="5" fill="#e5e3dc" stroke="#cccac3"/>',
-             text(613, 273, "Still needs to change", 25, ink)]
+def rect(x, y, width, height, fill, radius=16, stroke=None, stroke_width=1):
+    border = f' stroke="{stroke}" stroke-width="{stroke_width}"' if stroke else ""
+    return (f'<rect x="{x}" y="{y}" width="{width}" height="{height}" '
+            f'rx="{radius}" fill="{fill}"{border}/>')
+
+def line(x1, y1, x2, y2, width=3):
+    return (f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" '
+            f'stroke="{INK}" stroke-width="{width}"/>')
+
+def check(x, y, size=18):
+    # A shape cue distinguishes matching tokens without relying on colour alone.
+    return [line(x, y + size*.5, x + size*.35, y + size*.85),
+            line(x + size*.35, y + size*.85, x + size, y)]
+
+def render_diagram(mobile=False):
+    width, height = (800, 1120) if mobile else (1600, 900)
+    font_data = base64.b64encode(FONT.read_bytes()).decode("ascii")
+    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title description">',
+             '<title id="title">Parallel token refinement</title>',
+             '<desc id="description">An invented sentence changes from A dog ran near a tree to The cat sat on the mat over four rounds. Mint tokens with checks match the final output; white tokens still need to change. A match at a later position is not automatically accepted. Words stand in for tokens.</desc>',
+             f'<defs><style>@font-face{{font-family:"Host Grotesk";src:url(data:font/ttf;base64,{font_data}) format("truetype");font-weight:300 800;}}</style></defs>',
+             rect(0, 0, width, height, PAPER, 0)]
+    if mobile:
+        parts += [text(40, 100, "Parallel token", 64), text(40, 164, "refinement", 64)]
+        legend_y, legend_size, legend_x = 220, 32, 40
+    else:
+        parts += [text(64, 126, "Parallel token refinement", 80)]
+        legend_y, legend_size, legend_x = 209, 32, 64
+    parts.append(rect(legend_x, legend_y - 26, 32, 32, MINT, 8, INK, 2))
+    parts += check(legend_x + 7, legend_y - 18, 18)
+    parts.append(text(legend_x + 48, legend_y, "Matches final output", legend_size))
+    second_x, second_y = (40, 274) if mobile else (500, legend_y)
+    parts += [rect(second_x, second_y - 26, 32, 32, WHITE, 8, INK),
+              text(second_x + 48, second_y, "Still changing", legend_size)]
     final = ["The", "cat", "sat", "on", "the", "mat"]
     rows = [
-        ("First guesses", ["A", "dog", "ran", "near", "a", "tree"]),
-        ("Try again", ["The", "dog", "ran", "on", "a", "mat"]),
-        ("Improve again", ["The", "cat", "sat", "on", "a", "mat"]),
-        ("Final answer", final),
+        ("Initial guesses", ["A", "dog", "ran", "near", "a", "tree"]),
+        ("Pass 1", ["The", "dog", "ran", "on", "a", "mat"]),
+        ("Pass 2", ["The", "cat", "sat", "on", "a", "mat"]),
+        ("Final output", final),
     ]
+    # Pass colours follow the site's project-card palette. Token states remain
+    # constant across every band: mint plus a check is a match, white is a guess.
+    bands = SKY, LILAC, SUN, MINT
     for row, (label, tokens) in enumerate(rows):
-        y = 353 + row * 130
-        parts.append(text(96, y + 53, label, 27, ink, 600))
+        if mobile:
+            y, band_height, card_x = 322 + row*190, 166, 24
+            parts += [rect(card_x, y, 752, band_height, bands[row], 24),
+                      text(48, y + 48, label, 34, weight=500)]
+            token_x, token_y, token_width, stride, font_size = 48, y + 69, 104, 120, 42
+        else:
+            y, band_height, card_x = 280 + row*146, 124, 64
+            parts += [rect(card_x, y, 1472, band_height, bands[row], 28),
+                      text(96, y + 76, label, 36, weight=500)]
+            token_x, token_y, token_width, stride, font_size = 390, y + 18, 160, 180, 46
         for col, token in enumerate(tokens):
-            x = 405 + col * 179
+            x = token_x + col*stride
             is_match = token == final[col]
-            fill = blue if is_match else "#e5e3dc"
-            stroke = blue if is_match else "#d4d2ca"
-            parts.append(f'<rect x="{x}" y="{y}" width="155" height="88" rx="10" fill="{fill}" stroke="{stroke}"/>')
-            parts.append(text(x + 77.5, y + 56, token, 34, "#ffffff" if is_match else muted, 500, "middle"))
+            parts.append(rect(x, token_y, token_width, 88, MINT if is_match else WHITE,
+                              16, INK, 2 if is_match else 1))
+            parts.append(text(x + token_width/2, token_y + 61, token, font_size,
+                              weight=400, anchor="middle"))
+            if is_match:
+                parts += check(x + token_width - 25, token_y + 10, 14)
         if row < len(rows) - 1:
-            parts.append(f'<line x1="285" y1="{y + 79}" x2="285" y2="{y + 122}" stroke="#a4a39b" stroke-width="2"/>')
-            parts.append(f'<line x1="278" y1="{y + 113}" x2="285" y2="{y + 122}" stroke="#a4a39b" stroke-width="2"/>')
-            parts.append(f'<line x1="292" y1="{y + 113}" x2="285" y2="{y + 122}" stroke="#a4a39b" stroke-width="2"/>')
+            arrow_x = 72 if mobile else 200
+            arrow_y = y + band_height + 3
+            parts += [line(arrow_x, arrow_y, arrow_x, arrow_y + 16, 2),
+                      line(arrow_x - 5, arrow_y + 11, arrow_x, arrow_y + 16, 2),
+                      line(arrow_x + 5, arrow_y + 11, arrow_x, arrow_y + 16, 2)]
     parts.append('</svg>')
     svg = "\n".join(parts)
-    (ASSETS / "jacobi-forcing-refinement.svg").write_text(svg)
-    render_png(svg)
+    name = "jacobi-forcing-refinement" + ("-mobile" if mobile else "")
+    (ASSETS / f"{name}.svg").write_text(svg)
+    render_png(svg, ASSETS / f"{name}.png")
 
 class ArticleText(HTMLParser):
     """Export only article text, retaining citations and readable table rows."""
@@ -154,4 +194,5 @@ def export_text():
 
 if __name__ == "__main__":
     render_diagram()
+    render_diagram(mobile=True)
     export_text()
