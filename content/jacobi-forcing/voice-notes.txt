@@ -106,3 +106,27 @@ more than the dark homepage hero. Use sky, lilac, yellow and mint with cream,
 dark ink and Host Grotesk for explanatory diagrams. The remaining refinement
 image now follows this direction and has a phone layout. Functional token
 labels and the final-output matching cue remain; do not add fine-print labels.
+
+13 October 2026 — static example approved as the motion reference
+The owner finds the approved static diagram clearer than the video. Carry one
+concrete sentence through refinement, verification, training and acceptance;
+keep earlier passes visible for comparison. Use the established colourful
+pastels and distinguish a match with final output from committed prefix tokens.
+
+13 October 2026 — revised middle and ending
+The opening and approved visuals stay. The owner rejected the hard-to-follow
+middle and dull hypothetical evaluation ending as unlike their voice. The new
+text explains training through the same sentence example, compares lossless
+speculative decoding, interprets the speed/first-attempt-accuracy tradeoff and
+connects it to coding/SQL agents, retries, long output and serving conditions.
+The closing uses ordinary prose, without an invented personal quotation.
+Training hyperparameters, the 1,000-token arithmetic and detailed block-size
+figures were removed from the narrative to keep its main argument clear.
+
+Research correction: final published Table 1 uses the same Qwen2.5-Coder-7B-
+Instruct backbone for AR-based comparisons. EAGLE-3 is 127.2 TPS, 87.8%; HASS
+is 95.2 TPS, 87.8%; JF+MR is 163.9 TPS, 83.5%. The older README/Snowflake
+comparison has different released speculative checkpoints and values; it does
+not govern the rewritten article. Speculation about retries offsetting some
+first-attempt loss is identified as an application possibility, not a measured
+end-to-end result. Benchmarks.json retains the exact comparison provenance.

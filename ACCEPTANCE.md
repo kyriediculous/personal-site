@@ -265,3 +265,59 @@ The media acceptance check now covers both diagrams’ canonical bytes, cache
 keys and declared dimensions. All 15 site checks pass. This image-only delivery
 reuses the unchanged video’s prior lint, runtime, decode and playback evidence.
 Current delivery evidence is kept under `.qa/jacobi-pastel-*`.
+
+
+## 13 October 2026 — approved static example drives the pastel video
+
+The 30-second video now carries one sentence through refinement, verification,
+training and a longer accepted prefix. Each parallel pass changes together and
+earlier passes stay visible for comparison. A separate accepted-output strip
+shows The only at the dog/cat mismatch, then The cat sat on before a/the fails.
+Later matches remain provisional. The whole film adopts the approved diagram’s
+colourful pastel surfaces, cream, ink and Host Grotesk. The exact hook is visible
+on frame zero; benchmark values and quality scope remain readable. No new
+visible disclaimer, decorative label, audio or repeat caption is added.
+
+Four prefix-regression tests supplement the three copy guards. Strict video
+checks have zero errors, warnings or informational findings, with 17 requested
+layout times, 300 motion states and 56 passing contrast checks. Static hero
+layouts preceded animation. Assembled and encoded frames were reviewed. Export:
+30 seconds, 900 decoded frames, 1920×1080, 30fps, silent H.264/yuv420p,
+2,731,573 bytes. Poster: encoded frame 2.5 seconds. Canonical/root media match.
+
+The approved diagram, article prose/title/intro, research values and cover are
+preserved. The existing media-hash build gives both new video and poster fresh
+cache keys. Final Cloudflare, playback, live byte-parity and package evidence
+is recorded under `.qa/jacobi-video-pastel-*` and publication acceptance.txt.
+
+
+## 13 October 2026 — clearer article middle and ending
+
+The established introduction, diagram, video placement and benchmark table
+are preserved. The middle now explains training through the same sentence,
+compares lossless speculative decoding with fine-tuned parallel generation,
+and interprets the speed/first-attempt-accuracy tradeoff. Final published Table
+1 supplies matched Qwen2.5-Coder-7B-Instruct baselines: EAGLE-3 127.2 TPS,
+HASS 95.2 TPS, both 87.8% pass@1; JF+MR 163.9 TPS at 83.5%. This supersedes
+the older released-checkpoint comparison in the project README. The exact
+source and values are recorded in benchmarks.json and `.qa/jacobi-writing-*`.
+
+The later paragraphs address coding/SQL agents, feedback and retries, output
+length, request bottlenecks and serving cost. Potential retry benefits are
+identified as possibilities rather than inferred benchmark results. Detailed
+training settings and arithmetic detours are removed. The ending is plain
+prose about the practical choice, with no invented first-person quotation or
+pull-quote styling. Canonical HTML/text copies match at 1,092 words.
+
+A local native-font import delayed the article-only export. Rendering imports
+now load inside render_png, so the text exporter does not initialize an unused
+font renderer. The image source and approved image bytes are unchanged. The
+final build is recorded in `.qa/jacobi-writing-final-build.log`; it supersedes
+the earlier build whose export changed while the font import was stalled.
+
+The final exact Cloudflare build passes all 15 checks in both the system runtime
+and an isolated workspace environment with pinned dependencies. The isolated
+run completes in 1.059 seconds; `.qa/jacobi-writing-isolated-build.log` records
+it. Browser review confirms the readable comparison and ordinary ending. The
+accepted pastel video has advancing playback, duration 30 and ready state 4
+with no media error. No video rerender followed the article-only revision.

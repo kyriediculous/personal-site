@@ -2,17 +2,97 @@
   "source": "https://raw.githubusercontent.com/mlresearch/v306/main/assets/hu26aa/hu26aa.pdf",
   "publication": "ICML 2026, PMLR volume 306",
   "decoding_rule": "Greedy decoding: choose the highest-scoring next token.",
-  "checked_date": "2026-10-11",
+  "checked_date": "2026-10-13",
   "scope": "Reported A100 results; JF includes multi-block decoding and rejection recycling (MR). No benchmarks were run for this article.",
   "coding_model": "Qwen2.5-Coder-7B-Instruct",
   "math_model": "Qwen2.5-Math-7B-Instruct",
   "a100_results": [
-    {"benchmark": "HumanEval", "table": 1, "score_kind": "pass@1", "baseline_tps": 41.3, "jf_mr_tps": 163.9, "reported_speedup": 3.97, "baseline_score_percent": 87.8, "jf_mr_score_percent": 83.5, "jf_mr_tokens_per_forward": 4.09},
-    {"benchmark": "MBPP", "table": 1, "score_kind": "pass@1", "baseline_tps": 43.1, "jf_mr_tps": 113.0, "reported_speedup": 2.62, "baseline_score_percent": 74.3, "jf_mr_score_percent": 70.4, "jf_mr_tokens_per_forward": 2.84},
-    {"benchmark": "GSM8K", "table": 3, "score_kind": "solve rate", "baseline_tps": 41.8, "jf_mr_tps": 154.9, "reported_speedup": 3.71, "baseline_score_percent": 92.4, "jf_mr_score_percent": 91.4, "jf_mr_tokens_per_forward": 4.04},
-    {"benchmark": "MATH", "table": 3, "score_kind": "solve rate", "baseline_tps": 41.3, "jf_mr_tps": 152.0, "reported_speedup": 3.68, "baseline_score_percent": 77.0, "jf_mr_score_percent": 77.4, "jf_mr_tokens_per_forward": 3.98}
+    {
+      "benchmark": "HumanEval",
+      "table": 1,
+      "score_kind": "pass@1",
+      "baseline_tps": 41.3,
+      "jf_mr_tps": 163.9,
+      "reported_speedup": 3.97,
+      "baseline_score_percent": 87.8,
+      "jf_mr_score_percent": 83.5,
+      "jf_mr_tokens_per_forward": 4.09
+    },
+    {
+      "benchmark": "MBPP",
+      "table": 1,
+      "score_kind": "pass@1",
+      "baseline_tps": 43.1,
+      "jf_mr_tps": 113.0,
+      "reported_speedup": 2.62,
+      "baseline_score_percent": 74.3,
+      "jf_mr_score_percent": 70.4,
+      "jf_mr_tokens_per_forward": 2.84
+    },
+    {
+      "benchmark": "GSM8K",
+      "table": 3,
+      "score_kind": "solve rate",
+      "baseline_tps": 41.8,
+      "jf_mr_tps": 154.9,
+      "reported_speedup": 3.71,
+      "baseline_score_percent": 92.4,
+      "jf_mr_score_percent": 91.4,
+      "jf_mr_tokens_per_forward": 4.04
+    },
+    {
+      "benchmark": "MATH",
+      "table": 3,
+      "score_kind": "solve rate",
+      "baseline_tps": 41.3,
+      "jf_mr_tps": 152.0,
+      "reported_speedup": 3.68,
+      "baseline_score_percent": 77.0,
+      "jf_mr_score_percent": 77.4,
+      "jf_mr_tokens_per_forward": 3.98
+    }
   ],
-  "a100_humaneval_method_comparison": {"baseline_tps": 41.3, "plain_jacobi_tps": 39.9, "jacobi_forcing_tps": 159.5, "jacobi_forcing_mr_tps": 163.9},
-  "b200_vllm_humaneval": {"table": 2, "batch_size": 1, "baseline_tps": 221.3, "jf_mr_tps": 865.8, "reported_speedup": 3.91, "jf_mr_tokens_per_forward": 4.21},
-  "illustrative_latency": {"output_tokens": 1000, "baseline_seconds_rounded": 24.2, "jf_mr_seconds_rounded": 6.1, "note": "Arithmetic from A100 HumanEval rates, not observed chat latency. Excludes prefill, network, tools, and other overhead."}
+  "a100_humaneval_method_comparison": {
+    "baseline_tps": 41.3,
+    "plain_jacobi_tps": 39.9,
+    "jacobi_forcing_tps": 159.5,
+    "jacobi_forcing_mr_tps": 163.9
+  },
+  "b200_vllm_humaneval": {
+    "table": 2,
+    "batch_size": 1,
+    "baseline_tps": 221.3,
+    "jf_mr_tps": 865.8,
+    "reported_speedup": 3.91,
+    "jf_mr_tokens_per_forward": 4.21
+  },
+  "illustrative_latency": {
+    "output_tokens": 1000,
+    "baseline_seconds_rounded": 24.2,
+    "jf_mr_seconds_rounded": 6.1,
+    "note": "Arithmetic from A100 HumanEval rates, not observed chat latency. Excludes prefill, network, tools, and other overhead."
+  },
+  "a100_humaneval_speculative_comparison": {
+    "table": 1,
+    "backbone": "Qwen2.5-Coder-7B-Instruct",
+    "eagle_3": {
+      "tps": 127.2,
+      "tokens_per_forward": 6.6,
+      "reported_speedup": 3.07,
+      "pass_at_1_percent": 87.8
+    },
+    "hass": {
+      "tps": 95.2,
+      "tokens_per_forward": 4.82,
+      "reported_speedup": 2.31,
+      "pass_at_1_percent": 87.8
+    },
+    "jacobi_forcing_mr": {
+      "tps": 163.9,
+      "tokens_per_forward": 4.09,
+      "reported_speedup": 3.97,
+      "pass_at_1_percent": 83.5
+    },
+    "note": "Final published Table 1 supersedes the older project README/Snowflake comparison with different released speculative checkpoints."
+  }
 }

@@ -9,7 +9,6 @@ from html.parser import HTMLParser
 import re
 import base64
 import xml.etree.ElementTree as ET
-from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent
 ASSETS = ROOT / "assets"
@@ -19,6 +18,7 @@ MINT, SKY, LILAC, SUN = "#c6f1e9", "#70c4e1", "#c0b7f9", "#ffc757"
 
 def render_png(svg, destination):
     """Render our own simple SVG with Pillow, without a native Cairo dependency."""
+    from PIL import Image, ImageDraw, ImageFont
     scale = 2
     root = ET.fromstring(svg)
     width, height = int(root.attrib["width"]), int(root.attrib["height"])

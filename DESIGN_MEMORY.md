@@ -157,3 +157,37 @@ are not automatically committed tokens; the article's contiguous-prefix
 explanation remains directly below. A separate phone composition preserves
 readable labels without shrinking the six-token diagram. Retain functional
 labels only; do not restore decorative eyebrows, disclaimers or repeat captions.
+
+
+## 13 October 2026 — approved static example becomes the video reference
+
+The owner said “much better !” about the pastel diagram and added “I also find
+the static image example clearer than the video, so upgrade the video”. This
+is positive design feedback and a clarity request, not an explicit AI-slop label.
+
+Carry the approved four-pass sentence through the video: A dog ran near a tree
+becomes The cat sat on the mat. Preserve earlier passes so changes can be
+compared. Use the same pastel bands, cream, ink and Host Grotesk. Distinguish
+matching the final sentence from prefix acceptance; show actual committed words
+in a separate accepted-output strip. Reuse those same words for training and
+a longer accepted prefix instead of switching to abstract token symbols.
+Keep the exact multiple-token hook on frame one and retain the scoped measured
+result and quality tradeoff. No small disclaimer labels or redundant captions.
+
+
+## 13 October 2026 — article middle and ending need clearer decisions
+
+The owner said the beginning explains Jacobi Forcing well, but the middle
+becomes hard to understand. They requested a comparison with speculative
+decoding, nuance on the accuracy loss as a tradeoff for speed, practical uses,
+and an ending that sounds like their writing. They said the images and motion
+video are fine. This is clarity and voice feedback, not an explicit AI-slop label.
+
+Keep the established opening and approved visuals. Explain a technical detail
+through what it changes, rather than listing training settings. Compare lossless
+speculative decoding with a fine-tuned single-model parallel decoder. Use final
+published matched-model results, not the older project comparison. Explain
+first-attempt success versus throughput and why verification against fine-tuned
+weights does not preserve the original model. Give concrete coding/SQL-agent
+uses and limits. Do not invent a first-person quote; the ending is ordinary
+prose about the practical choice, without a pull-quote treatment.
