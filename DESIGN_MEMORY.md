@@ -104,3 +104,15 @@ Practical rule: acknowledge the baseline in one direct sentence, then move to
 parallel token prediction and the training contribution. Assuming familiarity
 does not mean removing the comparison that motivates the article. This does
 not reverse the rejection of canned chatbot scenes or staged waiting.
+
+
+## 13 October 2026 — meaningful media in the website’s house style
+
+The owner asked to redo the article cover and video in the website’s house
+style, and said the old image was meaningless. This is a grounded usefulness
+and brand correction, not an explicit AI-slop label. Use the homepage’s dark
+teal, cream, mint, sky blue and yellow with Host Grotesk and rounded geometry.
+Show a serial token chain versus grouped parallel guesses, including refinement
+and verification. Do not reuse abstract 3D token sculptures as the explanation.
+Preserve the exact multiple-token hook, the restored baseline intro, and the
+video’s distinction between guesses, committed prefixes and measured results.

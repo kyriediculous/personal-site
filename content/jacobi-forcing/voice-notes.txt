@@ -70,11 +70,19 @@ and later multi-token commit make that promise visible; benchmark evidence
 comes after the mechanism and training. The former result-first opening was
 rejected by the owner. This cut changes the video and poster without changing
 the article prose.
-The cover now uses assets/jacobi-forcing-cover-hook.png, with its generation
-instructions in cover-prompt-hook.txt. At the owner’s request, the article title
+The cover now uses assets/jacobi-forcing-cover-house.png, with its generation
+instructions in cover-prompt-house.txt. At the owner’s request, the article title
 and dominant cover lettering now repeat the video’s multiple-token question.
 The video’s closing card retains its explanatory Jacobi Forcing topic label.
 
 No external humanizer service was used. The local article and copy-ready export
 are edited locally. HTML, text, site output and packages must share the same
 current prose; package and delivery checks are recorded separately.
+
+House-style media revision, 13 October 2026
+The owner found the cover meaningless and asked for the image and video to
+match the website. A serial chain versus grouped parallel guesses now explains
+the premise, including refinement and verification. The video uses the site’s
+Host Grotesk, dark teal, cream, mint, yellow and sky blue with rounded geometry.
+Mint marks committed output; sky outlines retain provisional predictions.
+The multiple-token hook, baseline intro and technical article prose are preserved.

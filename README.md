@@ -145,3 +145,10 @@ kollekt.now and grokked.ai remain ordinary followable links. The site has no
 analytics, third-party runtime media, cookie scripts, or signup forms.
 
 `sources.json` records provenance. `ACCEPTANCE.md` records delivery verification.
+
+
+The latest Jacobi cover and 30-second motion graphic use the site’s house style.
+The cover explains serial generation versus grouped parallel guesses, including
+refinement and verification. The video uses the existing Host Grotesk font and
+semantic mint/sky token states. Its editable source, `frame.md` brand spec and
+encoder preflight are in the publication package’s motion project.

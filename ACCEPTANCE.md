@@ -203,3 +203,27 @@ remaining article HTML and all media are identical to the previous delivery.
 Both canonical copies and text exports match. One independent editorial and
 technical review approved the lead; all 15 Cloudflare build checks pass.
 Delivery evidence is kept locally under `.qa/jacobi-intro-*`.
+
+
+## 13 October 2026 — media rebuilt in the website’s house style
+
+The cover now explains sequential generation versus grouped parallel guesses
+and refinement/verification. It uses the homepage’s cream, dark teal, mint,
+yellow and sky palette. The 1734 × 907 PNG has a fresh cover URL and matching
+OG/Twitter metadata; the previous cover is excluded from the build.
+
+The 30-second video uses the website’s embedded Host Grotesk and rounded
+geometry. Its opening animates the same comparison while preserving the exact
+multiple-token question. Provisional guesses have blue outlines; only committed
+prefixes fill mint. Scoped research values and the accuracy tradeoff are retained.
+All 900 encoded frames decode successfully: H.264/yuv420p, 1920×1080, 30 fps,
+30 seconds, no audio. Encoded scenes and desktop/mobile article placement were
+visually reviewed. The poster is encoded frame 2.5 seconds.
+
+Strict HyperFrames checks pass with zero errors, warnings or informational
+findings, including 300 motion states and 67 contrast checks. The exact
+Cloudflare build passes all 15 site tests. Root/site media copies match and
+content-hash URLs invalidate cached video/poster bytes. Evidence for this
+delivery is kept under `.qa/jacobi-house-*`. Source and encoder reproduction
+notes are included in the publication ZIP; an encoder preflight handles the
+system FFmpeg build’s missing MJPEG decoder.

@@ -258,7 +258,7 @@ class SiteAcceptance(unittest.TestCase):
         card='/assets/social/nico-vergauwen-og.jpg'
         posts=json.loads((ROOT/'src/medium/posts.json').read_text())
         expected={'/':card,'/blog/':card,'/404.html':card,
-                  '/blog/jacobi-forcing/':'/blog/jacobi-forcing/assets/jacobi-forcing-cover-hook.png',
+                  '/blog/jacobi-forcing/':'/blog/jacobi-forcing/assets/jacobi-forcing-cover-house.png',
                   **{p['url']:p['image'] for p in posts}}
         for route,image_path in expected.items():
             page=DIST/route.lstrip('/')

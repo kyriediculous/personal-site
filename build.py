@@ -108,7 +108,7 @@ def homepage():
 <div class="research-links">{external('https://arxiv.org/abs/2602.12630','Read the paper')}{external('https://github.com/NeurIPS26TC/TensorCommitment','Explore the code')}{external('https://utaustin-swarmlab.github.io/2026/10/04/TensorCommitments.html','Research explanation')}</div></div>
 <div class="research-side"><p class="acceptance">Accepted at NeurIPS 2026</p><p>Co-authored with researchers from UT Austin, Georgia Tech, and McGill.</p></div></article></section>
 <section class="shell section" id="writing" aria-labelledby="writing-title"><h2 class="section-title" id="writing-title">Writing</h2>
-<article class="feature"><a class="feature-image" href="/blog/jacobi-forcing/" aria-label="Read {JACOBI_TITLE}"><img src="/blog/jacobi-forcing/assets/jacobi-forcing-cover-hook.png" width="1733" height="908" alt="{JACOBI_TITLE}" loading="lazy"></a>
+<article class="feature"><a class="feature-image" href="/blog/jacobi-forcing/" aria-label="Read {JACOBI_TITLE}"><img src="/blog/jacobi-forcing/assets/jacobi-forcing-cover-house.png" width="1734" height="907" alt="{JACOBI_TITLE}" loading="lazy"></a>
 <div><h3><a href="/blog/jacobi-forcing/">{JACOBI_TITLE}</a></h3><p>Training on imperfect decoding trajectories improves parallel token acceptance. A look at the mechanism, measured speedups, and accuracy tradeoffs.</p><a class="button" href="/blog/jacobi-forcing/">Read the article</a></div></article>
 <div class="post-grid">{posts}</div><p class="more-writing"><a href="/blog/">Browse all writing</a></p></section>
 <section class="shell section" id="experience" aria-labelledby="experience-title"><h2 class="section-title" id="experience-title">What I’ve built</h2><div class="work-list">{''.join(work)}</div></section>
@@ -137,7 +137,7 @@ def articlepage():
 <div class="article-tools"><button class="button" type="button" data-copy-link>Copy link</button><a href="article.txt" download>Download article text</a><p class="copy-status" role="status" aria-live="polite"></p></div>
 <section class="article-end"><h2>More on AI and agents</h2><a href="/blog/the-verifiable-agent/">Read The Verifiable Agent</a></section></div></main>'''
     schema={'@context':'https://schema.org','@type':'BlogPosting','headline':JACOBI_TITLE,'datePublished':'2026-10-11','author':{'@type':'Person','name':CONTENT['name']},'description':'How Jacobi Forcing trains language models for parallel guesses, with measured speed and quality results.'}
-    return document(JACOBI_TITLE+' | Nico Vergauwen',JACOBI_DESCRIPTION,body,schema,'/blog/jacobi-forcing/assets/jacobi-forcing-cover-hook.png','/blog/jacobi-forcing/',image_alt='What if LLMs could generate multiple tokens at once? Rows of charcoal and blue token tiles converge below the question.',image_size=(1733,908))
+    return document(JACOBI_TITLE+' | Nico Vergauwen',JACOBI_DESCRIPTION,body,schema,'/blog/jacobi-forcing/assets/jacobi-forcing-cover-house.png','/blog/jacobi-forcing/',image_alt='Sequential generation advances one token at a time; parallel decoding predicts a block before refinement and verification.',image_size=(1734,907))
 
 def all_posts():
     jacobi = {'title': JACOBI_TITLE, 'url': '/blog/jacobi-forcing/',
@@ -174,7 +174,7 @@ def build():
     blog=DIST/'blog'/'jacobi-forcing'; blog.mkdir(parents=True,exist_ok=True)
     shutil.copytree(PUBLICATION/'assets',blog/'assets',dirs_exist_ok=True)
     # Exclude superseded covers from incremental builds.
-    for obsolete in ('jacobi-forcing-cover.png', 'jacobi-forcing-cover-beginner.png', 'jacobi-forcing-cover-parallel.png'):
+    for obsolete in ('jacobi-forcing-cover.png', 'jacobi-forcing-cover-beginner.png', 'jacobi-forcing-cover-parallel.png', 'jacobi-forcing-cover-hook.png'):
         (blog/'assets'/obsolete).unlink(missing_ok=True)
     shutil.copy2(PUBLICATION/'article.txt',blog/'article.txt')
     (DIST/'index.html').write_text(homepage())

@@ -1,0 +1,22 @@
+JACOBI FORCING — WEBSITE HOUSE-STYLE COVER
+Generated: 13 October 2026, built-in image-generation tool.
+Reference: site/assets/social/nico-vergauwen-og.jpg (house style only).
+Output: assets/jacobi-forcing-cover-house.png
+
+Exact prompt:
+Create a NEW technical blog cover in the house style of the reference website hero. The reference is style guidance only: do not include the person, portrait, old headline, name or buttons.
+
+Landscape social-preview composition, approximately 1.91:1. Warm cream (#f5f4ef) narrow outer margin and a large dark teal (#0b1b20) panel with generous rounded corners. Clean Host Grotesk-like sans-serif, light/regular headline weight, tight elegant spacing. Flat, sharp editorial graphics; no 3D blocks, paper texture, photographic objects, shadows, gradients or meaningless decoration. Accent colors: mint #c6f1e9, sky blue #70c4e1, warm yellow #ffc757. Strong contrast and generous spacing.
+
+LEFT HALF: the dominant headline, exact text:
+"What if LLMs could generate multiple tokens at once?"
+Set across balanced lines in cream, with "multiple tokens" in mint. Large enough to read as a thumbnail. This is the only marketing headline.
+
+RIGHT HALF: a precise and meaningful two-lane schematic.
+Upper lane label: "Sequential"
+Four rounded token boxes labeled "t₁", "t₂", "t₃", "t₄", connected by simple right-pointing arrows. The first box is solid yellow, the remaining boxes are cream outlines: generation advances one token at a time.
+Lower lane label: "Parallel guesses"
+Four sky-blue outlined rounded token boxes, same labels t₁ t₂ t₃ t₄, grouped together by a mint bracket beneath them. A short downward arrow leads from the whole grouped block to a rounded yellow step labeled "Refine + verify". These are predictions, not all accepted output.
+Keep this diagram compact, deliberate, and comfortably separated from the headline. Every arrow must have a clear source and destination. Make the relationship immediately understandable, without pretending to report a speed measurement.
+
+All text must be exact and legible. No other text, badges, logos, eyebrows, captions, duplicated headline or decorative symbols. No cropping or overlap. The composition should feel like it belongs on the same website as the reference, while explaining the article's serial-versus-parallel premise.
